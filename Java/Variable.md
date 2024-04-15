@@ -1,12 +1,276 @@
-# INDEX
+# INDEX_Java
+***
+![image](https://github.com/MinwungRo/Personal-study/assets/167000133/b1459b23-15d1-4ff7-9067-56e8ef2b3182)
 
-* 1. [Java_variable](#변수(Variable))
+* 1. [Java_variable](#1.변수(Variable))
+* 2. [Java_operator](#2.연산자(Operator))
+* 3. [Java_conditional statement](#3.조건문)
+* 4. [Java_loop](#4.반복문(Loop))
+
+***
+
+### 1. 변수(Variable)
+***
+
+#### 1. 변수(Variable)란?
+
+– 값을 저장할 수 있는 저장 공간
+
+– Memory의 특정 공간을 확보하여 해당 공간에 데이터를 할당할 수 있다
+
+– 변수가 필요하다면 먼저 <b>변수 선언</b>이 선행되어야 한다 (저장 공간 확보)
+
+– 변수 선언 후 <b>초기화(최초 값 부여)</b>가 필요하다, Computer의 Memory는 복수의 대상과 유기적인 관계를 형성하고 있어 <b>특정 값이 할당</b>되어 있다. 따라서 변수를 초기화 하지 않으면 <b>예상치 못한 값이 출력</b>될 수 있다
+
+##### *변수 선언 및 초기화*
+
+```java
+변수타입 변수이름; // 변수 선언
+변수타입 변수이름 = 값; // 변수 초기화
+```
+
+***
+
+#### 1. 2) 변수 Type
+
+– 변수는 값의 형태 및 크기에 따라 해당하는 <b>Type(형식)</b>이 존재한다
+
+– long, double 형의 경우 <b>접미사를 포함</b>하여 값을 입력해야 한다
+
+– 상수(constant)는 변수와 마찬가지로 값을 저장하는 공간이지만, <b>최초 할당 값의 변경이 불가</b>하다 (변수의 타입 앞에 final을 붙이면 상수가 된다)
+
+– 부가적으로 리터럴(literal)은 변수에서 <b>값 자체</b>를 의미한다
+
+***
 
 
-### 변수(Variable)
+#### 1. 2) (1) 변수 Type 종류
 
-#### 1.변수(Variable)란?
-– 하나의 값을 저장할 수 있는 기억 공간
+– byte: 정수 (1 byte, 2^8) / ex) 1, 50, 100
+
+– short: 정수 (2 byte, 2^16) / ex) 1, 50, 100
+
+– int: 정수 (4 byte, 2^32) / ex) 1, 50, 100
+
+– long: 정수 (8 byte, 2^64) / ex) 1L, 50L, 100L
+
+– float: 실수 (4 byte, 2^32) / ex) 0.1f, 0.5f, 3.14f
+
+– dobule: 실수 (8 byte, 2^64) / ex) 0.1, 0.5, 3.14
+
+– boolean: false, true (1 byte) ex) false, true
+
+– char: 문자 하나 (2 byte) / ex) 'A', 'B', 'C'
+
+– String: 문자열 (동적 메모리 할당) / ex) "Java", "Programming", "Variable"
+
+#### *변수 Type*
+
+```java
+int a = 100; / int type, 변수: a, literal: 100
+double b = 3.14; / double type, 변수: b, literal: 3.14
+boolean c  = false; / int type, 변수: c, literal: false
+char d = 'a'; / int type, 변수: d, literal: a
+String e = "java"; / int type, 변수: e, literal: java
+```
+
+### 2.연산자(Operator)
+
+***
+
+#### 2. 연산자(Opeator)란?
+
+– 연산을 수행하는 기호 / ex) +, -, *, /
+
+– 연산자의 우선순위는 <b>사칙연산에 기초</b>한다
+
+– <b>괄호</b>의 경우 <b>최우선 순위</b>, <b>대입 연산자 (=)</b>의 경우 가장 <b>후순위</b>다
+
+
+***
+
+#### 2. 1) 연산자의 종류
+
+– 산술 연산자: +, -, *, /, %
+
+– 증감 연산자: ++, --
+
+– 비교 연산자: >, <, >=, <=, ==, !=
+
+– 논리 연산자: &&(AND), ||(OR), !(NOT)
+
+– 대입 연산자: = 
+
+– 삼항 연사자: ? :
+
+##### *연산자*
+
+```java
+
+//변수 선언 및 초기화 (대입)
+
+int a = 1, b = 3;
+String c = "ja", d = "va";
+
+//산술
+
+a + b = 4
+a * b = 3
+c + d = ("ja" + va")
+
+//증감
+
+a++ = 2 // a + 1
+b-- = 2 // b - 1
+
+//비교
+
+a > b = false
+c != b = true
+
+```
+
+***
+
+### 3.조건문(Conditional statements)
+
+***
+
+#### 3. 조건문(Conditional statements)이란?
+
+– Program의 흐름을 제어하는 문장이다, 조건에 따라 특정 영역 생략 혹은 수행을 구현할 수 있다
+
+– if문, switch문이 있다
+
+– 조건을 판별하는 영역과 행위를 정의하는 영역으로 구분된다
+
+#### *조건문*
+
+```java
+//if 문
+
+if (condition) {
+true action
+} else {
+// false action
+}
+
+//switch 문
+
+switch (condition) {
+case condition 1 :
+ondition 1 action
+berak;
+
+case condition 2 :
+condition 2 action
+break;
+
+default:
+default action
+}
+```
+
+***
+
+#### 3. 1) if문
+
+– 다중 조건이 요구될 경우 <b>if, else if</b>로 문장을 구성한다
+
+– 다중 조건 중, <b>어느 경우에도 해당하지 않는 경우</b> else로 조건문을 마무리 지으며 이는 생략이 가능하다
+
+– if문을 <b>중첩</b>하여 작성할 수 있다.
+
+***
+
+#### 3. 2) switch문
+
+– 조건에 비교 연산자 사용이 불가하며, <b>값의 일치 여부만을 비교하는 경우</b>에 사용한다
+
+– break문이 없을 경우 후속 코드가 실행되기 때문에, <b>각 조건에 break문을 구성</b>해야 한다
+
+– default는 조건 중 <b>어느 경우에도 해당하지 않는 경우 실행</b>되며, 통상적으로 switch문의 마지막에 구성되기에 해당 경우 break문이 필요하지 않다
+
+***
+
+#### 3. 3) if문 vs switch문
+
+– <b>switch문의 경우</b> true, false (비교 결과)의 조건이 아닌, 단순 값의 일치만 조건으로 설정할 수 있다. <b>사용 가능 경우가 국한</b>된다
+
+– <b>if문의 경우</b> switch문의 제약 조건에 해당하지 않기에, 비교적 <b>범용성이 좋다</b>
+
+– 결론적으로 <b>코드의 간결화</b>를 위해 <b>switch문</b>이 활용되며, 모든 경우 <b>if 문으로 구성하여도 기능적인 문제는 없다</b>
+
+***
+
+
+### 4.반복문(Loop)
+
+***
+
+#### 4. 반복문(Loop)이란?
+
+– 특정 작업이 <b>반복적으로 수행</b>되도록 지시하는 명령문이다
+
+– for문, while문, do-while문이 있다
+
+– 크게 <b>조건식, 증감식, 행위 정의 영역</b>으로 구분된다
+
+– 반복문을 <b>중첩하여 구성</b>할 수 있다.
+
+#### *반복문*
+
+```java
+//for문
+
+for(initialization, condition, update) {
+action
+}
+
+//while문
+
+initialzation
+while(condition) {
+action
+update
+}
+
+//do-while문(조건과 관계 없이 do 영역 활성화)
+
+initialzation
+do{
+action
+} while(condition) {
+action
+update
+}
+
+```
+
+***
+
+#### 4. 1) for문
+
+– 초기화, 조건문, 증감식이 한 줄로 명시되어 있어 가독성이 좋다
+
+– 변수의 Scope이 for문에 국한되어 본문의 변수와 별도로 관리가 가능하다
+
+***
+
+#### 4. 2) while문
+
+– while(true)를 통한 무한 Loop의 구현이 간단하다 while(true)
+
+– 변수의 초기화가 while문 밖에서 수행되어, 본문의 변수와 별도로 관리가 불가하다
+
+***
+
+#### 4. 3) do-while문
+
+– 조건 충족 여부와 무관하게 수행되어야 할 행위가 있는 경우 활용한다
+
+***
+
 
 
 

@@ -4,7 +4,7 @@
 
 * 1. [Java_variable](#1.-변수(Variable))
 * 2. [Java_operator](#2.-연산자) [[연산자]](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#2-%EC%97%B0%EC%82%B0%EC%9E%90operator)
-* 3. [Java_conditional statement](#3.-조건문) [[조건문]](https://github.com/MinwungRo/Personal-study/edit/main/Java/README.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
+* 3. [Java_conditional statement](#3.-조건문) [[조건문]](https://github.com/MinwungRo/Personalstudy/edit/main/Java/README.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
 * 4. [Java_loop](#4.-반복문(Loop))
 
 ******************************************************************************************************************************************************************************************

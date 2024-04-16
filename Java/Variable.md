@@ -46,23 +46,18 @@
 
 #### 1. 2) (1) 변수 Type 종류
 
-– byte: 정수 (1 byte, 2^8) / ex) 1, 50, 100
+|자료형|종류|범위|예시|
+|:------:|:---:|:----:|:----:|
+|byte|정수|1 byte, 2^8)|1, 50, 100|
+|short|정수|2 byte, 2^16|1, 50, 100|
+|int|정수|4 byte, 2^32|1, 50, 100|
+|long|정수|8 byte, 2^64|1L, 50L, 100L|
+|float|실수|4 byte, 2^32|0.1f, 0.5f, 3.14f|
+|double|실수|8 byte, 2^64|0.1, 0.5, 3.14|
+|boolean|false, true|1 byte|false, true|
+|char|문자 하나|2 byte|'A', 'B', 'C'|
+|Straing|문자열|동적 메모리 할당|"Java", "Programming", "Variable"|
 
-– short: 정수 (2 byte, 2^16) / ex) 1, 50, 100
-
-– int: 정수 (4 byte, 2^32) / ex) 1, 50, 100
-
-– long: 정수 (8 byte, 2^64) / ex) 1L, 50L, 100L
-
-– float: 실수 (4 byte, 2^32) / ex) 0.1f, 0.5f, 3.14f
-
-– dobule: 실수 (8 byte, 2^64) / ex) 0.1, 0.5, 3.14
-
-– boolean: false, true (1 byte) ex) false, true
-
-– char: 문자 하나 (2 byte) / ex) 'A', 'B', 'C'
-
-– String: 문자열 (동적 메모리 할당) / ex) "Java", "Programming", "Variable"
 
 #### *변수 Type*
 

@@ -2,7 +2,7 @@
 
 ![image](https://github.com/MinwungRo/Personal-study/assets/167000133/b1459b23-15d1-4ff7-9067-56e8ef2b3182)
 
-* 1. [Java_variable](#1.-변수(Variable))
+* 1. [Java_variable](#https://github.com/MinwungRo/Personal-study/edit/main/Java/README.md#1-%EB%B3%80%EC%88%98variable)
 * 2. [Java_operator](#2.-연산자) [[연산자]](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#2-%EC%97%B0%EC%82%B0%EC%9E%90operator)
 * 3. [Java_conditional statement](#3.-조건문) [[조건문]](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
 * 4. [Java_loop](#4.-반복문(Loop))
@@ -324,20 +324,25 @@ update
 #### <2차원 배열 선언 방법 Table>
 
 |선언방법|예시|
-|---|---|
+|:---:|:---:|
 |타입[][] 변수이름;|int[][] num;|
 |타입 변수이름[][];|int num [][];|
 |타입[] 변수이름[];|int[] score[];|
 
+#### <2차원 배열 선언 예시>
+
+```java
 * int[][] num = new int[5][2]
+// 5행 2열의 배열 선언, 총 10개의 저장 공간 확보
+```
 
-#### <2차원 배열 선언 예시 Table>
-
-|선언방법|예시|
-|---|---|
-|타입[][] 변수이름;|int[][] num;|
-|타입 변수이름[][];|int num [][];|
-|타입[] 변수이름[];|int[] score[];|  
+| |0|1|
+|:---:|:---:|:---:|
+|0|num[0][0]|num[0][1]|
+|1|num[1][0]|num[1][1]|
+|2|num[2][0]|num[2][1]|
+|3|num[3][0]|num[3][1]|
+|4|num[4][0]|num[4][1]|
 
 ******************************************************************************************************************************************************************************************
 
@@ -347,8 +352,11 @@ update
 
 // 배열 변수 선언 & 배열 생성 & 초기화
 
-// 타입 [][] 변수 = {값1, 값2}, {값3, 값4};
-   int[][] num = {1,2,}, {3,4};
+/* 타입 [][] 변수 = {값1, 값2, 값3},
+                    {값4, 값5, 값6}; */
+   int[][] num = {1,2,3},
+                 {4,5,6};
+
 
 ```
 

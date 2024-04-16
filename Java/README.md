@@ -3,7 +3,7 @@
 ![image](https://github.com/MinwungRo/Personal-study/assets/167000133/b1459b23-15d1-4ff7-9067-56e8ef2b3182)
 
 * 1. [Java_variable](#java_variable.md)
-* 2. [Java_operator](2.연산자(Operator))
+* 2. [Java_operator](#2.연산자(Operator))
 * 3. [Java_conditional statement](#3.-조건문)
 * 4. [Java_loop](#4.-반복문(Loop))
 

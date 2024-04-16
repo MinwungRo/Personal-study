@@ -2,10 +2,15 @@
 
 ![image](https://github.com/MinwungRo/Personal-study/assets/167000133/b1459b23-15d1-4ff7-9067-56e8ef2b3182)
 
-- 1. [변수](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#1-%EB%B3%80%EC%88%98variable)
-- 2. [연산자](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#2-%EC%97%B0%EC%82%B0%EC%9E%90operator)
-- 3. [조건문](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
-- 4. [반복문](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#4%EB%B0%98%EB%B3%B5%EB%AC%B8loop)
+ 1. [변수(Variable)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#1-%EB%B3%80%EC%88%98variable)
+
+ 2. [연산자(Operator)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#2-%EC%97%B0%EC%82%B0%EC%9E%90operator)
+
+ 3. [조건문(Conditional statement)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
+
+ 4. [반복문(Loop)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#4%EB%B0%98%EB%B3%B5%EB%AC%B8loop)
+
+ 5. [배열(Array)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#4%EB%B0%98%EB%B3%B5%EB%AC%B8loop)
 
 ******************************************************************************************************************************************************************************************
 
@@ -44,7 +49,7 @@
 #### <변수 Type table>
 
 |자료형|종류|범위|예시|
-|:------:|:---:|:----:|:----:|
+|:---:|:---:|:---:|:---:|
 |byte|정수|1 byte, 2^8)|1, 50, 100|
 |short|정수|2 byte, 2^16|1, 50, 100|
 |int|정수|4 byte, 2^32|1, 50, 100|
@@ -281,7 +286,7 @@ update
 #### <배열 선언 방법 Table>
 
 |선언방법|예시|
-|---|---|
+|:---:|:---:|
 |타입[] 변수이름;|int[] num;|
 |타입 변수이름[];|int num [];|
 

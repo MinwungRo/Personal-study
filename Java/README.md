@@ -10,7 +10,7 @@
 
 4. [반복문(Loop)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#4%EB%B0%98%EB%B3%B5%EB%AC%B8loop)
 
-5. [배열(Array)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#4%EB%B0%98%EB%B3%B5%EB%AC%B8loop)
+5. [배열(Array)](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#5-%EB%B0%B0%EC%97%B4array)
 
 ******************************************************************************************************************************************************************************************
 

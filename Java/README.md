@@ -499,7 +499,7 @@ class Variables {
 
 * 변수 타입의 <b>생략은 불가능</b>하다
 
-* 반환 <b>값이 없을 경우</b> 반환타입으로 <b>void</b>를 작성한다
+* 반환 <b>값이 없을 경우</b> 반환타입으로 <b>void</b>를 작성한다(void의 경우 return문 생략이 가능하다, 다만 이는 컴파일러가 자동으로 추가해주기 때문이다)
 
 * Return문의 경우 반환 값이 메서드의 타입과 일치 혹은 자동 형 변환이 가능한 것이여야 한다(자동 형 변환은 작은 범위의 변수에서 같거나 큰 범위의 변수로 전환할 때 가능하다)
 
@@ -515,10 +515,62 @@ int add(int a, int b) {      // 선언부: 반환타입 메서드이름 (타입 
     int reuslt = a + b;      // 구현부
     return result;           // 구현부
 
+// return a+b; 간결한 표현 가능 
+
+}
+
+```
+******************************************************************************************************************************************************************************************
+
+#### 6.5) 참조형 매개변수와 반환
+
+* 매개변수와 반환타입 모두 참조형이 될 수 있다
+
+* 하나의 값만 반환할 수 있다
+
+#### 참조형 매개변수
+
+```java
+
+class Data { int x; }
+
+class Ex {
+    public static void main(String[]args) {
+        Data d = new Data();
+        d.x = 10;
+
+        change(d) // d.x = 1000 값 변경
+    }
+
+    static void chnage(Data d) {
+        d.x = 1000;
+    }
 }
 
 ```
 
+#### 참조형 반환타입
 
+```java
+
+class Data { int x; }
+
+class Ex {
+    public static void main(String[]args) {
+        Data d = new Data();
+        d.x = 10;
+
+        data d2 = copy(d)
+
+        copy(d) // d.x = 1000 값 변경
+    }
+
+    static void copy(Data d) {
+        Data tep = new Data(); // 객체 생성
+        tmp.x = d.x;
+        return tmp;
+}
+
+```
 
 

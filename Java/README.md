@@ -618,4 +618,46 @@ static double add(int a, double b) {
 
 * 클래스이름(타입 변수, 타입 변수) { 인스턴스 변수 초기화 코드}
 
- 
+* this는 동일 클래스 내 다른 생성자를 호출할 때 사용되고, 인스턴스 자신을 가리키는 참조변수로써 활용된다
+
+#### 생성자
+
+```java
+
+Car(String color, String gearType, int door) { // this.변수는 인스턴스 변수, color는 지역변수로 구분된다
+    this.color = color;                        // this는 인스턴스 자신을 의미한다
+    this.gearType = gearType;
+    this.door = door;
+
+Car() {
+    this("White", "auto", 4); // Car(String color, String gearType, int door)를 호출
+    }
+Car(String color){            // Car(String color, String gearType, int door)를 호출
+    this(color, "auto", 4)
+    }
+    
+```
+
+******************************************************************************************************************************************************************************************
+
+#### 6.9) 변수의 초기화
+
+* 멤버변수는 자동적으로 기본값으로 초기화가 지원되지만,<b>지역변수는 사용 전 반드시 초기화</b>해야한다
+
+* 클래스 변수의 초기화가 인스턴스 변수의 초기화보다 우선 수행된다
+
+  
+#### <선언위치에 따른 변수의 종류 Table>
+
+|자료형|기본값|
+|:---:|:---:|
+|boolean|false|
+|char|'/u0000'|
+|byte, short, int|0|
+|long|0L|
+|float|0.0f|
+|double|0.0(0.0d)|
+|참조형|null|
+
+
+

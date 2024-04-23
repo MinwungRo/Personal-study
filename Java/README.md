@@ -685,7 +685,7 @@ class Child extends Parent
 
 ```
 
-### 상속 예제
+#### 상속 예제
 
 ```java
 
@@ -781,7 +781,11 @@ class Car {
 
 * 상속받은 멤버와 자신의 멤버 이름이 동일할 때, super를 붙여서 구별할 수 있다
 
-#### 상속
+* 생성자는 상속되지 않는다
+
+* 클래스 자신에 선언된 변수는 자신의 생성자가 초기화를 책임지도록 작성하는 것이 바람직하다
+
+#### 참조변수 super
 
 ```java
 
@@ -811,4 +815,32 @@ class Car {
 
 ```
 
-******************************************************************************************************************************************************************************************
+#### super() — 조상의 생성자
+
+```java
+
+public static void main(String[] args) {
+        Point3D p = new Point3D(1, 2, 3);
+        System.out.println("x= " + p.x + ", y= " + p.y + ", z= " + p.z);
+    }
+}
+
+class Point {
+    int x, y;
+
+    Point(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Point3D extends Point {
+    int z;
+
+    Point3D(int x, int y, int z) {
+        super(x, y);                    // Point(int x, int y)를 호출
+        this.z = z;
+    }
+}
+
+```

@@ -674,6 +674,8 @@ Car(String color){            // Car(String color, String gearType, int door)를
 
 * Child 클래스의 멤버 개수는 Parent 클래스보다 같거나 많을 수 밖에 없다
 
+* <b>단일 클래스</b>로부터의 상속만을 허용한다
+
 #### 상속
 
 ```java
@@ -683,3 +685,130 @@ class Child extends Parent
 
 ```
 
+### 상속 예제
+
+```java
+
+    public static void main(String[] args) {
+        SmartTv stv = new SmartTv();
+        stv.channel = 10;                    // Parent class (Tv)로부터 상속받은 멤버
+        stv.channelUp();                     // Parent class (Tv)로부터 상속받은 멤버
+        stv.displayCaption("Hello, world");
+        stv.caption = true;
+        stv.displayCaption("Hello, world");
+    }
+}
+
+class Tv {
+    boolean power;
+    int channel;
+
+    void power() { power = !power;}
+    void channelUp() { ++channel; }
+    void channelDown() { --channel; }
+    }
+
+class SmartTv extends Tv {                     // SmartTv는 기존 Tv에 Caption 기능 추가
+    boolean caption;
+    void displayCaption(String text) {
+        if (caption) {
+            System.out.println(text);
+        }
+    }
+}
+
+// RESULT:
+// Hellow, world
+
+```
+******************************************************************************************************************************************************************************************
+
+### 7.2) 포함
+
+* 상속 이외에도 재사용하는 방법이 <b>포함</b>이다, 한 클래스의 멤버변수로 다른 클래스 타입의 <b>참조변수를 선언</b>하는 것이다
+
+* '~는 이다'는 상속관계, '~는 ~를 가지고 있다'는 포함관계로 맺어주는 것이 적절하다
+
+  
+#### 상속
+
+```java
+
+class Car {
+    Engine E = new engine();
+    Door[] d = new Door[4];
+    }
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 7.3) 오버라이딩(overriding)
+
+* Parent 클래스로부터 상속받은 메서드의 내용을 변경하는 것이다
+
+* 동일한 메서드명을 통해 변동된 환경에 맞는 결과를 도출할 수 있다
+
+* 선언부가 Parent 클래스와 일치해야 한다
+
+* 접근 제어자를 Parent 클래스보다 좁은 범위로 변결할 수 없다
+
+* 예외는 Parent 클래스의 메서드보다 많이 선언할 수 없다
+
+#### 상속
+
+```java
+
+  class Point {
+        int x, y;
+        
+        String getLocation() {
+            return "x: " + x + ", y: " + y;
+        }
+    }
+    
+    class Point3D extends Point {
+        int z;
+        
+        String getLocation() {
+            return "x: " + x + ", y" + y + ", z: " + z;
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 7.4) 참조변수 super
+
+* 상속받은 멤버와 자신의 멤버 이름이 동일할 때, super를 붙여서 구별할 수 있다
+
+#### 상속
+
+```java
+
+ public static void main(String[] args) {
+        Child c = new Child();
+        c.method();
+    }
+}
+    class Parent {
+        int x = 10;                         // super.x
+    }
+
+    class Child extends Parent {
+        int x = 20;                         // this.x
+
+        void method() {
+            System.out.println("x= " + x);
+            System.out.println("this.x= " + this.x);
+            System.out.println("super.x= " + super.x);
+        }
+    }
+
+// RESULT:
+// x= 20
+// thix.x= 20
+// super.x= 10
+
+```
+
+******************************************************************************************************************************************************************************************

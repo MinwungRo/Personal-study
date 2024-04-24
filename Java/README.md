@@ -1076,4 +1076,103 @@ Tv t = new SmartTv();         // 조상 타입 참조변수로 자손 타입 인
 
 * 자손타입의 참조변수를 조상타입의 참조변수로, 조상타입의 참조변수를 자손타입의 참조변수로의 형변환만 가능하다
 
+* 참조형의 형변환은 변수에 저장된 값이 변환되는 것이 아니다,다른 타입으로 변경되는 것이다(사용할 수 있는 멤버의 개수가 변경)
+
+* 상호 상속관계에 있는 타입은 형변환이 자유로이 가능하다
+
+* 참조 변수가 가리키는 인스턴스의 자손타입으로 형변환은 허용되지 않는다 (
+
+#### 참조변수의 형변환
+
+```java
+class Car {}
+class FireEngine extends Car{}
+class Ambulance extends Car{}
+
+FireEngine f = new FireEngine();     
+Car c = Car f;                      // OK 생략 가능: Car c= f; | 조상인 Car타입으로 형변환 > 조상타입은 자손타입보다 멤버가 적으므로 생략이 가능하다
+FireEngine f2 = (FireEngine)c;      // OK 자손인 FireEngine타입으로 형변환(생략 불가) > 자손타입은 조상타입보다 멤버가 많으므로 생략이 불가하다
+ambulance a = (Ambulance)f;         // Error 상손관계가 아니므로 형변환 불가
+```
+#### 참조변수의 예시
+```java
+   Car car = null;
+    FireEngine fe = new FireEngine();
+    FireEngine fe2 = null;
+
+    fe.water();
+    car = fe; // car = (Car)fe;에서 형변환이 생략됨
+//  car.water(); Car 타입의 참조변수로는 water()를 호출할 수 없다
+    fe2 = (FireEngine)car;
+    fe2.water();
+
+    }
+}
+class Car {
+    String color;
+    int door;
+
+    void drive(){
+        System.out.println("drive");
+    }
+    void stop(){
+        System.out.println("stop");
+    }
+}
+
+class FireEngine extends Car {
+    void water() {
+        System.out.println("water");
+    }
+}
+```
+
+******************************************************************************************************************************************************************************************
+
+### 7.26) instanceof 연산자
+
+* 참조변수가 검사한 타입으로 형변환이 가능한지 확인할 수 있다
+
+* 주로 조건문에 사용되며, '참조변수 instanceof 타입(클래스 명)'의 형태로 true와 false중의 하나를 반환한다
+
+* 참조변수가 가리키는 인스턴스의 자손타입으로 형변환은 허용되지 않는다
+
+  
+```java
+    Car car = null;
+    FireEngine fe = new FireEngine();
+    FireEngine fe2 = null;
+
+    fe.water();
+    car = fe;                                                     // car = (Car)fe;에서 형변환이 생략됨
+//  car.water(); Car 타입의 참조변수로는 water()를 호출할 수 없다
+    fe2 = (FireEngine)car;                                        // 조상타입에서 자손타입으로의 형변환이기에 생략이 불가하다
+    fe2.water();
+
+    }
+}
+class Car {
+    String color;
+    int door;
+
+    void drive(){
+        System.out.println("drive");
+    }
+    void stop(){
+        System.out.println("stop");
+    }
+}
+
+class FireEngine extends Car {
+    void water() {
+        System.out.println("water");
+    }
+}
+```java
+
+******************************************************************************************************************************************************************************************
+
+### 7.26) 매개변수의 다형성
+
 * 
+

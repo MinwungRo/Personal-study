@@ -1125,6 +1125,11 @@ class FireEngine extends Car {
         System.out.println("water");
     }
 }
+
+// RESULT:
+// water
+// water
+
 ```
 
 ******************************************************************************************************************************************************************************************
@@ -1139,40 +1144,71 @@ class FireEngine extends Car {
 
   
 ```java
-    Car car = null;
-    FireEngine fe = new FireEngine();
-    FireEngine fe2 = null;
 
-    fe.water();
-    car = fe;                                                     // car = (Car)fe;에서 형변환이 생략됨
-//  car.water(); Car 타입의 참조변수로는 water()를 호출할 수 없다
-    fe2 = (FireEngine)car;                                        // 조상타입에서 자손타입으로의 형변환이기에 생략이 불가하다
-    fe2.water();
+void doWork(Car c) {
+    if (c istanceof FireEngine) {        // 1. 형변환이 가능한지 확인
+        Fireengine fe = (FireEngine)c;   // 2. 형변환
+        fe.water();
 
-    }
-}
-class Car {
-    String color;
-    int door;
-
-    void drive(){
-        System.out.println("drive");
-    }
-    void stop(){
-        System.out.println("stop");
-    }
-}
-
-class FireEngine extends Car {
-    void water() {
-        System.out.println("water");
-    }
-}
-```java
+```
 
 ******************************************************************************************************************************************************************************************
 
 ### 7.26) 매개변수의 다형성
 
-* 
+```java
+   public static void main(String[] args) {
+        Buyer b = new Buyer();
 
+        b.buy(new Tv());
+        b.buy(new Computer());
+        System.out.println("현재 남은 돈은" + b.money + "만원입니다.");
+        System.out.println("현재 보너스 점수는" + b.bonusPoint + "점입니다.");
+    }
+}
+
+class Product {
+    int price;
+    int bonusPoint;
+
+    Product(int price) {
+        this.price = price;
+        bonusPoint = (int)(price/10.0);
+    }
+}
+
+class Tv extends Product {
+    Tv() {
+        super(100);}
+    public String toString(){return "Tv";}
+}
+class Computer extends Product {
+    Computer(){super(200);}
+    public String toString(){return "Computer";}
+}
+
+class Buyer {
+    int money = 1000;
+    int bonusPoint = 0;
+
+    void buy(Product p) {
+        if(money < p.price) {
+            System.out.println("잔액이 부족하여 물건을 살 수 없습니다.");
+            return;
+        }
+
+        money -= p.price;
+        bonusPoint += p.bonusPoint;
+        System.out.println(p + "을/를 구매하셨습니다.");
+    }
+}
+
+*/ Result:
+Tv을/를 구매하셨습니다.
+Computer을/를 구매하셨습니다.
+현재 남은 돈은700만원입니다.
+현재 보너스 점수는30만원입니다.
+*/
+```
+
+******************************************************************************************************************************************************************************************

@@ -674,7 +674,7 @@ Car(String color){            // Car(String color, String gearType, int door)를
 
 * Child 클래스의 멤버 개수는 Parent 클래스보다 같거나 많을 수 밖에 없다
 
-* <b>단일 클래스</b>로부터의 상속만을 허용한다
+* <b>단일 클래스</b>로부터의 상속받는 것을 허용한다
 
 
 #### 상속
@@ -985,4 +985,95 @@ public class Example {
 
 ******************************************************************************************************************************************************************************************
 
+### 7.11) 접근 제어자(access modifier)
 
+* 외부에서 접근하지 못하도록 제한하는 역할이다
+
+* default는 생략된다, 즉 접근 제어자가 지정되어 있지 않다면 접근 제어자가 default라는 의미이다
+
+* 접근자가 사용될 수 있는 곳은 '클래스, 멤버변수, 메서드, 생성자'이다
+
+* 각 접근 제어자의 접근 범위 크기의 관계는 같다, public > protected > (default) > private
+
+* 외부로부터 데이터를 보호하거나, 외부에는 불필요한 영역을 감추기 위해 사용된다, 이를 캡슐화(encapsulation)이라 한다
+
+* 통상적으로 멤버변수의 값을 읽는 메서드를 'get멤버변수이름'(getter), 멤버변수의 값을 변경하는 메서드의 이름을 'set멤버변수이름'(setter)으로한다
+
+#### <접근 제어자 table>
+
+|접근 제어자|의미
+|:---:|:---:|
+|private|같은 클래스 내에서만 접근이 가능하다|
+|(default)|같은 패키지 내에서만 접근이 가능하다|
+|protected|같은 패키지 내에서, 그리고 다른 패캐지의 자손클래스에서 접근이 가능하다|
+|public|접근 제한이 전혀 없다|
+
+#### <접근 제어자 접근 범위 table>
+
+|제어자|같은 클래스|같은 패키지|자손 클래스|전   체|
+|:---:|:---:|:---:|:---:|:---:|
+|public|O|O|O|O|
+|protected|O|O|O||
+|(default)|O|O||||
+|private|O|||||
+
+#### static import문 예시
+```java
+class Time {
+    private int hour, minute, second; // 외부에서 직접 접근하지 못하도록 설정한다
+
+    public int getHour() { return hour;}
+    public void setHour(int hour) {
+        if (hour < 0 || hour > 23) return;
+        this.hour = hour;
+    }
+    public int getMinute() { return minute;}
+    public void getMinute(int minute){
+        if (minute < 0 || minute > 59) return;
+        this.minute = minute;
+    }
+    public int getSecond(){return second;}
+    public void setSecond() {
+        if (second < 0 || second > 59) return;
+        this.second = second;
+    }
+}
+```
+******************************************************************************************************************************************************************************************
+
+### 7.12) 다형성(polymorphism)
+
+* 여러 가지 형태를 가질 수 있는 능력을 의미한다
+
+* 한 타입의 참조변수로 여러 타입의 객체를 참조할 수 있도록 구성되었다
+
+* 같은 타입의 인스턴스지만 참조변수 타입에 따라 사용 할 수 있는 멤버의 개수가 달라진다
+
+* 자손타입의 참조변수로 조상타입의 인스턴스를 참조하는 것은 불가능하다(항시 자손타입이 멤버가 더 많기 때문이다)
+ 
+#### static import문 예시
+```java
+class Tv {
+    boolean power;
+    int channel;
+
+    void power() {power = !power;}
+    void channelUp() { ++channel;}
+    void channelDown() {--channel;}
+}
+
+class SmartTv extends Tv {
+    String text;
+    void caption() {}
+}
+
+SmartTv s = new SmartTv();    // 참조 변수와 인스턴스의 타입이 일치
+Tv t = new SmartTv();         // 조상 타입 참조변수로 자손 타입 인스턴스 참조: Tv 타입의 참조변수 t는 인스턴스가 smartTv이더라도, smartTv의 모든 멤버를 사용할 수 없다
+```
+******************************************************************************************************************************************************************************************
+
+### 7.13) 참조변수의 형변환
+
+* 자손타입의 참조변수를 조상타입의 참조변수로, 조상타입의 참조변수를 자손타입의 참조변수로의 형변환만 가능하다
+
+* 

@@ -1374,3 +1374,114 @@ class DropShip extends Unit{
 
 ******************************************************************************************************************************************************************************************
 
+### 7.18) 인터페이스(interface)
+
+* 추상클래스 처럼 몸통을 갖춘 일반 메서드 혹은 멤버 변수를 구성원으로 가질 수 없다
+
+* 추상 메서드와 상수만을 멤버로 가질 수 있다
+
+* 모든 멤버 변수는 public static final, 모든 메서드는 public abstract 이어야 하며 이를 생략할 수 있다
+
+* 인터페이스는 인터페이스로부터만 상속받을 수 있다, 다중상속이 가능하다
+
+* 추상클래스와 마찬가지로 인스턴스를 생성할 수 없으며, 'extends' 대신 'implements'를 활용하여 메서드를 정의하며 interface의 구현이라고 표현한다
+
+* 활용 시 개발시간 단축 및 표준화 가능, 서로 관계 없는 클래스들의 관계 맺음, 독립적인 프로그래밍가능 등의 장점이 있다
+
+
+#### interface 작성
+
+```java
+interface 인터페이스 이름 {
+    public static final 타입 상수이름 = 값;
+    public abstract 메서드이름(매개변수);
+}
+```
+
+#### interface 상속
+
+```java
+interface Moveable {
+    void move(int x, int y);
+    }
+
+interface Attackable {
+    void attack(Unit u);
+    }
+interface Fightable extends Movable, Attackable {}
+
+```
+#### interface 구현
+
+```java
+class 클래스 이름 implements 인터페이스 이름{
+    // interface의 모든 추상 메서드 구현
+}
+class Fighter implements fightable {
+    public void move(int x, int y) { }
+    public void attack(Unit u) { }
+}
+```
+
+#### 구현하는 인터페이스 메서드 중 일부만 구현한다면, abstract를 붙여 추상클래스를 선언해야한다
+```java
+abstract class Fihgter implements Fightable {
+    public void move(int x, int y) { }
+}
+```
+
+#### 상속과 구현의 동시 수행
+```java
+class Fighter extends Unit implements Fightable {
+    public void move(int x, int y) { }
+    public void attack(Unit u) { }
+}
+```
+
+#### 인터페이스를 구현한 클래스의 인스턴스를 참조할 수 있다 (또한 매개 변수 타입, 리턴타입으로 활용될 수 있다)
+```java
+Fightable f = (Fightable)new Fighter();
+Fightable f = new Fighter();
+```
+
+******************************************************************************************************************************************************************************************
+
+### 7.19) 디폴트 메서드와 static 메서드
+
+* 인터페이스의 경우 메서드를 추가하게되면, 이를 구현한 기존 모든 클래스들이 새로 추가도니 메서드를 구핸해야한다, 이러한 경우 static 혹은 default method를 활용하여 효율적인 코드를 작성할 수 있다
+
+* default method는 접근 제어자가 public이며, 생략이 가능하다
+
+* 디폴트 메서드와 조상 클래스의 메서드간의 이름 중복 시, 조상 클래스의 메서드가 상속되고 디폴트 메서드는 무시된다
+
+* 여러 인터페이스의 디폴트 메서드 간의 충돌 시, 구현한 클래스에서 디폴트 메서드를 오버라이딩해야 한다
+
+  ******************************************************************************************************************************************************************************************
+
+  ### 7.20) 내부 클래스(inner class)
+
+  * 내부 클래스는 클래스 내에 선언된 클래스이다
+ 
+  * abstract, 접근 제어자의 사용 또한 가능하다
+ 
+  
+ #### 내부 클래스의 종류와 특징
+ 
+|내부 클래스|특징|
+|:---:|:---:|
+|인스턴스 클래스(instance class)|외부 클래스의 멤버변수 선언위치에 선언, 외부 클래스의 인스턴스멤버처럼 다루어진다, 주로 외부 클래스의 인스턴스 멤버들과 관련된 작업에 사용될 목적으로 선언|
+|스태틱 클래스(static class|외부 클래스의 멤버변수 선언위치에 선언, 외부 클래스의 static멤버처럼 다루어진다, 주로 외부 클래스의 static 멤버, 특히 static메서드에서 사용 할 목적으로 선언|
+|지역 클래스(local class)|외부 클래스의 메서드나 초기화블럭 내에 선언, 선언된 영역 내부에서만 사용될 수 있다|
+|익명 클래스(anonymous class)|클래스의 선언과 객체의 생성을 동시에 하는 이름 없는 클래스(일회용)| 
+
+
+#### 내부 클래스 예시
+```java
+class Outer {
+    private class InstacneInner{ }
+    protected static class StaticInner { }
+
+    void myMethod(){} {
+        class LocalInner{}
+    }
+}

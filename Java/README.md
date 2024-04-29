@@ -1464,6 +1464,7 @@ Fightable f = new Fighter();
  
   * abstract, 접근 제어자의 사용 또한 가능하다
  
+ 
   
  #### 내부 클래스의 종류와 특징
  
@@ -1485,3 +1486,54 @@ class Outer {
         class LocalInner{}
     }
 }
+
+******************************************************************************************************************************************************************************************
+
+### 7.21) 익명 클래스(anonymous class)
+
+* 별도의 이름이 없으며 클래스의 선언과 객체의 생성을 동시에 하기에 오직 하나만의 객체만을 생성할 수 있는 일회용 클래스이다
+
+* 이름이 없기에 생성자도 가질 수 없으며, 조상 클래스의 이름이나 구현하고자 하는 인터페이스의 이름을 사용해서 정의한다
+
+* 오로지 단 하나의 클래스를 상속받거나 단 하나의 인터페이스만 구현할 수 있다
+
+#### 익명 클래스
+```java
+new 조상클래스 이름() {
+// 멤버 선언
+}
+
+new 구현인터페이스이름() {
+// 멤버 선언
+}
+```
+
+#### 익명 클래스 사용 전
+```java
+class Example {
+    public static void main(String[]args) {
+        Button b = new Button("Start");
+        b.addActionListener(new EventHandler());
+    }
+}
+class EventHandler implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("ActionEvent occurred!!!");
+        }
+}
+```
+
+#### 익명 클래스 사용 후
+```java
+class Example {
+    public static void main(String[]args) {
+        Button b = new Button("Start");
+        b.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                System.out.println("ActionEvent occurred!!!");
+            }
+        }
+        )
+    }
+}
+```

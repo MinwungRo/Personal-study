@@ -15,6 +15,8 @@
 6. [객체지향 프로그래밍 1](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#6-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-1)
 
 7. [객체지향 프로그래밍 2](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#7-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-2)
+
+8. [예외 처리](https://github.com/MinwungRo/Personal-study/edit/main/Java/README.md#8-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC-exception-handling)
 ******************************************************************************************************************************************************************************************
 
 ## 1. 변수(Variable)
@@ -1537,3 +1539,138 @@ class Example {
     }
 }
 ```
+
+******************************************************************************************************************************************************************************************
+
+## 8. 예외처리 (exception handling)
+
+### 8.1) 프로그램 오류
+
+* 컴파일 에러: 컴파일 시 발생하는 에러
+
+* 런타임 에러: 실행 시 발생하는 에러
+
+* 논리적 에러: 실행은 되나, 의도와 다르게 작동하는 것
+
+* 에러(error): 프로그램 코드에 의해서 수습될 수 없는 심각한 오류
+
+* 예외(exception): 프로그램 코드에 의해서 수습될 수 있는 다소 미약한 오류
+
+******************************************************************************************************************************************************************************************
+
+### 8.2) Exception & RuntimeException
+
+* Java에서는 오류(exception과 error)를 클래스로 정의하였다
+
+* Exception 클래스: 사용자의 실수와 같은 외적인 요인에 의하 밸상하는 예외
+
+* RuntimeException 클래스: 프로그래머의 실수로 발생하는 예외
+ ******************************************************************************************************************************************************************************************
+
+### 8.3) 예외 처리하기 try - catch 문
+
+* 예외 처리란 프로그램 실행 시 발생할 수 있는 예기치 못한 예외 발생에 대비한 코드이다
+
+* 발생한 예외를 처리하지 못하면, 프로그램은 비정상적으로 종료된다
+
+* 하나의 try 블럭 다음에는 어려 종류의 예외를 처리할 수 있도록 하나 이상의 catch 블럭이 올 수 있다
+
+* 발생한 예외의 종류와 일치하는 단 한 개의 catch 블럭만 수행되며, 발생한 예외의 종류와 일치하는 catch 블럭이 없으면 예외는 처리되지 않는다
+
+* catch 블럭 수행 후 전체 try - catch 문을 빠져나가 그 다음 문장을 수행한다
+
+* 
+
+#### try - catch 문
+
+```java
+
+try {
+    // 예외가 발생할 가능성이 있는 문장 작성
+} catch (Exception e1) {
+    // Exception e1이 발생했을 경우, 이를 처리하기 위한 문장 작성
+} catch (Exception e2)
+    // Exception e2가 발생했을 경우, 이를 처리하기 위한 문작 작성
+}
+
+```
+
+#### try - catch 문 catch 블럭 미 실행 예시
+
+```java
+
+    public static void main(String[] args) {
+        System.out.println(1);
+        try {
+            System.out.println(2);
+            System.out.println(3);
+        } catch (Exception e) {
+            System.out.println(4); // 실행되지 않는다
+        } // try - catch 문의 끝
+        System.out.println(5);
+    }
+
+*/ Result:
+1
+2
+3
+5
+*/
+
+```
+
+#### try - catch 문 catch 블럭 실행 예시
+
+```java
+
+    public static void main(String[] args) {
+        System.out.println(1);
+        try {
+            System.out.println(0/0); // 고의로 Exception 발생
+            System.out.println(2); // 실행되지 않는다
+        } catch (ArithmeticException ae) {
+            System.out.println(3);
+        } // try - catch 문의 끝
+        System.out.println(4);
+    }
+
+*/ Result:
+1
+3
+4
+*/
+
+```
+******************************************************************************************************************************************************************************************
+
+### 8.4) 예외의 발생과 catch 블럭
+
+* catch 블럭의 괄호 내에는 예외와 같은 타입의 참조변수 하나를 선언해야한다
+
+* 예외가 발생하면, 예외에 해당하는 클래스의 인스턴스가 만들어진다, 또한 instanceof 연산자를 통해 ture 값을 반환하는 catch 블럭을 탐색한다
+
+* 모든 예외 클래스는 Exception 클래스의 자손이므로, catch 블럭의 괄호에 Exceiption 클래스 타입의 참조변수를 선언하면 어떠한 경우에도 해당 catch 블럭에 의해 처리된다
+
+
+#### exception 클래스 예시
+```java
+
+public class Test1 {
+    public static void main(String[] args) {
+        System.out.println(1);
+        try {
+            System.out.println(0/0); // 고의로 ArithmeticException 발생
+            System.out.println(2); // 실행되지 않는다
+        } catch (Exception ae) { // ArithmeticException 대신 조상 클래스 Exception 사용
+             System.out.println(3);
+        } // try - catch 문의 끝
+        System.out.println(4);
+    }
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 8.5) printStackTrace()와 getMessage()
+
+*

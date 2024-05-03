@@ -1565,6 +1565,8 @@ class Example {
 * Exception 클래스: 사용자의 실수와 같은 외적인 요인에 의하 밸상하는 예외
 
 * RuntimeException 클래스: 프로그래머의 실수로 발생하는 예외
+
+* Exception 발생 시 예외 처리를 해주지 않으면 컴파일이 수행되지 않는다, 반면 RuntimeException은 예외 처리 없이 컴파일이 수행 가능하다(RuntimeException은 프로그래머 실수로 발생하기에 예외 처리를 강제하지 않는다)
  ******************************************************************************************************************************************************************************************
 
 ### 8.3) 예외 처리하기 try - catch 문
@@ -1579,7 +1581,9 @@ class Example {
 
 * catch 블럭 수행 후 전체 try - catch 문을 빠져나가 그 다음 문장을 수행한다
 
-* 
+* 여러 catch 블럭을 '|' 기호를 이용하여 하나의 catch 블럭으로 합칠 수 있다, 이를 '멀티 catch 블럭'이라 한다
+
+* catch 블럭의 '|'로 연결된 예외 클래스가 조상과 자손의 관계라면 컴파일 에러가 발생한다
 
 #### try - catch 문
 
@@ -1673,4 +1677,83 @@ public class Test1 {
 
 ### 8.5) printStackTrace()와 getMessage()
 
-*
+* printStackTrace(): 예외 발생 당시의 Call Stack에 있었던 메서드의 정보와 예외 메세지를 화면에 출력한다
+
+* getMessage(): 발생한 예외 클래스의 인스턴스에 저장된 메세지를 얻을 수 있다
+
+* Exceiption 인스턴스 생성시, 생성자에 String을 넣어 주면 인스턴스에 메세지로 저장되어 getMessage()를 이용해 얻을 수 있다
+
+  
+#### printStackTrace() & getMessage() 예시
+```java
+    public static void main(String[] args) {
+        System.out.println(1);
+        System.out.println(2);
+        try {
+            System.out.println(3);
+            System.out.println(0/0); // 예외 고의 발생
+            System.out.println(4); // 실행되지 않는다
+        } catch (Exception ae) {
+            ae.printStackTrace();
+            System.out.println("예외메시지: " + ae.getMessage());
+        } // try - catch 문의 끝
+        System.out.println(6);
+    }
+
+*/ Result:
+1
+2
+3
+예외메시지: / by zero
+6
+java.lang.ArithmeticException: / by zero
+	at test.Test1.main(Test1.java:9)
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 8.6) 예외 발생시키기
+
+* 키워드 thorw를 사용해서 프로그래머가 고의로 예외를 발생시킬 수 있다
+
+
+```java
+
+    public static void main(String[] args) {
+        try {
+            Exception e = new Exception("고의 발생");  // 생성자에 String을 넣어 인스턴스에 메세지를 저장
+            throw e;                                 // throw new Exception("고의 발생")으로 생략 가능
+        } catch (Exception e) {
+            System.out.println("에러 메세지: " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("프로그램이 정상 종료되었습니다");
+    }
+
+*/ Result:
+에러 메세지: 고의 발생
+프로그램이 정상 종료되었습니다
+java.lang.Exception: 고의 발생
+	at test.Test1.main(Test1.java:6)
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 8.7) 메서드에 예외 선언
+
+* 메서드의 선언부에 키워드 throws를 사용해서 작성한다, 여려 개의 예외일 경우 ','로 구분한다
+
+* 예외 선언 시, 자손타입의 예외까지도 발생할 수 있다
+
+#### 메서드의 예외 선언
+```java
+
+void method() throws Exception1, Exception2 { ... }
+
+```
+
+

@@ -1745,9 +1745,13 @@ java.lang.Exception: 고의 발생
 
 ### 8.7) 메서드에 예외 선언
 
+* 예외를 처리하는 방법중 하나이다(다만 직접 처리하는 것이 아닌 이송을 수행한다)
+
 * 메서드의 선언부에 키워드 throws를 사용해서 작성한다, 여려 개의 예외일 경우 ','로 구분한다
 
 * 예외 선언 시, 자손타입의 예외까지도 발생할 수 있다
+
+* 예외가 선언되어 있으면 Exception과 같은 checked 예외를 try - catch 문으로 처리하지 않아도 컴파일 에러가 발생하지 않는다
 
 #### 메서드의 예외 선언
 ```java
@@ -1756,4 +1760,125 @@ void method() throws Exception1, Exception2 { ... }
 
 ```
 
+#### 메서드 예외 선언 예시
 
+
+
+```java
+public class Test1 {
+    public static void main(String[] args) throws Exception {
+        method1();
+    }
+    static void method1() throws Exception {
+        method2();
+    }
+    static void method2() throws Exception {
+        throw new Exception();
+    }
+}
+/* Result:
+Exception in thread "main" java.lang.Exception
+	at test.Test1.method2(Test1.java:11)
+	at test.Test1.method1(Test1.java:8)
+	at test.Test1.main(Test1.java:5)
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 8.8) finally 블럭
+
+* finally 블럭은 예외의 발생 여부에 상관 없이 실행되어야 할 코드를 포함시킬 목적으로 사용된다
+
+* try - catch (- finally)의 순서로 구성되며 선택적으로 사용할 수 있다
+
+#### finally 사용
+```java
+
+try {
+	// 예외가 발생할 가능성이 있는 문장 작성
+} catch (Exception1 e1) {
+	// 예외를 처리하기 위한 문장 작성
+} finally {
+	// 예외 발생 여부와 관계 없이 항시 수행될 문장 작성
+}
+
+```
+
+#### finally 예시
+```java
+
+try {
+	strartInstall();	// 프로그램 설치에 필요한 준비를 한다
+	copyFiles();		// 파일들을 복사한다
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+	deleteTempFiles();	// 프로그램 설치에 사용된 임시파일들을 삭제한다
+}
+```
+******************************************************************************************************************************************************************************************
+
+### 8.9) 사용자 정의 예외
+
+* 통상저으로 Exception 혹은 RuntimeException 클래스로부터 상속받는 클래스를 만든다
+
+#### 사용자 정의 예외
+```java
+
+class MyException extends Exception {
+	MyException(String msg) { // 문자열을 매개변수로 받는 생성자
+		super(msg); // 조상인 Exception클래스의 생성자를 호출한다
+
+```
+
+#### 사용자 정의 예외 예시
+```java
+public class Test1 {
+    public static void main(String[] args) {
+        try {
+            startInstall(); // 프로그램 설치에 필요한 준비
+            copyFiles();    // 파일 복사
+        } catch (SpaceException e) {
+            System.out.println("에러 메세지: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("공간을 확보한 후에 다시 시도해주시기 바랍니다.");
+        } catch(MemoryException me) {
+            System.out.println("에러 메세지: " + me.getMessage());
+            me.printStackTrace();
+            System.gc();    //Garbage Collection을 수행하여 메모리 확보
+            System.out.println("다시 설치를 시도하세요.");
+        } finally {
+            deletedTempFiles(); // 프로그램 설치에 사용된 임시파일 삭제
+        } // try 끝
+    } // main 끝
+    static void startInstall() throws SpaceException, MemoryException {
+        if (!enoughSpace()) {
+            throw new SpaceException("설치항 공간이 부족합니다.");
+        }
+        if (!enoughMemory()) {
+            throw new MemoryException("메모리가 부족합니다.");
+        }
+    } //startInstall 메서드 끝
+
+    static void copyFiles(){/*파일 복사 코드*/}
+    static void deletedTempFiles(){/*임시 파일 삭제 코드*/}
+
+    static boolean enoughSpace(){/*설치 요구 공간 확인 코드*/}
+    static boolean enoughMemory(){/*설치 요구 메모리 공간 확인 코드*/}
+}
+
+class SpaceException extends Exception {
+    SpaceException(String msg) {
+        super(msg);
+    }
+}
+class MemoryException extends Exception {
+    MemoryException(String msg) {
+        super(msg);
+    }
+}
+
+```
+
+******************************************************************************************************************************************************************************************

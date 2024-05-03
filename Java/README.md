@@ -1882,3 +1882,67 @@ class MemoryException extends Exception {
 ```
 
 ******************************************************************************************************************************************************************************************
+
+### 8.10) 예외 되던지기(exception re-throwing)
+
+* 예외가 여럿인 경우, 몇 개는 try - catch문을 통해서 메서드 내부적으로 처리하고, 그 나머지는 선언부에 작성하여 호출한 메서드에서 처리되도록 할 수 있다
+
+* 단 하나의 예외에 대해서도 예외 발생 메서드, 호출한 메서드, 양 쪽에서 처리하도록 할 수 있다
+
+* 예외를 처리한 후 인위적으로 다시 발생시키는데 이를 '예외 되던지기'라고 한다
+
+
+#### 예외 되던지기 예시
+```java
+    public static void main(String[] args) {
+        try {
+            method1();
+        } catch (Exception e) {
+            System.out.println("main메서드에서 예외가 처리되었습니다.");
+        }
+    } // main 메서드 종료
+    static void method1() throws Exception {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("method1에서 예외가 처리되었습니다");
+            throw e;
+        }
+    } // method1 메서드 종료
+
+/* Result:
+method1에서 예외가 처리되었습니다
+main메서드에서 예외가 처리되었습니다.
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 8.11) 연결된 예외(chained exception)
+
+* 한 예외가 다른 예외를 발생시킬 수 있으며 예외 A가 예외 B를 발생시켰다면 A를 B의 '원인 예외(cause exception)'라 한다
+
+* Throwable initCuase(Throwable cuase): 지정한 예외를 원인 예외로 등록
+
+* Throwable geCuase(): 원인 예외를 반환
+
+* RuntimeException(Throwable cause): 원인 예외를 드록하는 생성자
+
+* initCause()는 Exception 클래스의 조상인 Throwable 클래스에 정의되어 있어 모든 예외이서 사용 가능하다
+
+* 여러가지 예외를 하나의 큰 분류의 예외로 묶어서 다루기 위함이다
+
+* checked 예외를 unchecked 예외로 변경할 수 있다
+
+#### 연결된 예외 예시
+```java
+try {
+	startInstall();
+ 	copyFiles();
+} catch (SpaceException e) {
+	InstallException ie = new InstallException("설치중 예외 발생"); // 예외 생성
+	ie.initCuase(e); // InstallException의 원인 예외를 SapceException으로 지정
+	throw ie; // InstallException을 발생시킨다
+} catch (MemoryException me) { ...
+}
+```

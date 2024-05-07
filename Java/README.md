@@ -1958,4 +1958,58 @@ try {
 
 * Object 클래스는 모든 클래스의 최고 조상이기에 Object 클래스의 멤버들은 모든 클래스에서 사용 가능하다
 
-* 
+#### Object 클래스
+|Object 클래스의 메서드|설명|
+|:---:|:---:|
+|protected Object clone()|객체 자신의 복사본 반환|
+|public boolean equals(Object obj)|객체 자신과 객체 obj가 같은 객체인지 알려준다(true)|
+|protected void finalize()|객체가 소멸될 대 가비지 컬렉터에 의해 자동적으로 호출된다, 이 때 수행되어야 하는 코드가 있을 때 오버라이딩한다|
+|public Class getClass()|객체 자신의 클래스 정보를 담고 있는 Class인스턴스를 반환한다|
+|public int hashcode()|객체 자신의 해시코드를 반환한다|
+|public String toString|객체 자신의 정보를 문자열로 반환한다|
+|public void notify()|객체 자신을 사용하려고 기다리는 쓰레드를 하나만 깨운다|
+|public void notifyAll()|객체 자신을 사용하려고 기다리는 모든 쓰레드를 깨운다|
+|public void wait<br>  public void wait(long timeout)<br> public void wait(long timeout, int nanois)|다른 쓰레드가 notify() 혹은 notifyAll()을 호출할 때까지 현재 쓰레드를 무한히 또는 지정된 시간(timeout, nanos)동안 기다리게 한다(timeout은 천 분의 1초, nanos는 10^9분의 1초)
+
+
+******************************************************************************************************************************************************************************************
+
+### 9.1) Object 클래스 - equals()
+
+* 매개변수로 객체의 참조변수를 받아 그 결과를 bollean 값으로 알려주는 기능을 한다
+
+#### equals()
+```java
+public boolean equals(Object obj) {
+	return (this==obj);
+```
+
+#### equals() 에시
+
+```java
+
+    public static void main(String[] args) {
+        Value v1 = new Value(10);
+        Value v2 = new Value(10);
+
+        if (v1.equals(v2)) {
+            System.out.println("v1과 v2는 같습니다.");
+        } else {
+            System.out.println("v1과 v2는 다릅니다.");
+        }
+    }
+}
+
+class Value {
+    int value;
+
+    Value(int value) {
+        this.value = value;
+    }
+}
+/*
+Result:
+v1과 v2는 다릅니다.
+*/
+
+```

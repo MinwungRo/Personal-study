@@ -1960,7 +1960,7 @@ try {
 
 * Object 클래스는 모든 클래스의 최고 조상이기에 Object 클래스의 멤버들은 모든 클래스에서 사용 가능하다
 
-#### Object 클래스
+#### <Object 클래스 Table>
 |Object 클래스의 메서드|설명|
 |:---:|:---:|
 |protected Object clone()|객체 자신의 복사본 반환|
@@ -2049,7 +2049,7 @@ class Person {
     }
 }
 
-*/
+/*
 Result:
 p1과 p2는 같습니다.
 */
@@ -2085,7 +2085,7 @@ p1과 p2는 같습니다.
         System.out.println(System.identityHashCode(str2));
         System.out.println(System.identityHashCode(str3));
 
-*/
+/*
 Result:
 true
 96354
@@ -2094,7 +2094,7 @@ true
 189568618
 793589513
 1313922862
-/*
+*/
 
 ```
 ******************************************************************************************************************************************************************************************
@@ -2142,11 +2142,11 @@ class Card {
     }
 }
 
-*/
+/*
 Result:
 Card@2f4d3709
 Card@4e50df2e
-/*
+*/
 
 ```
 
@@ -2178,11 +2178,11 @@ class Card {
     }
 }
 
-*/
+/*
 Result:
 kind : SPADE, number: 1
 kind : HEART, number: 10
-/*
+*/
 
 ```
 
@@ -2239,7 +2239,7 @@ public final class String implements java.io.Serializable, Comparable {
     }
 }
 
-*/
+/*
 Result:
 String str1 = "abc";
 String str2 = "abc";
@@ -2250,15 +2250,14 @@ String str3 = "abc";
 String str4 = "abc";
 str3 == str4 ? false
 str3.equals(str4) ?true
-/*
+*/
 ```
-
-####
-
-### 9.6) String 클래스의 생성자와 메서드
 
 ******************************************************************************************************************************************************************************************
 
+### 9.6) String 클래스의 생성자와 메서드
+
+#### <String 클래스의 생성자 및 메서드 Table>
 |메서드|설명|
 |:---:|:---:|
 |String(String s)|주어진 문자열(s)을 갖는 String인스턴스를 생성한다|
@@ -2289,3 +2288,44 @@ str3.equals(str4) ?true
 |String toUpperCase()|String 인스턴스에 저장되어 있는 모든 문자열을 대문자로 변환하여 반환한다|
 |String trim()|문자열의 왼쪽 끝과 오른쪽 끝에 있는 공백을 없앤 결과를 반환한다, 이 때 문자열 중간에 있는 공백은 제거되지 않는다|
 |static String valueOf(boolean b) <br> static String valueOf(char c) <br> static String valueOf(int i) <br> static String valueOf(long l) <br> static String valueOf(float f) <br> static String valueOf(double d) <br> static String valueOf(Object o)|지정된 값을 문자열로 변환하여 반환한다, 참조변수의 경우 toString()을 호출한 결과를 반환한다|
+
+******************************************************************************************************************************************************************************************
+
+### 9.7) String 클래스의 생성자와 메서드
+
+* join은 여러 문자열 사이에 구분자를 넣어서 결합하는 기능을 한다
+
+* java.util.StringJoiner 클래스를 사용해서 문자열을 결합할 수도 있다
+
+#### join() 및 Stringjoiner 예시
+
+```java
+import java.util.StringJoiner;
+
+    public static void main(String[] args) {
+        String animals = "dog,cat,bear";
+        String[] arr = animals.split(",");
+
+        System.out.println(String.join("-",arr));
+
+        StringJoiner sj = new StringJoiner("/", "[", "]");
+        for(String s : arr)
+            sj.add(s);
+
+        System.out.println(sj.toString());
+
+*/
+Result:
+dog-cat-bear
+[dog/cat/bear]
+/*
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.8) 문자열과 기본형 간의 변환
+
+
+
+

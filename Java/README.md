@@ -2400,3 +2400,55 @@ char newValue[] = new char[newCapacity];	// 새로운 길이(newCapacity)의 배
 System.arraycopy(value, 0, newValue, 0, count); // count는 문자열의 길이
 value = newValue; 	// 새로 생성된 배열의 주소를 참조변수 value에 저장
 ```
+
+#### StringBuffer의 변경
+
+* append()는 반환타입이 StringBuffer인데 자신의 주소를 반환한다.
+
+```java
+// 내용 변경
+StringBuffer sb = new StringBuffer("abc"); // abc
+sb.append("123") // abc123
+
+// append는 자신의 주소를 반환, 즉 sb와 sb2는 같은 주소를 가리킨다
+StringBuffer sb2 = sb.append("zz"); // sb 문자열 뒤에 "zz"를 추가
+System.out.println(sb); // abc123zz
+System.out.println(sb2); // abc123zz
+
+// sb.append("123).append("zz") 로 축약 가능
+
+```
+
+#### StringBuffer의 비교
+
+* String 클래스에서는 equals 메서드를 오버라이딩하여 문자열의 내용을 비교하도록 구현되어 있으나, StringBuffer 클래스는 오버라이딩 되어 있지 않다
+
+* 반면 toString()은 오버라이딩이 되어 있어 StringBuffer 인스턴스에 toString()을 호출하면, 담고 있는 문자열을 String으로 반환한다
+
+* 따라서 문자열을 비교하기 위해서는 toString()을 통해 String 인스턴스를 얻은 후, equals 메서드를 사용해서 비교해야한다
+
+```java
+
+    public static void main(String[] args) {
+        StringBuffer sb = new StringBuffer("abc");
+        StringBuffer sb2 = new StringBuffer("abc");
+
+        System.out.println("sb == sb2 ? " + (sb == sb2));
+        System.out.println("sb.equals(sb2) ? " + sb.equals(sb2));
+
+        String s = sb.toString();
+        String s2 = sb2.toString();
+
+        System.out.println("s.equals(s2) ? " + s.equals(s2));
+    }
+/*
+Result:
+sb == sb2 ? false
+sb.equals(sb2) ? false
+s.equals(s2) ? true
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+

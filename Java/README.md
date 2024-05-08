@@ -2105,6 +2105,10 @@ true
 
 * toString()을 호출하면 클래스 이름과 16진수의 해시코드를 반환한다
 
+* String 클래스의 toString()은 인스턴스의 문자열을, Data 클래스의 경우 날짜와 시간을 문자열로 반환하도록 오버라이딩 되어 있다
+
+* toString()은 일반적으로 인스턴스나 클래스에 대한 정보 또는 인스턴스 변수들의 값을 문자열로 반환하도록 오버라이딩된다
+
 #### toString()
 
 ```java
@@ -2145,3 +2149,107 @@ Card@4e50df2e
 /*
 
 ```
+
+#### toString() 오버라이딩 예시
+
+```java
+
+    public static void main(String[] args) {
+        Card c1 = new Card();
+        Card c2 = new Card("HEART", 10);
+
+        System.out.println(c1.toString());
+        System.out.println(c2.toString());
+    }
+}
+
+class Card {
+    String kind;
+    int number;
+    Card() {
+        this("SPADE", 1);
+    }
+    Card(String kind, int number) {
+        this.kind = kind;
+        this.number = number;
+    }
+    public String toString() { 				// Parent 클래스에 정의된 메서드를 Child 클래스에서 오버라이딩 할 때, Parent에 정의된 접근범위와 같거나 더 넓어야 한다
+        return "kind : " + kind + ", number: " + number;
+    }
+}
+
+*/
+Result:
+kind : SPADE, number: 1
+kind : HEART, number: 10
+/*
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.5) String 클래스
+
+* String 클래스는 java에서 char형의 문자를 문자열로 다루기 위해 제공하는 클래스이다
+
+* String 클래스에는 문자열을 저장하기 위해 문자형 배열 참조변수 'char[]' value를 인스턴스 변수로 정의해놓고 있다
+
+* 한 번 생성된 String 인스턴스가 지닌 문자열은 변경이 불가하다, '+' 연산자를 통해 String 인스턴스 변경시 인스턴트 내 문자열 변경이 아닌 새로운 문자열을 담는 String 인스턴스가 생성되는 것이다
+
+* 따라서 '+' 연산자를 통한 문자열 결합은 메모리 공간을 차지하게 되므로 지양하는 것이 메모리 공간 확보 목적으로 적절하다
+
+* 문자간 결합이나 추출 등의 작업이 많이 요구도리 경우 StringBuffer 클래스를 사용하는 것이 적절하다
+* 
+
+#### String 클래스
+
+```java
+
+public final class String implements java.io.Serializable, Comparable {
+	private char[] value;
+}
+```
+
+#### String 클래스의 비교
+
+* 동일 내용의 문자열 리터럴은 이미 존재하는 것을 재사용하는 것이다 (따라서 str1과 str2가 반환하는 주소는 동일하다)
+
+
+```java
+
+    public static void main(String[] args) {
+        String str1 = "abc";	// 문자열 리터럴 "abc"의 주소가 str1에 저장됨			
+        String str2 = "abc";	// 문자열 리터럴 "abc"의 주소가 str2에 저장됨			
+        System.out.println("String str1 = \"abc\";");
+        System.out.println("String str2 = \"abc\";");
+
+        System.out.println("str1 == str2 ? " + (str1 == str2));
+        System.out.println("str1.equals(str2) ?" + str1.equals(str2));
+        System.out.println();
+
+        String str3 = new String("abc");	// 새로운 String 인스턴스를 생성
+        String str4 = new String("abc");	// 새로운 String 인스턴스를 생성
+
+        System.out.println("String str3 = \"abc\";");
+        System.out.println("String str4 = \"abc\";");
+
+        System.out.println("str3 == str4 ? " + (str3 == str4));
+        System.out.println("str3.equals(str4) ?" + str3.equals(str4));
+    }
+}
+
+*/
+Result:
+String str1 = "abc";
+String str2 = "abc";
+str1 == str2 ? true
+str1.equals(str2) ?true
+
+String str3 = "abc";
+String str4 = "abc";
+str3 == str4 ? false
+str3.equals(str4) ?true
+/*
+```
+
+####

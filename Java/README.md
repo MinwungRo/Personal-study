@@ -1974,9 +1974,11 @@ try {
 
 ******************************************************************************************************************************************************************************************
 
-### 9.1) Object 클래스 - equals()
+### 9.2) Object 클래스 - equals()
 
 * 매개변수로 객체의 참조변수를 받아 그 결과를 bollean 값으로 알려주는 기능을 한다
+
+* 참조변수 외 Value 값을 비교하도록 하기 위해선 오버라이딩 과정이 필요하다
 
 #### equals()
 ```java
@@ -2011,5 +2013,133 @@ class Value {
 Result:
 v1과 v2는 다릅니다.
 */
+
+```
+
+#### equals() 오버라이딩 예시
+
+```java
+    public static void main(String[] args) {
+        Person p1 = new Person(80110811121L);
+        Person p2 = new Person(80110811121L);
+
+        if (p1.equlas(p2)) {
+            System.out.println("p1과 p2는 같습니다.");
+        } else {
+            System.out.println("p1과 p2는 다릅니다.");
+        }
+    }
+
+}
+
+class Person {
+    long id;
+
+    public boolean equlas(Object obj) {
+        if (obj instanceof Person) {
+            return id == ((Person) obj).id;
+        } else {
+            return false;
+            }
+    }
+    Person(long id) {
+        this.id = id;
+    }
+}
+
+*/
+Result:
+p1과 p2는 같습니다.
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.3) Object 클래스의 메서드 - hashCode()
+
+* 해시함수는 찾고자하는 값 입력시, 그 값의 지정된 위치를 알려주는 해시코드(hashcode)를 반환한다
+
+* 해시코드가 같은 두 객체가 존재하는 것은 가능하나, Object 클래스에 정의된 hashCode 메서드는 객체의 주소값을 이ㅛㅇ해서 반환하기에 서로 다른 객체는 동일한 해시코드를 가질 수 없다
+
+* String 클래스는 문자열의 내용이 같으면 동일한 해시코드를 반환하도록 hashCode()가 오버라이딩 되어 있다
+
+* System.identifyHashCode는 Object 클래스의 hashCode 메서드처럼 객체의 주소 값으로 hashcode를 생성하기에 모든 객체에 대해 항상 다른 값을 반환한다
+
+
+#### hashCode() 예시
+
+```java
+
+    public static void main(String[] args) {
+        String str1 = new String("abc");
+        String str2 = new String("abc");
+        String str3 = "abc";
+
+        System.out.println(str1.equals(str2));
+        System.out.println(str1.hashCode());
+        System.out.println(str2.hashCode());
+        System.out.println(str3.hashCode());
+        System.out.println(System.identityHashCode(str1));
+        System.out.println(System.identityHashCode(str2));
+        System.out.println(System.identityHashCode(str3));
+
+*/
+Result:
+true
+96354
+96354
+96354
+189568618
+793589513
+1313922862
+/*
+
+```
+******************************************************************************************************************************************************************************************
+
+### 9.4) Object 클래스의 메서드 - toString()
+
+* toString 메서드는 인스턴스에 대한 정보를 문자열(String)로 제공하는 기능을 한다
+
+* toString()을 호출하면 클래스 이름과 16진수의 해시코드를 반환한다
+
+#### toString()
+
+```java
+public String toString(){
+	return getClass().getName()+"@"+Integer.toHexString(hashCode());
+}
+```
+
+#### toString() 예시
+
+```java
+
+    public static void main(String[] args) {
+        Card c1 = new Card();
+        Card c2 = new Card();
+
+        System.out.println(c1.toString());
+        System.out.println(c2.toString());
+    }
+}
+
+class Card {
+    String kind;
+    int number;
+    Card() {
+        this("SPADE", 1);
+    }
+    Card(String kind, int number) {
+        this.kind = kind;
+        this.number = number;
+    }
+}
+
+*/
+Result:
+Card@2f4d3709
+Card@4e50df2e
+/*
 
 ```

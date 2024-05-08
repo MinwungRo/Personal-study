@@ -2199,7 +2199,8 @@ kind : HEART, number: 10
 * 따라서 '+' 연산자를 통한 문자열 결합은 메모리 공간을 차지하게 되므로 지양하는 것이 메모리 공간 확보 목적으로 적절하다
 
 * 문자간 결합이나 추출 등의 작업이 많이 요구도리 경우 StringBuffer 클래스를 사용하는 것이 적절하다
-* 
+  
+* 길이가 0인 배열은 존재할 수 있으며 'String s ="";'과 같은 문장이 있을 때, 참조 변수 s가 참조하고 있는 String 인스턴스 내부에 'new chhar[0]'과 같이 길이가 0인 char형 배열을 저장하고 있다
 
 #### String 클래스
 
@@ -2253,3 +2254,38 @@ str3.equals(str4) ?true
 ```
 
 ####
+
+### 9.6) String 클래스의 생성자와 메서드
+
+******************************************************************************************************************************************************************************************
+
+|메서드|설명|
+|:---:|:---:|
+|String(String s)|주어진 문자열(s)을 갖는 String인스턴스를 생성한다|
+|String(char[] value)|주어진 문자열(value)을 갖는 String 인스턴스를 생성한다|
+|String(StringBuffer buf)|StringBuffer 인스턴스가 갖고 있는 문자열과 같은 내용의 String 인스턴스를 생성한다|
+|char charAt(int index)|지정된 위치(index)에 있는 문자를 알려준다(index는 0부터 시작)|
+|int compareTo(String str)|문자열(str)과 사전순서로 비교한다. 같으면 0을, 사전순으로 이전이면 음수, 이후면 양수를 반환한다|
+|String concat(String str)|문자열(str)을 뒤에 덧붙인다|
+|boolean contrains(CharSequence s)|지정된 문자열(s)이 포함되어있는지 검사한다|
+|boolean endsWith(String suffix)|지정된 문자열(suffix)로 끝나는지 검사한다|
+|boolean equals(Object obj)|매개변수로 받은 문자열(obj)과 String 인스턴스의 문자열을 비교한다, obj가 String이 아니거나 문자열이 다르면 false를 반환한다|
+|boolean equalsIgnoreCase(String str)|문자열과 String 인스턴스의 문자열을 대소문자 구분없이 비교한다|
+|int indexOf(int ch)|주어진 문자(ch)가 문자열에 존재하는지 확인하여 위치(index)를 알려준다, 못 찾으면 -1을 반환한다(index는 0부터 시작)|
+|int indexOf(int ch, int pos)|주어진 문자(ch)가 문자열에 존재하는지 지정된 위치(pos)부터 확인하여 위치(index)를 알려준다, 못 찾으면 -1을 반환한다(index는 0부터 시작)|
+|int indexOf(String str)|주어진 문자열이 존재하는지 확인하여 그 위치(index)를 알려준다, 없으면 -1을 반환한다(index는 0부터 시작)|
+|String intern()|문자열을 상수풀(constant pool)에 등록한다, 이미 상수풀에 같은 내용의 문자열이 있을 경우 그 문자열의 주소값을 반환한다|
+|int lastIndexOf(int ch)|지정된 문자 혹은 인스턴스의 문자열 끝에서부터 찾아서 위치(index)를 알려준다, 못 찾으면 -1을 반환한다|
+|int length()|문자열의 길이를 알려준다|
+|String replace(char old, char nw)|문자열 중의 문자(old)를 새로운 문자(nw)로 바꾼 문자열을 반환한다|
+|String replaceAll(String regex, String replacement)|문자열 중에서 지정된 문자열(regex)과 일치하는 것을 새로운 문자열(replacement)로 모두 변경한다|
+|String replaceFirst(String regex, String replacement|문자열 중에서 지정된 문자열(regex)과 일치하는 것 중, 첫 번째 것만 새로운 문자열(replacement)로 변경한다|
+|String[] split(String regex)|문자열을 지정된 분리자(regex)로 나누어 문자열 배열에 담아 반환한다|
+|String[] splic(String regex, int limit)|문자열을 지정된 분리자(regex)로 나누어 문자배열에 담아 반환한다, 단 문자열 전체를 지정된 수(limit)로 자른다|
+|boolean startWith(String prefix)|주어진 문자열(prefix)로 시작하는지 검사한다|
+|String substring(int begin) <br> String substring(int begin, int end)|주어진 시작위치(begin)부터 끝 위치(end)범위에 포함된 문자열을 얻는다, 이 때 시작위치의 문자는 범위에 포함되지만 끝 위치의 문자는 포함되지 않는다|
+|String toLowerCase()|String 인스턴스에 저장되어 있는 모든 문자열을 소문자로 변환하여 반환한다|
+|String toString()|String 인스턴스에 저장되어 있는 문자열을 반환한다|
+|String toUpperCase()|String 인스턴스에 저장되어 있는 모든 문자열을 대문자로 변환하여 반환한다|
+|String trim()|문자열의 왼쪽 끝과 오른쪽 끝에 있는 공백을 없앤 결과를 반환한다, 이 때 문자열 중간에 있는 공백은 제거되지 않는다|
+|static String valueOf(boolean b) <br> static String valueOf(char c) <br> static String valueOf(int i) <br> static String valueOf(long l) <br> static String valueOf(float f) <br> static String valueOf(double d) <br> static String valueOf(Object o)|지정된 값을 문자열로 변환하여 반환한다, 참조변수의 경우 toString()을 호출한 결과를 반환한다|

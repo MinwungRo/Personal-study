@@ -2326,6 +2326,77 @@ dog-cat-bear
 
 ### 9.8) 문자열과 기본형 간의 변환
 
+* 기존에 parseInt()와 같은 메서드는 이름을 통일하기 위해 valueOf()가 추가되었다
 
+#### <문자열 및 기본형 변환 Table>
 
+|기본형 → 문자열|문자열 → 기본형|
+|:---:|:---:|
+|String Strin.valueOf(boolean b) <br> String Strin.valueOf(char c) <br> String Strin.valueOf(int i) <br> String Strin.valueOf(long l) <br> String Strin.valueOf(float f) <br> String Strin.valueOf(double d)|boolean Boolean.parseBoolean(String s) <br> byte Byte.parseByte(String s) <br> short Short.parseShort(String s) <br> int Integer.parseInt(String s) <br> long Log.paseLong(String s) <br> float Float.parseFloat(String s) <br> double double.parseDouble(String s)|
 
+#### 문자열 및 기본형 변환 예시
+
+```java
+
+    public static void main(String[] args) {
+        int iVal = 100;
+        String strVal = String.valueOf(iVal); // int를 String으로 변환한다
+
+        double dVal = 200.0;
+        String strVal2 = dVal + ""; // int를 String으로 변환하는 또 다른 방법
+
+        double sum = Integer.parseInt("+" + strVal) + Double.parseDouble(strVal2);
+        double sum2 = Integer.valueOf(strVal) + Double.valueOf(strVal2);
+
+        System.out.println(String.join("",strVal, "+",strVal2,"=")+sum);
+        System.out.println(strVal+"+"+strVal2+"="+sum2);
+
+/*
+Result:
+100+200.0=300.0
+100+200.0=300.0
+/*
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.9) StringBuffer 클래스
+
+* String 클래스는 인스턴스를 생성할 때 지정된 문자열을 변경할 수 없으나 StringBuffer 클래스는 변경이 가능하다
+
+* 내부적으로 문자열 편집을 위한 버퍼(buffer)를 가지고 있으며, StringBuffer 인스턴스 생성 시 그 크기를 지정할 수 있다(변경 중 문자열이 크기를 초과하면 크기를 증가시키는 추가 작업이 수행된다)
+
+#### StringBuffer 클래스
+
+```java
+public final class StringBuffer implements java.io.Serializable {
+	private char[] value;
+}
+
+```
+
+#### StringBuffer 생성자
+
+```java
+public StringBuffer(int length){
+	value = new char[length]
+ 	share = flase;
+}
+public StringBuffer(){
+	this(16)	// 버퍼의 크기 미 지정시 버퍼의 크기는 16이 된다
+}
+public StringBuffer(String str)
+	this(str.length() + 16);	//지정한 문자열의 길이보다 16 더 크게 버퍼를 생성한다
+	append(str)
+}
+
+```
+#### StringBuffer 버퍼 증가 작업
+
+* 배열의 길이는 변경될 수 없으므로 새로운 길이의 배열을 생성한 후 이전 배열의 값을 복사한다
+
+```java
+char newValue[] = new char[newCapacity];	// 새로운 길이(newCapacity)의 배열을 생성한다, newCapacity는 정수값이다
+System.arraycopy(value, 0, newValue, 0, count); // count는 문자열의 길이
+value = newValue; 	// 새로 생성된 배열의 주소를 참조변수 value에 저장
+```

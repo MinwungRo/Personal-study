@@ -2451,4 +2451,96 @@ s.equals(s2) ? true
 
 ******************************************************************************************************************************************************************************************
 
+### 9.10) StringBuffer의 생성자 메서드
 
+#### <StringBuffer의 메서드 Table>
+
+|메서드|설명|
+|:---:|:---:|
+|StringBuffer()|16문자를 담을 수 있는 버퍼를 가진 StringBuffer 인스턴스를 생성한다|
+|StringBuffer(int length)|지정된 개수의 문자를 담을 수 있는 버퍼를 가진 StringBuffer 인스턴스를 생성한다|
+|StringBuffer(String str)|지정된 문자열 값(str)을 갖는 StringBuffer 인스턴스를 생성한다|
+|StringBuffer append(boolean b) <br> StringBuffer append(char c) <br> StringBuffer append(char[] str) <br> StringBuffer append(double d) <br> StringBuffer append(float f) <br> StringBuffer append(int i) <br> StringBuffer append(long l) <br> StringBuffer append(Object obj) <br> StringBuffer append(String str)|매개변수로 입력된 값을 문자열로 변환하여 StringBuffer 인스턴스가 저장하고 있는 문자열의 뒤에 덧붙인다|
+|int capacity()|StringBuffer 인스턴스의 버펄크기를 알려준다, length()는 버퍼에 담긴 문자열의 길이를 알려준다|
+|char charAt(int index)|지정된 위치(index)에 있는 문자를 반환한다|
+|StringBuffer delete(int start, int end)|시작위치(start)부터 끝 위치(end) 사이에 있는 문자를 제거한다, 단 끝 위치의 문자는 제외된다|
+|StringBuffer deletedCharAt(int index)|지정된 위치(index)의 문자를 제거한다|
+|StringBuffer insert(int pos, boolean b) <br> StringBuffer insert(int pos, char c) <br> StringBuffer insert(int pos, char[] str) <br> StringBuffer insert(int pos, double d) <br> StringBuffer insert(int pos, float f) <br> StringBuffer insert(int pos, int i) <br> StringBuffer insert(int pos, long l) <br> StringBuffer insert(int pos, Object obj) <br> StringBuffer insert(int pos, String str)|두 번째 매개변수로 받은 값을 문자열로 변환하여 지정된 위치(pos)에 추가한다, pos는 0부터 시작|
+|int length()|StringBuffer 인스턴스에 저장되어 있는 문자열의 길이를 반환한다|
+|StringBuffer replace(int start, int end, String str)|지정된 범위(start ~ end)의 문자들을 주어진 문자열로 바꾼다, end 위치의 문자는 범위에 포함되지 않는다|
+|StringBuffer reverse()|StringBuffer인스턴스에 저장되어 있는 문자열의 순서를 거꾸로 나열한다|
+|void setCharAt(int index, char ch)|지정된 위치의 문자를 주어진 문자(ch)로 바꾼다|
+|void setLength(int newLength)|지정된 길이로 문자열의 길이를 변경한다, 기링를 늘리는 경우에 나머지 빈 공간을 null문자 '\u0000'로 채운다|
+|String toString()|StringBuffer인스턴스의 문자열을 String으로 반환한다|
+|String substring(int start) <br> String substring(int start, int end)|지정된 범위 내의 문자열을 String으로 뽑아서 반환한다, 시작 위치(strat)만 지정하면 시작 위치부터 문자열 끝까지 뽑아서 반환한다|
+
+#### StringBuffer의 메서드 예시
+
+```java
+
+    public static void main(String[] args) {
+        StringBuffer sb = new StringBuffer("01");
+        StringBuffer sb2 = sb.append(23);
+        sb.append('4').append(56);
+
+        StringBuffer sb3 = sb.append(78);
+        sb.append(9.0);
+
+        System.out.println("sb = " + sb);
+        System.out.println("sb2 = " + sb2);
+        System.out.println("sb3 = " + sb3);
+
+        System.out.println("sb =" + sb.deleteCharAt(10));
+        System.out.println("sb =" + sb.delete(3,6));
+        System.out.println("sb =" + sb.insert(3,"abc"));
+        System.out.println("sb =" + sb.replace(6, sb.length(), "END"));
+
+        System.out.println("capacity = " + sb.capacity());
+        System.out.println("length = " + sb.length());
+    }
+
+/*
+Result:
+sb = 0123456789.0
+sb2 = 0123456789.0
+sb3 = 0123456789.0
+sb =01234567890
+sb =01267890
+sb =012abc67890
+sb =012abcEND
+capacity = 18
+length = 9
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.11) StringBuilder
+
+* StringBuffer는 멀티쓰레드에서 안전하도록 도익화되어 있다, 멀티 쓰레드로 자것ㅇ된 프로그램이 아닌 경우 StringBuffer의 동기화는 불필요하게 성능만 저하시킨다
+
+* StringBuffer에서 쓰레드의 동기화만 뺀 StringBuilder가 있다, 완전히 동일한 기능을 하며 소스코드에서 StringBuffer 대신 StringBuilder를 사용하도록 변경하면 된다
+
+******************************************************************************************************************************************************************************************
+
+### 9.12) Math 클래스
+
+* Math 클래스는 기본적인 수학계산에 유용한 메서드로 구성되어 있다
+
+* Math 클래스의 생성자는 접근 제어자가 private이고, 클래스 내 인스턴스변수가 하나도 없다
+
+* Math 클래스의 메서드는 모두 static이며, 상수 자연 로그의 밑(E)와 원주율(PI)만 정의되어 있다
+
+#### <Math 메서드 Table>
+
+|메서드|설명|
+|:---:|:---:|
+|static double abs(double a) <br> static float abs(float f) <br> static int abs(int f) <br> static long abs(long f)|주어진 값의 절대값을 반환한다|
+|static double  ceil(double a)|주어진 값을 올림하여 반환한다|
+|static double floor(double a|주어진 값을 버림하여 반환한다|
+|static double max(double a, double b) <br> static float max(float a, float b) <br> static int max(int a, int b) <br> static long max(long a, long b)|주어진 두 값을 비교하여 큰 쪽을 반환한다|
+|static double min(double a, double b) <br> static float min(float a, float b) <br> static int min(int a, int b) <br> static long min(long a, long b)|주어진 두 값을 비교하여 작은 쪽을 반환한다|
+|static double random()|0.0 ~ 1.0 범위의 임의 double값을 반환한다(1.0은 범위에 포함되지 않는다)|
+|static double rint(doube a)|주어진 double 값과 가장 가까운 정수 값을 double형으로 반환한다, 단 두 정수의 정가운데 있는 값(1.5, 2.5, 3.5 등)은 짝수를 반환한다|
+|static long round(double a) <br> static long round(float a)|소수점 첫재자리에서 반올림한 정수값(long)을 반환한다, 두 정수의 정가운데 있는 값은 항상 큰 정수를 반환한다|

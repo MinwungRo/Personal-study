@@ -2544,3 +2544,220 @@ length = 9
 |static double random()|0.0 ~ 1.0 범위의 임의 double값을 반환한다(1.0은 범위에 포함되지 않는다)|
 |static double rint(doube a)|주어진 double 값과 가장 가까운 정수 값을 double형으로 반환한다, 단 두 정수의 정가운데 있는 값(1.5, 2.5, 3.5 등)은 짝수를 반환한다|
 |static long round(double a) <br> static long round(float a)|소수점 첫재자리에서 반올림한 정수값(long)을 반환한다, 두 정수의 정가운데 있는 값은 항상 큰 정수를 반환한다|
+
+#### Math 메서드 예시
+
+```java
+
+import static java.lang.Math.*;
+
+    public static void main(String[] args) {
+        double val = 90.7552;
+        System.out.println("round(" + val + ")=" + round(val)); // 반올림
+
+        val *= 100;
+        System.out.println("round(" + val + ")=" + round(val)); // 반올림
+
+        System.out.println("round(" + val + ")/100=" + round(val)/100); // 반올림(정수)
+        System.out.println("round(" + val + ")/100.0=" + round(val/100.0)); // 반올림(소수점 조정)
+        System.out.println();
+
+        System.out.println(ceil(1.1)); // 올림
+        System.out.println(floor(1.5)); // 버림
+        System.out.println(round(1.1)); // 반올림
+        System.out.println(round(1.5)); // 반올림
+        System.out.println(rint(1.5)); // 반올림
+        System.out.println(round(-1.5)); // 반올림
+        System.out.println(rint(-1.5)); // 반올림
+        System.out.println(ceil(-1.5)); // 올림
+        System.out.println(floor(-1.5)); // 버림
+    }
+
+/*
+Result:
+round(90.7552)=91
+round(9075.52)=9076
+round(9075.52)/100=90
+round(9075.52)/100.0=91
+
+2.0
+1.0
+1
+2
+2.0
+-1
+-2.0
+-1.0
+-2.0
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.13) 래퍼(wrapper) 클래스
+
+* JAVA에서는 8 개의 기본형을 객체로 다루지 않는다
+
+* 경우에 따라 기본형 변수도 객체로 다뤄야 해야 한다(매개변수로 객체를 요구, 기본형 값이 아닌 객체로 저장해야 할 때, 객체간의 비교가 필요할 때 등)
+
+* 래퍼(wrapper)클래스를 통해 기본형 값을 객체로 다룰 수 있다
+
+* 래퍼 클래스들은 모두 equals()가 오버라이딩 되어 있어 주소 값이 아닌 객체가 가지는 값을 비교한다
+
+* 래퍼 클래스들은 모두 toString()도 오버라이딩 되어 있어 객체가 가지고 있는 값을 문자열로 변환하여 반환한다
+
+* 이 외에도 래퍼 클래스들은 모두 MAX_VALUE, MIN_VALUE, SIZE, BYTES, TYPE 등의 static 상수를 공통적으로 가지고 있다
+
+#### <래퍼(wrapper) 클래스 Table>
+
+|기본형|래퍼클래스|생성자|
+|:---:|:---:|:---:|
+|boolean|Boolean|Boolean(boolean value) <br> Boolean(String s|
+|char|Character|Character(char value)|
+|byte|Byte|Byte(byte value) <br> Byte(String s)|
+|short|Short|Short(short value) <br> Shourt(String s)|
+|int|Integer|Integer(int value) <br> Integer(Sting s)|
+|long|Long|Long(long value) <br> Long(String s)|
+|float|Float|Float(double value) <br> Float(float value) <br> Float(String s)|
+|double|Double|Double(double value) <br> Double(String s)|
+
+#### 래퍼(wrapper) 클래스 예시
+
+```java
+
+    public static void main(String[] args) {
+        Integer i = new Integer(100);
+        Integer i2 = new Integer(100);
+
+        System.out.println("i==i2 ? " + (i == i2));
+        System.out.println("i.equals(i2) ? " + i.equals(i2));
+        System.out.println("i.compareTo(i2) = " + i.compareTo(i2));
+        System.out.println("i.toString() = " + i.toString(i2));
+
+        System.out.println("MAX_VALUE = " + Integer.MAX_VALUE);
+        System.out.println("MIN_VALUE = " + Integer.MIN_VALUE);
+        System.out.println("SIZE = " + Integer.SIZE);
+        System.out.println("BYTES = " + Integer.BYTES);
+        System.out.println("TYPE = " + Integer.TYPE);
+    }
+
+/*
+Result:
+i==i2 ? false
+i.equals(i2) ? true
+i.compareTo(i2) = 0
+i.toString() = 100
+MAX_VALUE = 2147483647
+MIN_VALUE = -2147483648
+SIZE = 32
+BYTES = 4
+TYPE = int
+*/
+
+```
+******************************************************************************************************************************************************************************************
+
+### 9.14) Number클래스
+
+* Number 클래스는 추상 클래스로 내부적으로 숫자를 멤버변수로 갖는 래퍼 클래스들의 조상이다
+
+* 그 외 BigInteger (long으로 다룰 수 없는 큰 범위의 정수), BigDecimal (double로 다룰 수 없는 큰 범위의 소수점수)가 있다
+
+#### Number클래스
+```java
+public abstract class Number implements java.io.Serializable {
+	public abstract int intValue();
+	public abstract long longValue();
+	public abstract float floatValue();
+	public abstract double doubleValue();
+
+	public byte byteValue() {
+		return(byte)intValue;
+	}
+	public Short shortValue() {
+		return(short)intValue;
+	}
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.14) 문자열을 숫자로 변환하기
+
+* '타입.parse타입(String s)' 형식의 메서드는 반환값이 기본형이고 '타입.valueOf()' 메서드는 반환값이 래퍼 클래스 타입이다
+
+* 문자열이 10진수가 아닌 다른 진법(radix)의 숫자일 때도 변환이 가능하다
+
+#### <문자열 숫자 변환 Table>
+
+|문자열 → 기본형|기본형 → 문자열|
+|:---:|:---:|
+|byte b = Byte.parseByte("100"); <br> short s = short.parseShort("100"); <br> int i = integer.parseInt("100); <br> long l = Long.parseLong("100"); <br> float f = Float.parseFloat("3.14"); <br> double d = Double.parseDouble("3.14")| byte b = Byte.valueOf("100"); <br> short s = short.valueOf("100"); <br> int i = integer.valueOf("100); <br> long l = Long.valueOf("100"); <br> float f = Float.valueOf("3.14"); <br> double d = Double.valueOf("3.14")|
+
+#### 문자열 숫자 변환 진법 지정
+
+```java
+
+static int parseInt(String s, int radix) 
+static Integer valueOf(String s, int radix)
+// 문자열 s를 radix진법으로 인식한다
+
+```
+
+#### 문자열을 숫자로 변환하기 예시
+
+```java
+    public static void main(String[] args) {
+        int i = new Integer("100").intValue();
+        int i2 = Integer.parseInt("100");
+        int i3 = Integer.valueOf("100");
+
+        int i4 = Integer.parseInt("100", 2);
+        int i5 = Integer.parseInt("100", 8);
+        int i6 = Integer.parseInt("100", 16);
+        int i7 = Integer.parseInt("FF", 16);
+//      int i8 = Integer.parseInt("FF")    // 진법 누락으로 NumberFormatException 발생
+
+        Integer i9 = Integer.valueOf("100", 2);
+        Integer i10 = Integer.valueOf("100", 8);
+        Integer i11 = Integer.valueOf("100", 16);
+        Integer i12 = Integer.valueOf("FF", 16);
+//      Integer i13 = Integer.valueOf("FF") // 진법 누락으로 NumberFormatException 발생
+
+        System.out.println(i);
+        System.out.println(i2);
+        System.out.println(i3);
+        System.out.println("100(2) -> " + i4);
+        System.out.println("100(8) -> " + i5);
+        System.out.println("100(16) -> " + i6);
+        System.out.println("FF(16) -> " + i7);
+
+        System.out.println("100(2) -> " + i9);
+        System.out.println("100(8) -> " + i10);
+        System.out.println("100(16) -> " + i11);
+        System.out.println("FF(16) -> " + i12);
+    }
+/*
+Result:
+100
+100
+100
+100(2) -> 4
+100(8) -> 64
+100(16) -> 256
+FF(16) -> 25
+100(2) -> 4
+100(8) -> 64
+100(16) -> 256
+FF(16) -> 255
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 9.15) 문자열을 숫자로 변환하기
+
+

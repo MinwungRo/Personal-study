@@ -2613,7 +2613,7 @@ round(9075.52)/100.0=91
 
 |기본형|래퍼클래스|생성자|
 |:---:|:---:|:---:|
-|boolean|Boolean|Boolean(boolean value) <br> Boolean(String s|
+|boolean|Boolean|Boolean(boolean value) <br> Boolean(String s)|
 |char|Character|Character(char value)|
 |byte|Byte|Byte(byte value) <br> Byte(String s)|
 |short|Short|Short(short value) <br> Shourt(String s)|

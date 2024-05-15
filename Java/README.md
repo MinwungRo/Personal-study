@@ -2899,6 +2899,7 @@ TimeZone(-12 ~ +12): 1
 ```
 #### Calendar 클래스 예시2
 ```java
+    public static void main(String[] args) {
         final String[] DAY_OF_WEEK = {"", "일", "월", "화", "수", "목", "금", "토"};
 
         Calendar date1 = Calendar.getInstance();
@@ -2917,7 +2918,6 @@ TimeZone(-12 ~ +12): 1
     public static String toString(Calendar date) {
         return date.get(Calendar.YEAR)+"년 " + (date.get(Calendar.MONTH)+1) + "월 " + date.get(Calendar.DATE) + "일 ";
     }
-}
 /*
 Result:
 date1은 2019년 4월 29일 월요일이고, 

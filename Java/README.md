@@ -2824,5 +2824,106 @@ intg2 + i3 = 40
 
 ******************************************************************************************************************************************************************************************
 
+## 10) 날짜와 시간
 
+### 10.1) Calendar 클래스
+
+* Calendar 클래스는 추상클래스이므로 직접 객체를 생성할 수 없으며, 메서드틀 통해서 구현된 클래스의 인스터스를 얻어야 한다
+
+* getInstance()를 통해서 얻은 인스턴스는 현재 시스템의 날짜와 시간에 대한 정보를 담고 있다
+
+* 날짜와 시간을 원하는 값으로 변경하려면 set메서드를 사용하면 된다
+ 
+#### Calendar 클래스
+```java
+Calendar cal = new Calendar(); // 에러 > 추상클래스는 인스턴스를 생성할 수 없다
+Calendar cal = Calendar.getInstance(); // OK > getInstance()메서드는 Calendar 클래스를 구현한 클래스의 인스턴스를 반환한다
+```
+
+#### Calendar 클래스
+```java
+void set(int year, int month, int date, int hourOfday, int minute, int second)
+```
+
+
+#### Calendar 클래스 예시
+```java
+
+    public static void main(String[] args) {
+
+        Calendar today = Calendar.getInstance();
+        System.out.println("이 해의 년도: " + today.get(Calendar.YEAR));
+        System.out.println("월(0~11, 0:1월): " + today.get(Calendar.MONTH));
+        System.out.println("이 해의 몇 째 주: " + +today.get(Calendar.WEEK_OF_MONTH));
+        System.out.println("이 달의 몇 째 주: " + today.get(Calendar.WEEK_OF_YEAR));
+
+        System.out.println("이 달의 몇 일: " + today.get(Calendar.DATE));
+        System.out.println("이 달의 몇 일: " + today.get(Calendar.DAY_OF_MONTH));
+        System.out.println("이 해의 몇 일: " + today.get(Calendar.DAY_OF_YEAR));
+        System.out.println("요일(1~7, 1:일요일): " + today.get(Calendar.DAY_OF_WEEK));
+        System.out.println("이 달의 몇 째 요일: " + today.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+
+        System.out.println("오전_오후(0:오전, 1:오후): " + today.get(Calendar.AM_PM));
+        System.out.println("시간(0~11): " + today.get(Calendar.HOUR));
+        System.out.println("시간(0~23): " + today.get(Calendar.HOUR_OF_DAY));
+        System.out.println("분(0~59): " + today.get(Calendar.MINUTE));
+        System.out.println("초(0~59): " + today.get(Calendar.SECOND));
+        System.out.println("1000분의 1초(0~999): " + today.get(Calendar.MILLISECOND));
+        System.out.println("TimeZone(-12 ~ +12): " + today.get(Calendar.ZONE_OFFSET / (60 * 60 * 1000)));
+        System.out.println("이 달의 마지막 날: " + today.getActualMaximum(Calendar.DATE));
+
+/*
+Result:
+이 해의 년도: 2024
+월(0~11, 0:1월): 4
+이 해의 몇 째 주: 3
+이 달의 몇 째 주: 20
+이 달의 몇 일: 16
+이 달의 몇 일: 16
+이 해의 몇 일: 137
+요일(1~7, 1:일요일): 5
+이 달의 몇 째 요일: 3
+오전_오후(0:오전, 1:오후): 0
+시간(0~11): 0
+시간(0~23): 0
+분(0~59): 2
+초(0~59): 55
+1000분의 1초(0~999): 803
+TimeZone(-12 ~ +12): 1
+이 달의 마지막 날: 31
+
+*/
+
+    }
+}
+```
+#### Calendar 클래스 예시2
+```java
+        final String[] DAY_OF_WEEK = {"", "일", "월", "화", "수", "목", "금", "토"};
+
+        Calendar date1 = Calendar.getInstance();
+        Calendar date2 = Calendar.getInstance();
+
+        // month의 경우 0부터 시작하기 때문에 4월인 경우, 3으로 지정해야한다
+        date1.set(2019, 3, 29); // 2019년 4월 29일로 설정
+        System.out.println("date1은 " + toString(date1) + DAY_OF_WEEK[date1.get(Calendar.DAY_OF_WEEK)] + "요일이고, ");
+        System.out.println("오늘(date2)은 " + toString(date2) + DAY_OF_WEEK[date2.get(Calendar.DAY_OF_WEEK)] + "요일입니다.");
+
+        //두 날짜간의 차이를 얻으려면, getTimeInMillis() 천분의 일초 단위로 변환해야한다
+        long difference = (date2.getTimeInMillis() - date1.getTimeInMillis())/1000;
+        System.out.println("그 날(date1)부터 지금(date2)까지 " + difference + "초가 지났습니다");
+        System.out.println("일(day)로 계산하면 " + difference / (24 * 60 * 60) + "일입니다."); // 1일 = 24 * 60 * 60
+    }
+    public static String toString(Calendar date) {
+        return date.get(Calendar.YEAR)+"년 " + (date.get(Calendar.MONTH)+1) + "월 " + date.get(Calendar.DATE) + "일 ";
+    }
+}
+/*
+Result:
+date1은 2019년 4월 29일 월요일이고, 
+오늘(date2)은 2024년 5월 16일 목요일입니다.
+그 날(date1)부터 지금(date2)까지 159321600초가 지났습니다
+일(day)로 계산하면 1844일입니다.
+*/
+```
 

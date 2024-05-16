@@ -19,6 +19,8 @@
 8. [예외 처리](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#8-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC-exception-handling)
 
 9. [java.lang 패키지와 유용한 클래스](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#9-javalang%ED%8C%A8%ED%82%A4%EC%A7%80%EC%99%80-%EC%9C%A0%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%9E%98%EC%8A%A4)
+
+10. [날짜와 시간](https://github.com/MinwungRo/Personal-study/edit/main/Java/README.md#10-%EB%82%A0%EC%A7%9C%EC%99%80-%EC%8B%9C%EA%B0%84)
 ******************************************************************************************************************************************************************************************
 
 ## 1. 변수(Variable)
@@ -2924,6 +2926,92 @@ date1은 2019년 4월 29일 월요일이고,
 오늘(date2)은 2024년 5월 16일 목요일입니다.
 그 날(date1)부터 지금(date2)까지 159321600초가 지났습니다
 일(day)로 계산하면 1844일입니다.
+*/
+```
+
+#### Calendar 예시 3
+```java
+
+    public static void main(String[] args) {
+        final int[] TIME_UNIT = {3600, 60, 1};
+        final String[] TIME_UNIT_NAME = {"시간", "분", "초"};
+
+        Calendar time1 = Calendar.getInstance();
+        Calendar time2 = Calendar.getInstance();
+
+        time1.set(Calendar.HOUR_OF_DAY, 10);
+        time1.set(Calendar.MINUTE, 20);
+        time1.set(Calendar.SECOND, 20);
+
+        time2.set(Calendar.HOUR_OF_DAY, 20);
+        time2.set(Calendar.MINUTE, 30);
+        time2.set(Calendar.SECOND, 10);
+
+        System.out.println("time1: " + time1.get(Calendar.HOUR_OF_DAY) + "시 " + time1.get(Calendar.MINUTE) + "분 "
+                + time1.get(Calendar.SECOND) + "초");
+        System.out.println("time2: " + time2.get(Calendar.HOUR_OF_DAY) + "시 " + time2.get(Calendar.MINUTE) + "분 "
+                + time2.get(Calendar.SECOND) + "초");
+
+        long difference = Math.abs(time2.getTimeInMillis() - time1.getTimeInMillis())/1000;
+        System.out.println("time1과 time2의 차이는 " + difference + "초 입니다.");
+
+        String tmp = "";
+        for (int i = 0; i < TIME_UNIT.length; i++ ) {
+            tmp += difference / TIME_UNIT[i] + TIME_UNIT_NAME[i];
+            difference %= TIME_UNIT[i];
+        }
+        System.out.println("시분초로 변환하면 " + tmp + "입니다.");
+    }
+
+/*
+Result:
+time1: 10시 20분 20초
+time2: 20시 30분 10초
+time1과 time2의 차이는 36590초 입니다.
+시분초로 변환하면 10시간9분50초입니다.
+*/
+```
+#### Calendar 예시4
+```java
+
+    public static void main(String[] args) {
+        Calendar date = Calendar.getInstance();
+        date.set(2019, 7, 31);
+
+        System.out.println(toString(date));
+        System.out.println("= 1일 후 =");
+        date.add(Calendar.DATE, 1);
+        System.out.println(toString(date));
+
+        System.out.println(" = 6달 전 =");
+        date.add(Calendar.MONTH, -6);
+        System.out.println(toString(date));
+
+        System.out.println(" = 31일 후(roll) =");
+        date.roll(Calendar.DATE, 31);
+        System.out.println(toString(date));
+
+        System.out.println(" = 31일 후(add) =");
+        date.add(Calendar.DATE, 31);
+        System.out.println(toString(date));
+
+    }
+
+    public static String toString(Calendar date) {
+        return date.get(Calendar.YEAR) + "년 " + (date.get(Calendar.MONTH)+1) + "월 " + date.get(Calendar.DATE) + "일";
+    }
+
+/*
+Result:
+2019년 8월 31일
+= 1일 후 =
+2019년 9월 1일
+ = 6달 전 =
+2019년 3월 1일
+ = 31일 후(roll) =
+2019년 3월 1일
+ = 31일 후(add) =
+2019년 4월 1일
 */
 ```
 

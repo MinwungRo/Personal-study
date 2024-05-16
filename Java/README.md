@@ -2334,7 +2334,7 @@ dog-cat-bear
 
 |기본형 → 문자열|문자열 → 기본형|
 |:---:|:---:|
-|String Strin.valueOf(boolean b) <br> String Strin.valueOf(char c) <br> String Strin.valueOf(int i) <br> String Strin.valueOf(long l) <br> String Strin.valueOf(float f) <br> String Strin.valueOf(double d)|boolean Boolean.parseBoolean(String s) <br> byte Byte.parseByte(String s) <br> short Short.parseShort(String s) <br> int Integer.parseInt(String s) <br> long Log.paseLong(String s) <br> float Float.parseFloat(String s) <br> double double.parseDouble(String s)|
+|String String.valueOf(boolean b) <br> String String.valueOf(char c) <br> String String.valueOf(int i) <br> String String.valueOf(long l) <br> String String.valueOf(float f) <br> String String.valueOf(double d)|boolean Boolean.parseBoolean(String s) <br> byte Byte.parseByte(String s) <br> short Short.parseShort(String s) <br> int Integer.parseInt(String s) <br> long Log.paseLong(String s) <br> float Float.parseFloat(String s) <br> double double.parseDouble(String s)|
 
 #### 문자열 및 기본형 변환 예시
 
@@ -2695,7 +2695,7 @@ public abstract class Number implements java.io.Serializable {
 
 |문자열 → 기본형|기본형 → 문자열|
 |:---:|:---:|
-|byte b = Byte.parseByte("100"); <br> short s = short.parseShort("100"); <br> int i = integer.parseInt("100); <br> long l = Long.parseLong("100"); <br> float f = Float.parseFloat("3.14"); <br> double d = Double.parseDouble("3.14")| byte b = Byte.valueOf("100"); <br> short s = short.valueOf("100"); <br> int i = integer.valueOf("100); <br> long l = Long.valueOf("100"); <br> float f = Float.valueOf("3.14"); <br> double d = Double.valueOf("3.14")|
+|byte b = Byte.parseByte("100"); <br> short s = short.parseShort("100"); <br> int i = Integer.parseInt("100); <br> long l = Long.parseLong("100"); <br> float f = Float.parseFloat("3.14"); <br> double d = Double.parseDouble("3.14")| byte b = Byte.valueOf("100"); <br> short s = short.valueOf("100"); <br> int i = integer.valueOf("100); <br> long l = Long.valueOf("100"); <br> float f = Float.valueOf("3.14"); <br> double d = Double.valueOf("3.14")|
 
 #### 문자열 숫자 변환 진법 지정
 

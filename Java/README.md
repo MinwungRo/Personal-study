@@ -3015,3 +3015,290 @@ Result:
 */
 ```
 
+******************************************************************************************************************************************************************************************
+
+## 11) 형식화 클래스
+
+#### 11.1) DecimalFormat
+
+* 형식화 클래수 중에서 숫자를 형식화 하는데 사용되는 것이 Decimalformat이다
+
+```java
+double number = 1234567.89;
+DecimalFormat df = new DecimalFormat("#.#E0")
+String result = df.format(number);
+// result
+// "1.2e6"
+```
+
+#### <DecimalFormat Table>
+
+
+|기호|의미|패턴|결과(1234567.89)|
+|:---:|:---:|:---:|:---:|
+|0|10진수(값이 없을 때는 0)|0 <br> 0.0 <br> 0000000000.0000|1234568 <br> 1234567.9 <br> 0001234567.8900|
+|#|10진수|# <br> #.# <br> #########.#### | 1234568 <br> 1234567.9 <br> 1234567.89|
+|.|소수점|#.#|1234567.9|
+|-|음수부호|#.#- <br> -#.#|1234567.9- <br> -1234567.9|
+|,|단위 구분자|#,###.## <br> #,####.##|1,234,567.89 <br> 123,4567.89|
+|;|패턴구분자|#,###.##+;#,###.##-|1,234,567.89+(양수일 때) <br> 1,234,567.89-|
+|%|퍼센트|#.#%|123456789%|
+|\u2030|퍼밀(퍼센트 x 10)|#.#\u2030|1234567890‰|
+|\u00A4|통화|\u00A4 #,###| ₩ 1,234,568|
+|`|escape문자|'#'#,### <br> "#,###|#1,234,568 <br> '1,234,568|
+|E|지수기호|#E0 <br> 0E0 <br> ##E0 <br> ####E0 <br> 0000E0 <br> ###.#######E0|.1E7 <br> 1E6 <br> 1.2#6 <br> 12E5 <br> 123.5E4 <br> 1235E3 <br> 1.23456789E6|
+
+
+#### DecimalFormat 예시
+
+```java
+
+    public static void main(String[] args) {
+        double number = 1234567.89;
+        String[] pattern = {
+                "0",
+                "#",
+                "0.0",
+                "0000000000.0000",
+                "##########.####",
+                "#.#-",
+                "-#.#",
+                "#,###.##",
+                "#,####.##",
+                "#E0",
+                "0E0",
+                "##E0",
+                "00E0",
+                "####E0",
+                "0000E0",
+                "#.#E0",
+                "0.0E0",
+                "0,000000000E0",
+                "00.00000000E0",
+                "000.0000000E0",
+                "#,#########E0",
+                "##.########E0",
+                "###.#######E0",
+                "#,###.##+;#,###.##-",
+                "#.#%",
+                "#.#\u2030",
+                "\u00A4 #,###",
+                "'#'#,###",
+                "''#,###",
+        };
+
+        for (int i = 0; i < pattern.length; i++) {
+            DecimalFormat df = new DecimalFormat(pattern[i]);
+            System.out.printf("%19s : %s\n", pattern[i], df.format(number));
+        }
+    }
+
+/* Result:
+                  0 : 1234568
+                  # : 1234568
+                0.0 : 1234567.9
+    0000000000.0000 : 0001234567.8900
+    ##########.#### : 1234567.89
+               #.#- : 1234567.9-
+               -#.# : -1234567.9
+           #,###.## : 1,234,567.89
+          #,####.## : 123,4567.89
+                #E0 : .1E7
+                0E0 : 1E6
+               ##E0 : 1.2E6
+               00E0 : 12E5
+             ####E0 : 123.5E4
+             0000E0 : 1235E3
+              #.#E0 : 1.2E6
+              0.0E0 : 1.2E6
+      0,000000000E0 : 1234567890E-3
+      00.00000000E0 : 12.34567890E5
+      000.0000000E0 : 123.4567890E4
+      #,#########E0 : 1234567.89E0
+      ##.########E0 : 1.23456789E6
+      ###.#######E0 : 1.23456789E6
+#,###.##+;#,###.##- : 1,234,567.89+
+               #.#% : 123456789%
+               #.#‰ : 1234567890‰
+            ¤ #,### : ₩ 1,234,568
+           '#'#,### : #1,234,568
+            ''#,### : '1,234,568
+*/
+
+```
+
+### DecimalFormat 예시 2
+
+```java
+
+    public static void main(String[] args) {
+        DecimalFormat df = new DecimalFormat("#,###.##");
+        DecimalFormat df2 = new DecimalFormat("#,####E0");
+
+        try {
+            Number num = df.parse("1,234,567.89"); // parse 메서드를 이용하면 기호와 문자가 포함된 문자열을 숫자로 쉽게 변환할 수 있다
+            System.out.print("1,234,567.89" + " -> ");
+
+            double d = num.doubleValue(); // doubleValue()는 Number에 저장된 값을 double형의 값으로 변환하여 반환한다
+            System.out.print(d + " ->");
+
+            System.out.println(df2.format(num));
+        } catch (Exception e) {}
+    }
+/*
+Result:
+1,234,567.89 -> 1234567.89 ->12.346E5
+*/
+```
+
+#### 11.2) SimpleDateFormat
+
+* Data와 Calendar만으로 날짜 데이터를 원하는 형태로 다양하게 출력하는 것은 용이하지 않다, simpleDateFormat을 사용하면 이러한 문제들이 간단히 해결된다
+
+#### SimpleDateFormat
+
+Date today = new Date();
+SimpleDateformat df = new SimpleDateFormat("yyyy-mm-dd");
+
+// 오늘 날짜를 yyyy-MM-dd 형태로 변환하여 반환한다
+String result = df.format(today)
+
+#### <SimpleDateFormat Table>
+
+
+|기호|의미|보기|
+|:---:|:---:|:---:|
+|G|연대(BC,AD)|AD|
+|y|년도|2006|
+|M|월(1~12 혹은 1월~12월)|10 혹은 10월, OCT|
+|w|년의 몇 번째 주(1~53)|50|
+|W|월의 몇 번째 주(1~5)|4|
+|D|년의 몇 번째 일(1~366)|100|
+|d|월의 몇 번째 일(1~31)|15|
+|F|월의 몇 번재 요일(1~5)|1|
+|E|요일|월|
+|a|오전/오후(AM,PM)|PM|
+|H|시간(0~23)|20|
+|k|시간(1~24)|13|
+|K|시간(0~11)|10|
+|h|시간(1~12)|11|
+|m|분(0~59)|35|
+|s|초(0~59)|55|
+|S|천분의 일초(0~999)|253|
+|z|Time zone(General time zone)|GMT+9:00|
+|Z|Time zone(RFC 822 time zone)|+0900|
+|'|escape문자(특수문자를 표현하는데 사용|없음|
+
+#### SimpleDateFormat 예시 1
+
+```java
+    public static void main(String[] args) {
+        Date today = new Date();
+
+        SimpleDateFormat sdf1, sdf2, sdf3, sdf4;
+        SimpleDateFormat sdf5, sdf6, sdf7, sdf8, sdf9;
+
+        sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        sdf2 = new SimpleDateFormat("''yy년 MMM dd일 E요일");
+        sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss");
+        sdf4 = new SimpleDateFormat("yyy-MM-dd hh:mm:ss a");
+
+        sdf5 = new SimpleDateFormat("오늘은 올 해의 D번째 날입니다.");
+        sdf6 = new SimpleDateFormat("오늘은 이 달의 d번째 날입니다.");
+        sdf7 = new SimpleDateFormat("오늘은 올 해의 w번째 주입니다.");
+        sdf8 = new SimpleDateFormat("오늘은 이 달의 W번째 주입니다.");
+        sdf9 = new SimpleDateFormat("오늘은 이 달의 F번째 E요일입니다.");
+
+        System.out.println(sdf1.format(today)); // format(Date d)
+        System.out.println(sdf2.format(today));
+        System.out.println(sdf3.format(today));
+        System.out.println(sdf4.format(today));
+        System.out.println();
+        System.out.println(sdf5.format(today));
+        System.out.println(sdf6.format(today));
+        System.out.println(sdf7.format(today));
+        System.out.println(sdf8.format(today));
+        System.out.println(sdf9.format(today));
+    }
+
+/*
+Result:
+2024-05-20
+'24년 5월 20일 월요일
+2024-05-20 22:53:11.011
+2024-05-20 10:53:11 오후
+
+오늘은 올 해의 141번째 날입니다.
+오늘은 이 달의 20번째 날입니다.
+오늘은 올 해의 21번째 주입니다.
+오늘은 이 달의 4번째 주입니다.
+오늘은 이 달의 3번째 월요일입니다.
+*/
+```
+
+#### SimpleDateFormat 예시 2
+
+```java
+
+    public static void main(String[] args) {
+        DateFormat df = new SimpleDateFormat("yyyy년 MM월 dd일");
+        DateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
+
+        try {
+            Date d = df.parse("2019년 11월 23일"); // parse(String source)는 문자열source를 날짜 Data 인스턴스로 변환해주기 때문에 유용하게 쓰일 수 있다
+            System.out.println(df2.format(d));
+        } catch(Exception e) {}
+    }
+
+/*
+Result:
+2019/11/23
+*/
+```
+
+#### SimpleDateFormat 예시 3
+
+```java
+
+    public static void main(String[] args) {
+        String pattern = "yyyy/MM/dd";
+        DateFormat df = new SimpleDateFormat(pattern);
+        Scanner s = new Scanner(System.in);
+
+        Date inDate = null;
+
+        System.out.println("날짜를" + pattern + "의 형태로 입력해주세요. (입력 예시: 2019/12/31)");
+        while (s.hasNextLine()) {
+            try {
+                inDate = df.parse(s.nextLine());
+                break;
+            } catch (Exception excetion) {
+                System.out.println("날짜를 " + pattern + "의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)");
+            }
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(inDate);
+        Calendar today = Calendar.getInstance();
+        long day = (cal.getTimeInMillis() - today.getTimeInMillis())/(60*60*1000);
+        System.out.println("입력하신 날짜는 현재와 " + day + "시간 차이가 있습니다.");
+        }
+
+/*
+Result:
+날짜를yyyy/MM/dd의 형태로 입력해주세요. (입력 예시: 2019/12/31)
+2
+날짜를 yyyy/MM/dd의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)
+1
+날짜를 yyyy/MM/dd의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)
+1
+날짜를 yyyy/MM/dd의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)
+ㅁ
+날짜를 yyyy/MM/dd의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)
+1998-02-13
+날짜를 yyyy/MM/dd의 형태로 다시 입력해주세요. (입력 예시: 2019/12/31)
+2024/05/20
+입력하신 날짜는 현재와 -23시간 차이가 있습니다.
+*/
+
+```

@@ -3400,7 +3400,59 @@ Result:
 |int size()|Collcetion에 저장된 객체의 개수를 반환한다|
 |Object[] toArray()|Collcetion에 저장된 객체를 객체배열(Object[])로 반환한다|
 |Object[] toArray(Object[]a)|지정된 배열에 Collection의 객체를 저장해서 반환한다|
-  
 
+ ******************************************************************************************************************************************************************************************
+
+### 12.5) Map인터페이스
+
+* Map인터페이스는 키(key)와 값(value)을 하나의 쌍으로 묶어서 저장하는 컬렉션 클래스를 구현하는데 사용된다
+
+* 키는 중복될 수 없지만 값은 중복을 허용한다(기존에 저장된 데이터와 중복된 키와 값을 저장하면 기존의 값은 없어지고 마지막 저장 값이 남게 된다)
+
+* Map인터페이스를 구현한 클래스로는 Hashtable, HashMap, LinkedHashMap, SortedMap, TreeMap 등이 있다
+
+
+#### <Map인터페이스 Table>
+
+* values()에서는 반환 타입이 Collcetion(Map인터페이스는 값은 중복을 허용하기 때문), keySet() 에서는 반환타입이 Set(키는 중복을 허용하지 않기 때문)이다
+
+|인터페이스|특징|
+|:---:|:---:|
+|void clear()|Map의 모든 객체를 삭제한다|
+|boolean containsKey(Object key)|지정된 key객체와 일치하는 Map의 key객체가 있는지 확인한다|
+|boolean containsValue(Object value)|지정된 value객체와 일치하는 Map의 value객체가 있는지 확인한다|
+|Set entrySet()|Map에 저장되어 있는 key-value쌍을 Map.Entry타입의 객체로 저장한 Set으로 반환한다|
+|boolean equals(Object o)|동일한 Map인지 비교한다|
+|Object get(Object key)|지정한 key객체에 대응하는 value객체를 찾아서 반환한다|
+|int hashCode()|해시코드를 반환한다|
+|boolean isEmpty()|Map이 비어있는지 확인한다|
+|Set keySet()|Map에 저장된 모든 key객체를 반환한다|
+|Object put(Object key, Object value)|Map에 value객체를 key객체에 연결(mapping)하여 저장한다|
+|void putAll(Map t)|지정된 Map의 모든 key-value쌍을 추가한다|
+|Object reomve(object key)|지정한 key객체와 일치하는 key-value객체를 삭제한다|
+|int size()|Map에 저장된 key-value쌍의 개수를 반환한다|
+|Collcetion values()|Map에 저장된 모든 value객체를 반환한다|
+
+******************************************************************************************************************************************************************************************
+
+### 12.6) ArrayList
+
+* ArrayList는 List인터페이스를 구현하기 때문에 데이터의 저장순서가 유지되고 중복을 허용한다
+
+* 기존의 Vector를 개선하였으며 구현원리와 기능적인 측면에서 동일하다고 볼 수 있다
+
+* Object 배열을 이용해서 데이터르 순차적으로 저장한다
+
+* 배열에 더 이상 저장할 공간이 없으면 보다 큰 새로운 배열을 생성하고 기존 배열 내용을 새로운 배열로 복사한 다음 저장된다
+
+#### ArrayList
+
+```java
+public class ArrayList extends AbstractList
+	implements List, RandomAccess, Colneable, java.io.Serializable {
+		transient Object[] elementData; // object배열
+}
+
+```
 
 

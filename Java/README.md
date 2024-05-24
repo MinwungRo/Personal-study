@@ -3445,6 +3445,10 @@ Result:
 
 * 배열에 더 이상 저장할 공간이 없으면 보다 큰 새로운 배열을 생성하고 기존 배열 내용을 새로운 배열로 복사한 다음 저장된다
 
+* ArrayList의 요소를 삭제하는 경우, 삭제할 객체의 바로 아래에 있는 데이터를 한 칸씩 위로 복사해서 삭제할 객체를 덮어쓴다
+
+* 삭제할 객체가 마지막 데이터라면, 복사할 필요 없이 단순히 null로 변경해주기만 하면 된다
+
 #### ArrayList
 
 ```java
@@ -3455,4 +3459,129 @@ public class ArrayList extends AbstractList
 
 ```
 
+#### <ArrayList의 메서드 Table>
 
+|메서드|설명|
+|:---:|:---|
+|ArrayLst()|크기가 0인 ArrayList를 생성|
+|ArrayList(Collection c)|주어진 컬렉션이 저장된 ArrayList를 생성|
+|ArrayList(int initialCapacity)|지정된 초기용량을 갖는 ArrayList를 생성|
+|boolean add(Object o)|ArrayList의 마지막에 객체를 추가, 성공하면 true|
+|void add(int index, Object element)|지정된 위치(index)에 객체를 저장|
+|boolean addAll(Collection c)|주어진 컬렉션의 모든 객체를 저장한다|
+|boolean addAll(int index, Collection c)|지정된 위치부터 주어진 컬ㄹ렉션의 모든 객체를 저장한다|
+|void clear()|ArrayList를 완전히 비운다|
+|Object clone()|ArrayList를 복제한다|
+|boolean contains(Object o)|지정된 객체(o)가 ArrayList에 포함되어 있는지 확인|
+|void ensureCapacity(int minCapacity)|ArrayList의 용량이 최소한 minCapacity가 되도록 한다|
+|Object get(int index)|지정된 위치(index)에 저장된 객체를 반환한다|
+|int indexOf(Object o)|지정된 객체가 저장된 위치를 찾아 반환한다|
+|boolean isEmpty()|ArrayList가 비어있는지 확인한다|
+|Iterator iterator()|ArrayList의 Iterator를 반환|
+|int lastIndexOf(Object o)|객체(o)가 저장된 위치를 끝부터 역방향으로 검새해서 반환|
+|ListIterator listIterator()|ArrayList의 ListIterator를 반환|
+|ListIterator listiterator(int index)|ArrayList의 지정된 위치부터 시작하는 ListIterator를 반환|
+|Object remove(int index)|지정된 위치(index)에 있는 객체를 제거한다|
+|boolean remove(Object o)|지정한 객체를 제거한다(성공하면 true, 실패하면 false)|
+|boolean reomveAll(Collection c)|지정한 컬렉션에 저장된 것과 동일한 객체들을 ArrayList에서 제거한다|
+|boolean retainAll(Collcetion c)|ArrayList에 저장된 객체 중에서 주어진 컬렉션과 공통된 것들만을 남기고 나머지는 삭제한다|
+|Object set(int index, Object element)|주어진 객체(element)를 지정된 위치(index)에 저장한다|
+|int size()|ArrayList에 저장된 객체의 개수를 반환한다|
+|void sort(Comparator c)|지정된 정렬기준(c)으로 ArrayList를 정렬|
+|List subList(int fromIndex, int toIndex)|fromIndex부터 toIndex사이에 지정된 객체를 반환한다|
+|Object[]toArray()|ArrayList에 저장된 모든 객체들을 객체배열로 반환한다|
+|Object[]toArray(Object[]a)|ArrayList에 저장된 모든 객체들을 객체배열 a에 담아 반환한다|
+|void trimToSize()|용량을 크기에 맞게 줄인다(빈 공간을 없앤다)|
+
+#### ArrayList 예시
+
+```java
+
+    public static void main(String[] args) {
+        ArrayList list1 = new ArrayList(10);
+        list1.add(new Integer(5));
+        list1.add(new Integer(4));
+        list1.add(new Integer(2));
+        list1.add(new Integer(0));
+        list1.add(new Integer(1));
+        list1.add(new Integer(3));
+
+        ArrayList list2 = new ArrayList(list1.subList(1, 4));
+        print(list1, list2);
+
+        Collections.sort(list1); // list1과 list2를 정렬한다
+        Collections.sort(list2); // Collections.sort(List 1)
+        print(list1, list2);
+
+        System.out.println("list1.containsAll(list2: " + list1.containsAll(list2));
+
+        list2.add("B");
+        list2.add("C");
+        list2.add(3, "B"); // 인덱스가 3인 곳에 "A"를 추가
+        print(list1, list2);
+
+        list2.set(3, "AA"); // 인덱스가 3인 곳을 "AA"로 변경
+        print(list1, list2);
+
+        // list1에서 list2와 겹치는 부분만 남기고 나머지는 삭제한다
+        System.out.println("list1.retainAll(list2): " + list1.retainAll(list2));
+        print(list1, list2);
+
+        // list2에서 list1에 포함된 객체들을 삭제한다
+        for (int i = list2.size() - 1; i >= 0; i--) {
+            if (list1.contains(list2.get(i))) {
+                list2.remove(i);
+            }
+            print(list1, list2);
+        }
+    }
+
+    static void print(ArrayList list1, ArrayList list2) {
+        System.out.println("list1: " + list1);
+        System.out.println("list2: " + list2);
+        System.out.println();
+    }
+
+
+/*
+Result:
+list1: [5, 4, 2, 0, 1, 3]
+list2: [4, 2, 0]
+
+list1: [0, 1, 2, 3, 4, 5]
+list2: [0, 2, 4]
+
+list1.containsAll(list2: true
+list1: [0, 1, 2, 3, 4, 5]
+list2: [0, 2, 4, B, B, C]
+
+list1: [0, 1, 2, 3, 4, 5]
+list2: [0, 2, 4, AA, B, C]
+
+list1.retainAll(list2): true
+list1: [0, 2, 4]
+list2: [0, 2, 4, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [0, 2, 4, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [0, 2, 4, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [0, 2, 4, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [0, 2, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [0, AA, B, C]
+
+list1: [0, 2, 4]
+list2: [AA, B, C]
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.7)

@@ -3469,7 +3469,7 @@ public class ArrayList extends AbstractList
 |boolean add(Object o)|ArrayList의 마지막에 객체를 추가, 성공하면 true|
 |void add(int index, Object element)|지정된 위치(index)에 객체를 저장|
 |boolean addAll(Collection c)|주어진 컬렉션의 모든 객체를 저장한다|
-|boolean addAll(int index, Collection c)|지정된 위치부터 주어진 컬ㄹ렉션의 모든 객체를 저장한다|
+|boolean addAll(int index, Collection c)|지정된 위치부터 주어진 컬렉션의 모든 객체를 저장한다|
 |void clear()|ArrayList를 완전히 비운다|
 |Object clone()|ArrayList를 복제한다|
 |boolean contains(Object o)|지정된 객체(o)가 ArrayList에 포함되어 있는지 확인|

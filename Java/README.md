@@ -3597,6 +3597,210 @@ list2: [AA, B, C]
 
 ******************************************************************************************************************************************************************************************
 
-### 12.7) LinkedList
+### 12.8) ArrayList와 LinkedList의 비교
+
+* 배열은 각 요소들이 연속적으로 메모리 상에 존재하기에, 원하는 요소의 주소를 쉽게 읽어올 수 있다
+
+* LinkedList는 불연속적으로 위치한 각 요소들이 서로 연결된 것이 아니라, 처음부터 원하는 요소의 데이터까지 차레대로 따라가야 원하는 값을 얻을 수 있다
+
+* LinkedList는 저장해야 하는 데이터의 개수가 많아질수록 데이터를 읽어 오는 시간(access time)이 길어진다
+
+* 다루고자 하는 데이터의 개수가 불변일 경우는 ArrayList, 데이터 개수가 가변적이라면 LinkedList가 적절한 선택지이다
 
 
+#### <ArrayList와 LinkedList의 비교 Table>
+
+|컬렉션|읽기(access time)|추가/삭제|비고|
+|:---:|:---:|:---:|:---:|
+|ArrayList|빠르다|느리다|순간적인 추가삭제는 더 빠름 <br> 비효율적인 메모리 사용|
+|LinkedList|느리다|빠르다|데이터가 많을수록 접근성 저하|
+
+******************************************************************************************************************************************************************************************
+
+### 12.9) Stack과 Queue
+
+* 스택(stack)은 마지막에 저장한 데이터를 가장 먼저 꺼내게 되는 LIFO(Last In First Out) 구조이다
+
+* 큐(queue)는 처음에 저장한 데이터를 가장 먼저 꺼내게 되는 FIFO(First In First Out) 구조이다
+
+* 순차적으로 데이터를 추가하고 삭제하는 스택에는 ArrayList와 같은 배열기반의 컬렉션 클래스가 적합하다
+
+* 큐는 데이터를 꺼낼 때 항상 첫 번째 데이터를 삭제하므로 배열기반의 컬렉션 클래스를 사용한다면 데이터를 꺼낼 때마다 빈 공간을 채우기 위해 데이터의 복사가 발생하므로 비효율적이다, 따라서 데이터의 추가/삭제가 상대적으로 쉬운 LinkedList가 적합하다
+
+* 자바에서는 스택을 Stack 클래스로 구현하여 제공하지만, 큐는 Queue인터페이스로만 정의해두었다(따라서 Queue인터페이스를 구현한 클래스들 중 택하여 사용하면 된다)
+
+#### <Stack과 Queue의 메서드 Table>
+
+#### Stack의 메서드
+|메서드|설명|
+|:---:|:---:|
+|boolean empty()|Stack이 비어있는지 알려준다|
+|Object peek()|Stack의 맨 위에 저장된 객체를 반환, pop()과 달리 Stack에서 객체를 꺼내지는 않는다(비어있을 경우 EmptyStackException 발생|
+|Object pop()|Stack의 맨 위에 저장된 객체를 꺼낸다(비어 있을 때는 EmptyStackException 발생|
+|Object push(Object item)|Stack에 객체(item)을 저장한다|
+|int search(Object o)|Stack에서 주어진 객체(o)를 찾아서 그 위치를 반환, 못 찾으면 -1을 반환(배열과 달리 위치는 0이 아닌 1부터 시작, 맨 위의 요소가 1|
+
+#### Queue의 메서드
+|메서드|설명|
+|:---:|:---:|
+|boolean add(Object o)|지정된 개게츨 queue에 추가한다, 성공하면 true를 반환, 저장 공간이 부족하면 IllegalStateException 발생 |
+|Object remove()|Queue에서 객체를 꺼내 반환, 비어있으면 NoSuchElementException 발생|
+|Object element()|삭제없이 요소를 읽어온다, peek와 달리 Queue가 비었을 때 NoSuchElementException 발생|
+|boolean offer(Object o)|Queue에 객체를 저장, 성공하면 true 실패하면  false를 반환|
+|Object poll()|Queue에서 객체를 꺼내서 반환, 비어있으면 null을 반환|
+|Object peek()|삭제없이 요소를 읽어온다, Queue가 비어있으면 null을 반환|
+
+#### Stack과 Queue의 예시
+
+```java
+    public static void main(String[] args) {
+        Stack st = new Stack();
+        Queue q = new LinkedList();
+
+        st.push("0");
+        st.push("1");
+        st.push("2");
+
+        q.offer("0");
+        q.offer("1");
+        q.offer("2");
+
+        System.out.println("= Stack =");
+        while (!st.empty()) {
+            System.out.println(st.pop()); // 스택에서 요소 하나를 꺼내서 출력
+        }
+
+        System.out.println("= Queue =");
+        while (!q.isEmpty()) {
+            System.out.println(q.poll()); // 큐에서 요소 하나를 꺼내서 출력
+
+        }
+    }
+/*
+Result:
+= Stack =
+2
+1
+0
+= Queue =
+0
+1
+2
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.10) Stack과 Queue의 활용
+
+* 스택 활용 예시: 수식계산, 수식괄호검사, 워드프로세서의 undo/redo, 웹브라우저의 뒤로/앞으로
+
+* 큐의 활용 예시: 최근사용문서, 인쇄작업 대기목록, 버퍼(buffeR)
+
+#### Queue의 활용 예시
+
+```java
+    static Queue q = new LinkedList();
+    static final int MAX_SIZE = 5;
+
+    public static void main(String[] args) {
+        System.out.println("help를 입력하면 도움말을 볼 수 있습니다.");
+
+        while (true) {
+            System.out.print(">>");
+            try {
+                // 화면으로부터 라인단위로 입력받는다.
+                Scanner s = new Scanner(System.in);
+                String input = s.nextLine().trim();
+
+                if ("".equals(input)) continue;
+
+                if (input.equalsIgnoreCase("q")) {
+                    System.exit(0);
+                } else if (input.equalsIgnoreCase("help")) {
+                    System.out.println("help - 도움말을 보여줍니다.");
+                    System.out.println("q 혹은 Q - 프로그램을 종료합니다");
+                    System.out.println("history - 최근에 입력한 명령어를 " + MAX_SIZE + "개 보여줍니다");
+                } else if (input.equalsIgnoreCase("history")) {
+                    int i = 0;
+                    save(input); // 입력받은 명령어를 저장하고,
+
+                    LinkedList tmp = (LinkedList) q;
+                    ListIterator it = tmp.listIterator();
+
+                    while (it.hasNext()) {
+                        System.out.println(++i + "." + it.next());
+                    }
+                } else {
+                    save(input);
+                    System.out.println(input);
+                } // if(input.equalsIgonreCase("q")) {
+            } catch (Exception e) {
+                System.out.println("입력오류입니다");
+            }
+        }
+    }
+
+    public static void save(String input) {
+        // queue에 저장한다.
+        if (!"".equals(input)) {
+            q.offer(input);
+        }
+        // queue의 최대크기를 넘으면 제일 처음 입력된 것을 삭제한다.
+        if (q.size() > MAX_SIZE) { // size()는 Collection인터페이스에 정의
+            q.remove();
+        }
+    }
+}
+
+/*
+Result:
+help를 입력하면 도움말을 볼 수 있습니다.
+>>help
+help - 도움말을 보여줍니다.
+q 혹은 Q - 프로그램을 종료합니다
+history - 최근에 입력한 명령어를 5개 보여줍니다
+>>apple
+apple
+>>banana
+banana
+>>orange
+orange
+>>korea
+korea
+>>public
+public
+>>history
+1.banana
+2.orange
+3.korea
+4.public
+5.history
+>>q
+
+*/
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.11) Iterator, ListIterator, Enumeration
+
+* Iterator, ListIterator, Enumeration은 모두 컬렉션에 저장된 요소에 접근하는데 사용되는 인터페이스이다.
+
+* Iterator: 컬렉션에 저장된 요소를 접근하는데 사용되는 인터페이스
+
+* ListIterator: Iterator에 양방향 조회 기능 추가(List를 구현한 경우만 사용 가능)
+
+* Enumeration: Iterator의 구버전
+
+* 컬렉션에 저장된 각 요소에 접근하능 기능을 가진 Iterator 인터페이스를 정의하고, Collection 인터페이스에는 Iterator를 구현한 클래스의 인스턴스를 반환하는 Iterator()를 정의하고 있다
+
+#### Iterator
+
+```java
+	List list = new ArrayList(); // 다른 컬렉션으로 변경할 때는 이 부분만 고치면 된다
+	Iterator it = list.iterator();
+
+	while(it.hasNext()) { // bollean hasNext() 읽어올 요소가 있는지 확인
+		System.out.println(it.next()); // Object next() 다음 요소를 읽어옴
+```

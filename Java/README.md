@@ -3795,6 +3795,8 @@ public
 
 * 컬렉션에 저장된 각 요소에 접근하능 기능을 가진 Iterator 인터페이스를 정의하고, Collection 인터페이스에는 Iterator를 구현한 클래스의 인스턴스를 반환하는 Iterator()를 정의하고 있다
 
+* List클래스들은 저장순서를 유지하기에 Iterator를 이용한 결과값도 저장순서와 동일하지만 Set 클래스들은 처음에 저장된 순서와 같지 않다
+
 #### Iterator
 
 ```java
@@ -3804,3 +3806,42 @@ public
 	while(it.hasNext()) { // bollean hasNext() 읽어올 요소가 있는지 확인
 		System.out.println(it.next()); // Object next() 다음 요소를 읽어옴
 ```
+
+
+#### Iterator, ListIterator, Enumeration 예시
+
+```java
+
+    public static void main(String[] args) {
+        ArrayList list = new ArrayList();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+
+        Iterator it = list.iterator();
+
+        while (it.hasNext()) {
+            Object obj = it.next();
+            System.out.println(obj);
+        }
+    }
+
+/*
+Result:
+1
+2
+3
+4
+5
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.12) Map과 Iterator
+
+*

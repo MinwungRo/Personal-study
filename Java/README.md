@@ -3844,4 +3844,128 @@ Result:
 
 ### 12.12) Map과 Iterator
 
-*
+* Map인터페이스를 구현한 컬렉션 클래스는 키(key)와 값(value)을 쌍(pair)으로 저장하고 있기 때문에 keySet()이나 entrySet()과 같은 메서드를 통해서 키와 값을 각각 따로 Set 형태로 얻은 후 iterator()를 호출해야한다
+
+#### Map의 Iterator
+
+```java
+	Map map = new Hashmap();
+	Iterator it = map.entrySet()iterator();
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.13) Array의 메서드
+
+*  동일 기능의 메서드가 배열의 타입만 다르게 오버로딩 되어 있다
+
+#### Array의 메서드_1 복사 – copyOf(),copyOfRange()
+
+* copyOfRange()에 지정된 마지막 범위는 포함되지 않는다
+
+```java
+	int[] arr = {0,1,2,3,4};
+	int[] arr2 = Arrays.copyOf(arr, arr.length) // arr2 = [0,1,2,3,4]
+	int[] arr3 = Arrays.copyOf(arr,3);	// arr3 = [0,1,2]
+	int[] arr4 = Arrays.copyOf(arr,7);	// arr4 = [0,1,2,3,4,0,0]
+	int[] arr5 = Arrays.copyOfRange(arr,2,4);	// arr5= [2,3] (4 미포함)
+	int[] arr6 = Arrays.copyOfRange(arr,0,7);	// arr6 = [0,1,2,3,4,0,0]
+```
+
+#### Array의 메서드_2 채우기, 정렬, 검색
+#### Array의 메서드_2 배열 채우기 – fill(), setAll()
+
+* fill()은 배열의 모든 요소를 지정된 값으로 채우고 setAll()은 배열을 채우는데 사용할 함수형 인터페이스를 매개변수로 받는다
+
+* setAll()을 호출할 때는 함수형 인터페이스를 구현한 객체 혹은 람다식으로 지정을 해야한다
+
+```java
+
+	int[]arr = new int[5];
+	Arrays.fill(arr,9);	// arr = [9,9,9,9,9]
+	Arrays.setAll(arr, (i) -> (int)(Math.random()*5+1); // arr = [1,3,5,1,2]
+
+
+```
+
+#### Array의 메서드_2 배열의 정렬과 검색 – sort(), binarySearch()
+
+* sort()는 배열을 정렬할 때, binarySearch()는 배열에 저장된 요소를 검색할 때 사용한다
+
+* binarySearch()는 배열에 지정된 값의 위치(index)를 반환하는데, 배열이 정렬된 상태여야 올바른 결과를 얻는다(중복값이 있을 경우 이 중 어떤 것의 위치가 반환될 지 알 수 없다)
+
+* 배열의 첫 번째 요소부터 순서대로 하나씩 검색하는 '순차 검색(linear search)'에 비해  binary search는 배열의 검색할 범위를 반복저긍로 줄여가면서 검색하기 때문에 검색속도가 비교적 빠르다
+
+```java
+	int[] arr = {3,2,0,1,4};
+	int idx = Arrays.binarySearch(arr,2); // idx = -5 (잘못된 결과)
+
+	Arrays.sort(arr);	// 배열 arr를 정렬한다
+	System.out.println(Arrays.toString(arr));	// [0,1,2,3,4]
+	int idx = Arrays.binarySearch(arr, 2);	// idx = 2 (올바른 결과)
+
+```
+
+#### Array의 메서드_3 비교와 출력 – equals(), toString()
+
+* toString()으로 배열의 모든 요소를 문자열로 출력할 수 있다
+
+* toString()은 일차원 배열에만 사용할 수 있으며, 다차원 배열에는 deepToString()을 사용해야한다
+
+* deepToString()은 2차원 뿐만 아니라 3차원 이상의 배열에도 동작한다
+
+```java
+
+	int[] arr = {0,1,2,3,4};
+	int[][] arr2D = {{11,12}, {21,22}};
+
+	System.out.println(Arrays.toString(arr));	// [0,1,2,3,4]
+	System.out.println(Arrays.deepToString(arr2D));	// [[11,12], [21,22]]
+
+```
+
+* equals()는 두 배열에 저장된 모든 요소를 비교해서 같으면 true, 다르면 false를 반환한다
+
+* equals()도 일차원 배열에만 사용할 수 있으며, 다차원 배열에는 deepEquals()를 사용해야 한다(다차원 배열은 '배열의 배열'의 형태로 구성되기에 equals()로 비교하면 배열에 저장된 배열의 주소를 비교하게 된다)
+
+```java
+
+	String[][] str2D = new String[][]{{"aaa", "bbb"},{"AAA", "BBB"}};
+	String[][] str2D2 = new String[][]{{"aaa", "bbb"},{"AAA", "BBB"}};
+
+	System.out.println(Arrays.equals(str2D, str2D2));	// false
+	System.out.println(Arrays.deepEquals(str2D, str2D2));	// true
+
+
+```
+
+#### Array의 메서드_4 변환 – asList(Obejct a)
+
+* asList()는 배열을 List에 담아서 반환한다, 배열 생성 없이 저장할 요소들만 나열하는 것도 가능하다
+
+* asList()가 반환한 List의 크기를 변경할 수 없다, 추가 삭제가 불가능하며 저장된 내용은 변경 가능하다
+
+* asList() 외에도 'parallelXXX()', 'spliterator()', 'stream()'이 있다
+
+* parallel로 시작하는 메서드들은 보다 빠른 결과를 얻기 위해 여러 쓰레드가 작업을 나누어 처리하도록 한다
+
+* spliterator()는 여러 쓰레드가 처리할 수 있게 하나의 작업을 여러 작업으로 나누는 Spliterator를 반환한다
+
+* stream()은 컬렉션을 스트림으로 변환한다
+
+```java
+
+	List list = Arrays.asList(new Integer[]{1,2,3,4,5});	// list = [1,2,3,4,5]
+	List list = Arrays.asList(1,2,3,4,5);	// list = [1,2,3,4,5]
+	list.add(6);	// UnsupportedOperationException 예외 발생
+
+```
+
+* 만일 크기 변경이 필요한 List가 필요하다면 ArrayList의 인스턴스를 생성하면 된다
+
+```java
+
+	List list = new ArrayList(Arrays.asList(1,2,3,4,5));
+
+```

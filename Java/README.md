@@ -3969,3 +3969,372 @@ Result:
 	List list = new ArrayList(Arrays.asList(1,2,3,4,5));
 
 ```
+#### Arrays의 메서드 예시
+
+```java
+    public static void main(String[] args) {
+        int[] arr = {0, 1, 2, 3, 4};
+        int[][] arr2D = {{11, 12, 13}, {21, 22, 23}};
+
+        System.out.println("arr= " + Arrays.toString(arr));
+        System.out.println("arr2d= " + Arrays.deepToString(arr2D));
+
+        int[] arr2 = Arrays.copyOf(arr, arr.length);
+        int[] arr3 = Arrays.copyOf(arr, 3);
+        int[] arr4 = Arrays.copyOf(arr, 7);
+        int[] arr5 = Arrays.copyOfRange(arr, 2, 4);
+        int[] arr6 = Arrays.copyOfRange(arr, 0, 7);
+
+        System.out.println("arr2= " + Arrays.toString(arr2));
+        System.out.println("arr3= " + Arrays.toString(arr3));
+        System.out.println("arr4= " + Arrays.toString(arr4));
+        System.out.println("arr5= " + Arrays.toString(arr5));
+        System.out.println("arr6= " + Arrays.toString(arr6));
+
+        int[] arr7 = new int[5];
+        Arrays.fill(arr7, 9);   // arr = [9,9,9,9,9]
+        System.out.println("arr7= " + Arrays.toString(arr7));
+
+        Arrays.setAll(arr7, i -> (int) (Math.random() * 6 + 1));
+
+        for (int i : arr7) {
+            char[] graph = new char[i];
+            Arrays.fill(graph, '*');
+            System.out.println(new String(graph)+i);
+        }
+
+        String[][] str2D = new String[][]{{"aaa", "bbb"}, {"AAA", "BBB"}};
+        String[][] str2D2 = new String[][]{{"aaa", "bbb"}, {"AAA", "BBB"}};
+
+        System.out.println(Arrays.equals(str2D, str2D2));   // false
+        System.out.println(Arrays.deepEquals(str2D, str2D2));   // true
+
+        char[] chArr = {'A', 'D', 'C', 'B', 'E'};
+
+        System.out.println("chArr= " + Arrays.toString(chArr));
+        System.out.println("index of B= " + Arrays.binarySearch(chArr, 'B'));
+        System.out.println("= After sorting =");
+        Arrays.sort(chArr);
+        System.out.println("chArr= " + Arrays.toString(chArr));
+        System.out.println("index of B= " + Arrays.binarySearch(chArr, 'B'));
+
+    }
+/*
+Result:
+arr= [0, 1, 2, 3, 4]
+arr2d= [[11, 12, 13], [21, 22, 23]]
+arr2= [0, 1, 2, 3, 4]
+arr3= [0, 1, 2]
+arr4= [0, 1, 2, 3, 4, 0, 0]
+arr5= [2, 3]
+arr6= [0, 1, 2, 3, 4, 0, 0]
+arr7= [9, 9, 9, 9, 9]
+******6
+**2
+******6
+**2
+*1
+false
+true
+chArr= [A, D, C, B, E]
+index of B= -2
+= After sorting =
+chArr= [A, B, C, D, E]
+index of B= 1
+*/
+```
+******************************************************************************************************************************************************************************************
+
+### 12.14) Comparator와 Comparable
+
+* Comparator와 Comparable은 모두 인터페이스로 컬렉션을 정렬하는데 필요한 메서드를 정의한다
+
+* 같은 타입의 인스턴스끼리 서로 비교할 수 있는 클래스들, 주로 Integer와 같은 wrapper 클래스와 String, Date, File과 같다
+
+* 기본적으로 오름차순으로 정렬되도록 구현되어 있다
+
+* compare()와 compareTo()는 선언형태와 이름이 약간 다를 뿐 두 객체를 비교한다는 같은 기능을 목적으로 고안되었다
+
+* compareTo()와 compare()은 두 객체가 같으면 0, 비교하는 값보다 작으면 음수, 크면 양수를 반환하도록 구현해야 한다
+
+* Comparable, 기본 정렬기준을 구현하는데 사용
+
+* Comparator, 기본 정렬기준 외에 다른 기준으로 정렬하고자 할 때 사용
+
+#### Comparator와 Comparable의 실제 소스
+
+```java
+	public interface Comparator {
+		int compare(Object o1, Object o2);	// o1과 o2를 비교
+		boolean(Object obj);
+	}
+
+	public interface Comparable {
+		int compareTo(Object o);	// 객체 자신(this)과 o를 비교
+	}
+```
+
+#### Arrays.sort()
+
+* Arrays.sort()는 배열을 정렬할 때, Comparator를 지정해주지 않으면 저장하는 객체(Comparable을 구현한 클래스의 객체)에 구현된 내용에 따라 정렬된다
+
+```java
+	static void sort(Object[] a)	// 객체 배열에 저장된 객체가 구현한 Comparable에 의한 정렬
+	static void sort(Object[] a, Comparator c)	// 지정한 Comparator에 의한 정렬
+
+```
+
+#### Comparator와 Comparable 예시
+
+```java
+public class Test10 {
+    public static void main(String[] args) {
+        String[] strArr = {"cat", "dog", "lion", "tiger"};
+
+        Arrays.sort(strArr);    // String의 Comparable 구현에 의한 정렬
+        System.out.println("strArr= " + Arrays.toString(strArr));
+
+        Arrays.sort(strArr, String.CASE_INSENSITIVE_ORDER); // 대소문자 구분안함
+        System.out.println("strArr= " + Arrays.toString(strArr));
+
+        Arrays.sort(strArr, new Descending());  // 역순 정렬
+        System.out.println("strArr= " + Arrays.toString(strArr));
+
+    }
+}
+class Descending implements Comparator {
+    public int compare(Object o1, Object o2) {
+        if (o1 instanceof Comparable && o2 instanceof Comparable<?>) {
+            Comparable c1 = (Comparable) o1;
+            Comparable c2 = (Comparable) o2;
+            return c1.compareTo(c2) * -1;   // -1을 곱해서 기본 정렬방식의 역으로 변경한다
+                                            // 혹은 c2.compareTo(c1)와 같이 순서를 바꿔도 된다
+        }
+        return -1;
+    }
+}
+
+/*
+Result:
+strArr= [cat, dog, lion, tiger]
+strArr= [cat, dog, lion, tiger]
+strArr= [tiger, lion, dog, cat]
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.15) Integeer와 Comparable
+
+* Comparable을 구현한 클래스들은 기본적으로 오름차순으로 저렬되어 있다
+
+* 내림차순으로 정렬 혹은 다른 기준에 의해 정렬되도록 하고 싶을 때 Comparator를 구현해서 정렬기준을 제공할 수 있다
+
+* 정렬 기준이라는 것은 단순히 양수, 0, 음수 중에서 하나를 반환하도록 작성도니 메서드이므로 그저 -1을 곱하기만 하면 반대로 정렬된 결과를 얻을 수 있다
+
+#### Integer클래스의 Comparable 구현
+
+* Integer 클래스는 Comparable의 compareTo(Object o)를 구현해 놓았다
+
+```java
+public final class integer extends Number implements Comparable {
+	public int compareTo(Object o){
+		return compareTo((Integer)o);
+	}
+	public int compareTo(Integer anotherInteger) {
+		int thisVal = this.value;
+		int anotherVal = anotherInteger.value;
+		return (thisVal<anotherVal ? -1 : (thisVal==anotherVal ? 0 : 1));
+	}
+}
+
+```
+
+#### Integer와 Comparable 예시
+
+```java
+public class Test10 {
+    public static void main(String[] args) {
+        Integer[] arr = {30, 50, 10, 40, 20};
+
+        Arrays.sort(arr);   // Integer가 가지고 있는 기본 저렬 기준 compareTo()로 정렬
+        System.out.println(Arrays.toString(arr));
+
+        // sort(Object[] objArr, Comparator c)
+        Arrays.sort(arr, new DescComp());   // DescComp에 구현된 정렬 기준으로 정렬
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+class DescComp implements Comparator {
+    public int compare(Object o1, Object o2) {
+        if (!(o1 instanceof Integer && o2 instanceof Integer)) {
+            return -1;  // Integer가 아니면 비교하지 않고 -1 반환
+        }
+
+        Integer i = (Integer) o1;
+        Integer i2 = (Integer) o2;
+        // return i2 -1; 혹은 return i2.compareTo(i);도 가능하다
+        return i.compareTo(i2) * -1;    // 기본 정렬인 compareTo()의 역순으로 정렬
+    }
+}
+/*
+Result:
+[10, 20, 30, 40, 50]
+[50, 40, 30, 20, 10]
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.16) HashSet
+
+* HashSet은 Set인터페이스를 구현한 가장 대표적인 컬렉션이며, Set인터페이스의 특징대로 중복된 요소를 저장하지 않는다
+
+* add메서드나 addAll메서드를 통한 추가시 이미 저장되어 있는 요소와 중복된 요소를 추가하고자 한다면 false를 반환한다
+
+* 이러한 특징을 이용하여 컬렉션 내의 중복 요소들을 수비게 제거할 수 있다
+
+* HashSet은 저장순서를 유지하지 않으므로 저장 순서를 유지하고자 한다면 LinkedHashSet을 이용해야 한다
+
+#### <HashSet 메서드 Table>
+
+* load factor는 컬렉션 클래스에 저장공간이 가득 차기 전에 미리 용량을 확보하기 위한 것으로 0.8의 값은 저장 공간의 80 %가 채워졌을 때 용량이 두 배로 늘어나는 것을 의미한다, 기본 값은 0.75 이다
+  
+|생성자 혹은 메서드|설명|
+|:---:|:---:|
+|HashSet()|HashSet객체를 생성한다|
+|HashSet(Collcetion c)|주어진 컬렉션을 포함하는 HashSet객체를 생성한다|
+|HashSet(int initialCapacity)|주어진 값을 초기용량으로하는 HashSet객체를 생성한다|
+|HashSet(int initialCapacity, float loadFactor)|초기용량과 load factor를 지정하는 생성자|
+|boolean add(Object o)|새로운 객체를 저장한다(성공하면 true, 실패하면 false|
+|boolean addAll(Collcetion c)|주어진 컬렉션에 저장된 모든 객체들을 추가한다(합집합)|
+|void clear()|저장된 모든 객체를 삭제한다|
+|Object clone()|HashSet을 복제해서 반환한다(얕은 복사)|
+|boolean contains(Object o)|지정된 객체를 포함하고 있는지 알려준다|
+|boolean containsAll(Collcetion c)|주어진 컬렉션에 저장된 모든 객체들을 포함하고 있는지 알려준다|
+|boolean isEmpty()|HashSet이 비어있는지 알려준다|
+|Iterator iterator()|Iterator를 반환한다|
+|boolean remove(Object o)|지정된 객체를 HashSet에서 삭제한다(성공하면 true, 실패하면 false)|
+|boolean removeAll(Collcetion c)|주어진 컬렉션에 저장된 모든 객체와 동일한 것들을 HashSet에서 모두 삭제한다(차집합)|
+|boolean retainAll(Collcetion c)|주어진 컬렉션에 저장된 객체와 동일한 것만 남기고 삭제한다(교집합)|
+|int size()|저장된 객체의 개수를 반환한다|
+|Object[] toArray()|저장된 객체들을 객체배열의 형태로 반환한다|
+|Object[] toArray(Object[]a)|저장된 객체들을 주어진 객체배열(a)에 담는다|
+
+#### HashSet 예시
+
+* '1'이 두 번 출력되었는데, 하나는 String 인스턴스이고 다른 하나는 Integer인스턴스로 서로 다른 객체이기 때문이다
+
+* Set을 구현한 컬렉션 클래스는 List와 달리 순서를 유지하지 않기 때문에 저장한 순서와 다를 수 있다
+
+```java
+
+    public static void main(String[] args) {
+        Object[] objArr = {"1", new Integer(1), "2", "2", "3", "3", "4", "4", "4"};
+        Set set = new HashSet();
+
+        for (int i = 0; i < objArr.length; i++) {
+            set.add(objArr[i]); // HashSet에 objArr의 요소들을 저장한다
+        }
+        System.out.println(set);    // HashSet에 저장된 요소들을 출력한다
+        Iterator it = set.iterator();   // HashSEt에 저장된 요소들을 출력한다(Iterator 이용)
+
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+    }
+
+/*
+Result:
+[1, 1, 2, 3, 4]
+1
+1
+2
+3
+4
+*/
+```
+
+#### HashSet 예시2
+
+* 번호 크기순 정렬을 위해 Collections클래스의 sort(List list)를 사용했다
+
+* 메서드의 인자로 List인터페이스 타입을 필요로 하여 LinkedList클래스의 생성자 LinkedList(Collection c)를 이용하였다
+
+```java
+    public static void main(String[] args) {
+        Set set = new HashSet();
+
+        for (int i = 0; set.size() < 6; i++) {
+            int num = (int)(Math.random()*45)+1;
+            set.add(new Integer(num));
+        }
+
+        List list = new LinkedList(set);    // LinkedList(Collection c)
+        Collections.sort(list); // Collections.sort(List list)
+        System.out.println(list);
+    }
+
+/*
+Result:
+[9, 10, 11, 27, 36, 43]
+*/
+
+```
+
+#### HashSet 예시3
+
+* 'David:10' 이 중복 출력되지 않도록 하려면 Person 클래스에서 오버라이딩이 필요하다
+
+* HashSet의 add메서드는 새로운 요소를 추가하기 전에 기존에 저장된 요소와 같은 것인지 판별하기 위해 equals()와 hashcode()를 호출한다
+
+public class Test10 {
+    public static void main(String[] args) {
+        HashSet set = new HashSet();
+        set.add("abc");
+        set.add("abc");
+        set.add(new Person("David", 10));
+        set.add(new Person("David", 10));
+
+        System.out.println(set);
+    }
+}
+
+class Person {
+    String name;
+    int age;
+
+    Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    public String toString() { return name + ":" + age;}
+}
+
+*/
+하기와 같이 두 메서드를 오버라이딩하면, 'David:10'이 한 번만 출력된다
+public boolean equals(Object obj) {
+	if(!(obj instanceof Person)) return false;
+ 	Person p = (Person)obj;
+  	return name.equals(p.name) && age==p.age;
+}
+
+public int hashCode() {
+	return Objects.hash(name, age);
+ }
+
+*/
+
+```java
+
+/*
+Result:
+[abc, David:10, David:10]
+*/
+```
+
+
+

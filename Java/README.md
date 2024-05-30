@@ -4291,6 +4291,7 @@ Result:
 
 * HashSet의 add메서드는 새로운 요소를 추가하기 전에 기존에 저장된 요소와 같은 것인지 판별하기 위해 equals()와 hashcode()를 호출한다
 
+```java
 public class Test10 {
     public static void main(String[] args) {
         HashSet set = new HashSet();
@@ -4314,6 +4315,13 @@ class Person {
     public String toString() { return name + ":" + age;}
 }
 
+```java
+
+/*
+Result:
+[abc, David:10, David:10]
+*/
+
 */
 하기와 같이 두 메서드를 오버라이딩하면, 'David:10'이 한 번만 출력된다
 public boolean equals(Object obj) {
@@ -4326,13 +4334,6 @@ public int hashCode() {
 	return Objects.hash(name, age);
  }
 
-*/
-
-```java
-
-/*
-Result:
-[abc, David:10, David:10]
 */
 ```
 

@@ -4337,5 +4337,140 @@ public int hashCode() {
 */
 ```
 
+#### HashSet 예시4
 
+```java
+    public static void main(String[] args) {
+        HashSet setA = new HashSet();
+        HashSet setB = new HashSet();
+        HashSet setHab = new HashSet();
+        HashSet setKyo = new HashSet();
+        HashSet setCha = new HashSet();
+
+        setA.add("1");
+        setA.add("2");
+        setA.add("3");
+        setA.add("4");
+        setA.add("5");
+        System.out.println("A =" + setA);
+
+        setB.add("4");
+        setB.add("5");
+        setB.add("6");
+        setB.add("7");
+        setB.add("8");
+        System.out.println("B = " + setB);
+
+        Iterator it = setB.iterator();
+        while (it.hasNext()) {
+            Object tmp = it.next();
+            if (setA.contains(tmp)) {
+                setKyo.add(tmp);
+            }
+        }
+
+        it = setA.iterator();
+        while (it.hasNext()) {
+            Object tmp = it.next();
+            if (!setB.contains(tmp)) {
+                setCha.add(tmp);
+            }
+        }
+
+        it = setA.iterator();
+        while (it.hasNext()) {
+            setHab.add(it.next());
+        }
+
+        it = setB.iterator();
+        while (it.hasNext()) {
+            setHab.add(it.next());
+        }
+        System.out.println("A ∩ B = " + setKyo);
+        System.out.println("A ∪ B = " + setHab);
+        System.out.println("A - B = " + setCha);
+    }
+/*
+Result:
+A =[1, 2, 3, 4, 5]
+B = [4, 5, 6, 7, 8]
+A ∩ B = [4, 5]
+A ∪ B = [1, 2, 3, 4, 5, 6, 7, 8]
+A - B = [1, 2, 3]
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.17) TresSet
+
+* TreeSet은 이진 탐색 트리(binary search tree)라는 자료구조의 형태로 데이터를 저장하는 컬렉션 클래스이다
+
+* Set인터페이스를 구현했으므로 중복된 데이터의 저장을 허용하지 않으며 저장순서를 유지하지도 않는다
+
+* 이진 트리(binary tree)는 여러 개의 노드(node)가 서로 연결된 구조로, 각 노드에 2개의 노드를 연결할 수 있다
+
+* 루트(root)라고 불리는 하나의 노드에서부터 시작하여 확장해 나가며, 위 아래로 연결된 두 노드를 '부모-자식 관계'에 있다고 한다
+
+* 이진 탐색 트리(binary search tree)는 부모노드의 왼쪽에는 부모노드의 값보다 작은 값, 오른쪽에는 큰 값의 자식노드를 저장하는 이진 트리이다
+
+* 왼쪽 마지막 값에서 오른쪽 값까지 값을 '왼쪽 노드 > 부모 노드 > 오른쪽 노드' 순으로 정렬된 순서를 얻을 수 있다
+
+* 검색효율이 뛰어난 자료구조이나 데이터 삭제 시 트리의 일부를 재구성해야 하므로 링크드 리스트보다 추가/삭제 시간은 더 걸린다
+
+
+#### TreeSet
+
+```java
+class TreeNode {
+	TreeNode left;	// 왼쪽 자식노드
+	Object element;	// 객체를 저장하기 위한 참조변수
+	TreeNode right;	// 오른쪽 자식노드
+
+```
+
+#### <TreeSet의 메서드 Table>
+|생성자 혹은 메서드|설명|
+|:---:|:---:|
+|TreeSet()|기본 생성자|
+|TreeSet(Collection c)|주어진 컬렉션을 저장하는 TreeSet을 생성|
+|TreeSet(Comparator comp)|주어진 정렬조건으로 정렬하는 TreeSet을 생성|
+|TreeSet(SortedSet s)|주어진 컬렉션(SortedSet구현) s 를 저장하는 TreeSet 생성|
+|boolean add(Object o) <br> boolean addAll(Collection C)|지정된 객체(o) 혹은 Collcetion(c)의 객체들을 Collcetion에 추가|
+|Object ceiling(Object o)|지정된 객체와 같은 객체를 반환, 없으면 큰 값을 가진 객체 중 제일 가까운 값의 객체를 반환, 없으면 null|
+|void clear()|저장된 모든 객체를 삭제|
+|Object clone()|TreeSet을 복제하여 반환|
+|Comparator comparator()|TreeSet의 정렬기준(Comparator)를 반환|
+|boolean contains(Object o) <br> boolean containsAll(Collcetion c)|지정된 객체(o) 혹은 Collection의 객체들이 모두 포함되어 있는지 확인|
+|NavigableSet descendingSet()|TreeSet에 저장된 요소들을 역순으로 정렬해서 반환|
+|Object first()|정렬된 순서에서 첫 번째 객체를 반환|
+|Object floor(Object o)|지정된 객체와 같은 객체를 반환, 없으면 작은 값을 가진 객체 중 제일 가까운 값의 객체를 반환, 없으면 null|
+|SortedSet headSet(Object toElemen)|지정된 객체보다 작은 값의 객체들을 반환|
+|NavigableSet headSet(Object toElement, boolean inclusive)|지정된 객체보다 작은 값의 객체들을 반환, inclusive가 true이면 같은 값의 객체도 포함|
+|Object higher(Object o)|지정된 객체보다 큰 값을 가진 객체 중 제일 가까운 값의 객체를 반환, 없으면 null|
+|boolean isEmpty()|TreeSet이 비어있는지 확인|
+|Iterator iterator()|TreeSet의 Iterator를 반환|
+|Object last()|정렬된 순서에서 마지막 객체를 반환|
+|Object lower(Object o)|지정된 객체보다 작은 값을 가진 객체 중 제일 가까운 값의 객체를 반환, 없으면 null|
+|Object pollFirst()|TreeSet의 첫번째 요소(제일 작은 값의 객체)를 반환|
+|Object pollLast()|TreeSet의 마지막 번째 요소(제일 큰 값의 객체)를 반환|
+|boolean remove(Object o)|지정된 객체를 삭제|
+|boolean retainAll(Collection c)|주어진 컬렉션과 공통된 요소만을 남기고 삭제(교집합)|
+|int size()|지정된 객체의 개수를 반환|
+|Spliterator spliterator()|TreeSet의 spliterator를 반환|
+|SortedSet subSet(Object fromElement, Object toElement|범위 검색(fromElement와 toElement 사이)의 결과를 반환한다(끝 범위인 toElement는 범위에 포함되지 않음|
+|NavigableSet subSet(Object fromElement, boolean fromInclusive, Object toElement, boolean toInclusive)|범위 검색(fromElement와 toElement 사이)의 결과를 반환한다(fromInclusive가 true면 시작 값이 포함되고, toInclusive가 true면 끝 값이 포함된다)|
+|SortedSet tailSet(Object fromElement)|지정된 객체보다 큰 값의 객체들을 반환한다|
+|Object[] toArray()|지정된 객체를 객체배열로 반환한다|
+|Object[] toArray(Object[]a)|지정된 객체를 주어진 객체배열에 저장하여 반환한다|
+
+
+******************************************************************************************************************************************************************************************
+
+
+
+
+  
 

@@ -4467,10 +4467,159 @@ class TreeNode {
 |Object[] toArray(Object[]a)|지정된 객체를 주어진 객체배열에 저장하여 반환한다|
 
 
+#### TreeSet 예시1
+
+```java
+
+    public static void main(String[] args) {
+        Set set = new TreeSet();
+
+        for (int i = 0; set.size() < 6; i++) {
+            int num = (int) (Math.random() * 45) + 1;
+            set.add(num);   // set.add(new Integer(num))
+        }
+
+        System.out.println(set);
+    }
+
+/*
+Result:
+[21, 25, 27, 31, 32, 35]
+*/
+
+```
+
+#### TreeSet 예시2
+
+* subSet()을 이용한 범위 검색은 끝 범위를 포함하지 않아 result 1에는 c로 시작하는 단어까지만 있다
+
+* 만일 끝 범위인 d로 시작하는 단어까지 포함시키고자 한다면, 끝 범위에 "zzz"와 같은 문자열을 붙이면 된다
+
+* 결과를 보면 'abc'보다 'Car'가 앞에 있고 'dZZZZ'가 'dance'보다 앞에 정렬되어 있는 것을 확인할 수 있다, 대문자가 소문자보다 우선시되기 때문이며 따라서 가능한 대문자 혹은 소문자로 통일해서 저장하는 것이 적절하다
+
+```java
+
+    public static void main(String[] args) {
+        TreeSet set = new TreeSet();
+
+        String from = "b";
+        String to = "d";
+
+        set.add("abc");
+        set.add("alien");
+        set.add("bat");
+        set.add("car");
+        set.add("Car");
+        set.add("disc");
+        set.add("dance");
+        set.add("dZZZZ");
+        set.add("dzzzz");
+        set.add("elephant");
+        set.add("elevator");
+        set.add("fan");
+        set.add("flower");
+
+        System.out.println(set);
+        System.out.println("range search: from " + from + " to " + to);
+        System.out.println("result 1: " + set.subSet(from, to));
+        System.out.println("result 2: " + set.subSet(from, to + "zzz"));
+        
+    }
+
+/*
+Result:
+[Car, abc, alien, bat, car, dZZZZ, dance, disc, dzzzz, elephant, elevator, fan, flower]
+range search: from b to d
+result 1: [bat, car]
+result 2: [bat, car, dZZZZ, dance, disc]
+
+*/
+
+
+```
+
+#### TreeSet 예시3
+
+```java
+    public static void main(String[] args) {
+        TreeSet set = new TreeSet();
+        int[] score = {80, 95, 50, 35, 45, 65, 10, 100};
+
+        for (int i = 0; i < score.length; i++) {
+            set.add(new Integer(score[i])); // set.add(score[i]) 도 가능
+        }
+
+        System.out.println("50보다 작은 값: " + set.headSet(new Integer(50)));
+        System.out.println("50보다 큰 값: " + set.tailSet(new Integer(50)));
+    }
+
+/*
+Result:
+50보다 작은 값: [10, 35, 45]
+50보다 큰 값: [50, 65, 80, 95, 100]
+*/
+
+```
+
 ******************************************************************************************************************************************************************************************
 
+### 12.18) HashMap
+
+* HashMap은 Map을 구현했으므로 앞에서 살펴본 Map의 특징, 키(key)와 값(value)을 묶어서 하나의 데이터(entry)로 저장한다
+
+* 해싱(hashing)을 사용하기 때문에 많은 양의 데이터를 검색하는데 용이하다
+
+* HashMap은 Entry라는 내부 클래스를 정의, 다시 Entry타입의 배열을 선언한다
+
+* 키(key)와 값(value)은 별개의 값이 아니라 서로 관련된 값이기 때문에 각각의 배열보다는 하나의 클래스로 정의하는 것이 데이터의 무결성(integrity)적인 측면에서 적절하기 때문이다
+
+* 키(key)는 컬렉션 내에서 유일해야하며, 값(value)는 데이터의 중복을 허용한다
+
+* 키는 저장된 값을 찾는데 사용됨으로 컬렉션 내에서 유일해야한다, 만일 하나의 키에 대해 여러 검색 결과를 얻는다면 원하는 결과가 어느 것인지 알 수 없다
+
+```java
+public class HashMap extends AbstractMap implements Map, Cloneable, Serializable {
+	transient Entry[] table;
+
+	static class Entry implements Map.Entry {
+		final object key;
+		Object value;
+
+	}
+}
+```
+
+#### <HashMap_객체지향 코드 Table>
+
+|비객체지향적인 코드|객체지향적인 코드|
+|:---:|:---:|
+|Object[] key; <br> Objectp[] value;|Entry[] table; <br> class Entry { <br> Object key; <br> Object value; <br> }|
 
 
+#### HashMap의 메서드
+
+|생성자/메서드|설명|
+|:---:|:---:|
+|HashMap()|HashMap객체를 생성|
+|HashMap(int initialCapacity)|지정된 값을 초기용량으로 하는 HashMap객체를 생성|
+|HashMap(int initialCapacity, float loadFactor)|지정된 초기용량과 load factor의 HashMap객체를 생성|
+|HashMap(Map m)|지정된 Map의 모든 요소를 포함하는 HashMap을 생성|
+|void clear()|HashMap에 저장된 모든 객체를 제거|
+|Object clone()|현재 HashMap을 복제해서 반환|
+|boolean containsKey(Object key)|HashMap에 지정된 키(key)가 포함되어있는지 알려준다(포함되어 있으면 true)|
+|boolean containsValue(Object value)|HashMap에 지정된 값(value)이 포함되어있는지 알려준다(포함되어 있으면 true|
+|Set entrySet()|HashMap에 지정된 키와 값을 엔트리(키와 값의 결합)의 형태로 Set에 저장해서 반환|
+|Object get(Object key)|지정된 키(key)와 값(객체)을 반환, 못 찾으면 null 반환|
+|Object getOrDefault(Object key, Object defaultValue)|지정된 키(key)의 값(객체)을 반환한다, 키를 못찾으면 기본값(defaultValue)으로 지정된 객체를 반환|
+|boolean isEmpty()|HashMap이 비어있는지 알려준다|
+|Set keySet()|HashMap에 지정된 모든 키가 저장된 Set을 반환|
+|Object put(Object key, Object value)|지정된 키와 값을 HashMap에 저장|
+|void putAll(Map m)|Map에 저장된 모든 요소를 HashMap에 저장|
+|Object remove(Object key)|HashMap에서 지정된 키로 저장된 값(객체)을 제거|
+|Object replace(Objcet key, Object value)|지정된 키의 값을 지정된 객체(value)로 대체|
+|boolean replace(Object key, Object oldValue, Object newValue|지정된 키와 객체(oldValue)가 모두 일치하는 경우에만 새로운 객체(newValue)로 대체|
+|int size()|HashMap에 저장된 요소의 개수를 반환|
+|Collection values()|HashMap에 저장된 모든 값을 컬렉션의 형태로 반환|
 
   
 

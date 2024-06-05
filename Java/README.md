@@ -4621,5 +4621,158 @@ public class HashMap extends AbstractMap implements Map, Cloneable, Serializable
 |int size()|HashMap에 저장된 요소의 개수를 반환|
 |Collection values()|HashMap에 저장된 모든 값을 컬렉션의 형태로 반환|
 
-  
+#### HashMap 예시1
 
+* HashMap을 생성하고 사용자 ID와 비밀번호를 키와 값의 쌍(pair)로 저장하고, 입력도니 사용자 ID를 키로 HashMap에서 검색해서 얻은 값(비밀번호)을 입력도니 비밀번호와 비교하는 예시이다
+
+* 기 존재하는 키를 추가할 경우, 기존의 값은 없어진다
+
+* 따라서 Map을 사용할 경우 저장하려는 두 데이터중에서 어느 쪽을 키로 할 것인지를 잘 판단해야 한다
+
+```java
+    public static void main(String[] args) {
+        HashMap map = new HashMap();
+        map.put("myId", "1234");
+        map.put("asdf", "1111");
+        map.put("asdf", "1234");    // 이미 존재하는 키 추가기능, 기존 값은 없어짐
+
+        Scanner s = new Scanner(System.in); // 화면으로부터 라인단위로 입력받는다
+
+        while (true) {
+            System.out.println("id와 password를 입력해주세요");
+            System.out.print("id: ");
+            String id = s.nextLine().trim();
+
+            System.out.print("password: ");
+            String password = s.nextLine().trim();
+            System.out.println();
+
+            if (!map.containsKey(id)) {
+                System.out.println("입력하신 id는 존재하지 않습니다. 다시 입력해주세요");
+                continue;
+            }
+
+            if (!(map.get(id)).equals(password)) {
+                System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            } else {
+                System.out.println("id와 비밀번호가 일치합니다");
+                break;
+            }
+        }
+    }
+
+/*
+Result:
+id와 password를 입력해주세요
+id: asdf
+password: 1111
+
+비밀번호가 일치하지 않습니다. 다시 입력해주세요.
+id와 password를 입력해주세요
+id: asdf
+password: 1234
+
+id와 비밀번호가 일치합니다
+
+*/
+
+```
+
+#### HashMap 예시3
+
+```java
+    public static void main(String[] args) {
+        HashMap map = new HashMap();
+        map.put("김자바", 90);
+        map.put("김자바", 100);
+        map.put("이자바", 100);
+        map.put("강자바", 80);
+        map.put("안자바", 90);
+
+        Set set = map.entrySet();
+        Iterator it = set.iterator();
+
+        while (it.hasNext()) {
+            Map.Entry e = (Map.Entry) it.next();
+            System.out.println("이름: " + e.getKey() + ", 점수: " + e.getValue());
+        }
+
+        set = map.keySet();
+        System.out.println("참가자 명단: " + set);
+
+        Collection values = map.values();
+        it = values.iterator();
+
+        int total = 0;
+
+        while (it.hasNext()) {
+            int i = (int) it.next();
+            total += i;
+        }
+    }
+
+/*
+Result:
+이름: 안자바, 점수: 90
+이름: 김자바, 점수: 100
+이름: 강자바, 점수: 80
+이름: 이자바, 점수: 100
+참가자 명단: [안자바, 김자바, 강자바, 이자바]
+총점: 370
+평균: 92.5
+최고점수: 100
+최저점수: 80
+
+*/
+
+```
+
+#### HashMap 예시3
+
+* 문자열 배열에 담긴 문자열을 하나씩 읽어서 HashMap에 키로 저장하고 값으로 1을 지정한다
+
+* HashMap에 같은 문자열이 키로 저장되어 있는지 containsKey()로 학인하여 이미 저장되어 있는 문자열이면 값을 1증가시킨다
+
+* 한정된 범위 내에 있는 순차적인 값들의 빈도수는 배열을 이용하지만, 이처럼 한정되지 않은 범위의 비순차적 값들은 HashMap을 이용해서 구할 수 있다
+
+```java
+    public static void main(String[] args) {
+        String[] data = {"A", "K", "A", "K", "D", "K", "A", "K", "K", "K", "Z", "D"};
+        HashMap map = new HashMap();
+
+        for (int i = 0; i < data.length; i++) {
+            if (map.containsKey(data[i])) {
+                int value = (int) map.get(data[i]);
+                map.put(data[i], value + 1);    // 기존에 있는 키는 기존 값에 1을 더해서 저장
+            } else {
+                map.put(data[i], 1);    // 기존에 없는 키는 값을 1로 저장
+            }
+        }
+
+        Iterator it = map.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            int value = (int) entry.getValue();
+            System.out.println(entry.getKey() + ": " + printBar('#', value) + " " + value);
+        }
+    }
+
+    public static String printBar(char ch, int value) {
+        char[] bar = new char[value];
+        for (int i = 0; i < bar.length; i++) {
+            bar[i] = ch;
+        }
+        return new String(bar); // String(char[] chArr)
+    }
+
+/*
+Result:
+A: ### 3
+D: ## 2
+Z: # 1
+K: ###### 6
+
+*/
+
+```

@@ -4776,3 +4776,180 @@ K: ###### 6
 */
 
 ```
+
+******************************************************************************************************************************************************************************************
+
+### 12.19) Collections의 메서드
+
+* Arrays가 배열과 관려된 메서드를 제공하는 것처럼, Collcetions는 컬렉션과 관련된 메서드를 제공한다
+
+* fill(), copy(), sort(), binarySearch() 등의 메서드는 두 클래스에 포함되어 있으며 동일 기능을 한다
+
+#### Collcetions의 메서드 – 동기화 
+
+* 멀티 쓰레드(multi thread) 프로그래밍에는 하나의 객체를 여러 쓰레드가 동시에 접근할 수 있기에, 데이터의 무결성(integrity)을 유지하기 위해서는 공유되는 객체에 동기화(synchronization)가 필요하다
+
+* ArrayList와 HashMap과 같은 컬렉션은 동기화를 자체적으로 처리하지 않고 필요한 경우에만 동기화 메서드를 이용해서 동기화 처리가 가능하도록 구현되어있다(멀티쓰레드 프로그래밍이 아닌 경우에는 불필요한 기능이기 때문)
+
+```java
+
+static Collcetion synchronziedCollection(Collection c)
+static List synchronziedList(List list)
+static Set synchronizedSet(Set s)
+static Map synchronizedMap(Map m)
+static SortedSet synchronizedSortedSet(SortedSet s)
+static SortedMap synchronizedSortedMap(SortedMap m)
+...
+List syncList = Collcetions.synchronizedList(new ArrayList());
+
+```
+
+#### Collcetions의 메서드 – 변경불가, 싱글톤
+
+* 컬렉션에 저장된 데이터를 보호하기 위해서 컬렉션을 변경할 수 없게, 즉 읽기 전용으로 만들어야 할 때가 있다
+
+* 주로 멀티 쓰레드 프로그래밍에서 여러 쓰레드가 하나의 컬렉션을 공유하다보면 데이터가 손상될 수 있는데, 이를 방지하기 위해서 사용한다
+
+#### 변경불가 컬렉션 만들기
+```java
+static Collcetion unmodifialbeCollcetion(Collection c)
+static List unmodifiableList(List list)
+static Set unmodifiableSet(Set s)
+static Map unmodifiableMap(Map m)
+static NavigableSet unmodifiableNavigableSet(NavigableSet s)
+static SortedSet unmodifiableSortedSet(SortedSet s)
+static NavigableMap unmodifiableNavigableMap(NavigableMap m)
+static SortedMap unmodifiableSortedMap(SortedMap m)
+```
+
+#### 싱글톤 컬렉션 만들기
+
+* 단 하나의 객체만을 저장하는 컬렉션을 만들어야 하는 경우가 있다
+
+```java
+static List singletonList(Object o)
+static Set singleton(Object o)	// singletonSet이 아님에 유의
+static Map singletonMap(Object key, Object value)
+
+```
+
+#### Collcetions의 메서드 – 단일 컬렉션
+
+* 컬렉션에 모든 종류의 객체를 저장할 수 있다는 것은 장점이자 단점이다
+
+* 대부분의 경우 한 종류의 객체를 저장하며, 컬렉션에 지정된 종류의 객체만 저장할 수 있도록 제한하고 싶을 때 사용된다
+
+#### 한 종류의 객체만 저장하는 컬렉션 만들기
+```java
+static Collcetion checkedCollcetion(Collcetion c, Class type)
+static List checkedList(List list, Class type)
+static Set checkedSet(Set s, Class type)
+static Map checkedMap(Map m, Class keyType, Class valueType)
+static Queue chekedQueue(Queue queue, Class type)
+static NavigableSet checkedNavigableSet(NavigableSet s, Class type)
+static SortedSet checkedSortedSet(SortedSet s, Class type)
+static NavigableMap checkedNavigableMap(NavigableMap m, Class keyType, Class valueType)
+static SortedMap checkedSortedMap(SortedMap m, Class keyType, Class valueType)
+......
+List list = new ArrayList();
+List checkedList = checkedList(list, String.class);	// String만 저장 가능
+checkedList.add("ABC")	// OK
+checkedList.add(new Integer(3));	// ClassCastException 발생
+```
+#### Collcetions 예시
+
+```java
+    public static void main(String[] args) {
+        List list = new ArrayList();
+        System.out.println(list);
+
+        addAll(list, 1, 2, 3, 4, 5);
+        System.out.println(list);
+
+        rotate(list, 2); // 오른쪽으로 두 칸씩 이동
+        System.out.println(list);
+
+        swap(list, 0, 2);   // 첫 번째와 세 번째를 교환(swap)]
+        System.out.println(list);
+
+        shuffle(list);  // 저장된 요소의 위치를 임의로 변경
+        System.out.println(list);
+
+        sort(list, reverseOrder()); // 역순 정렬 reverse(list)와 동일
+        System.out.println(list);
+
+        sort(list); // 정렬
+        System.out.println(list);
+
+        int idx = binarySearch(list, 3);    // 3이 저장된 위치(index)를 반환
+        System.out.println("index of 3 = " + idx);
+
+        System.out.println("max = " + max(list));
+        System.out.println("min = " + min(list));
+        System.out.println("min= " + max(list, reverseOrder()));
+
+        fill(list, 9);  // list를 9로 채운다
+        System.out.println("list = " + list);
+
+        // list와 같은 크기의 새로운 list를 생성하고 2로 채운다, 단 결과는 변경불가
+        List newList = nCopies(list.size(), 2);
+        System.out.println("newList = " + newList);
+
+        System.out.println(disjoint(list, newList));    // 공통요소가 없으면 true
+
+        copy(list, newList);
+        System.out.println("newList = " + newList);
+        System.out.println("list = " + list);
+
+        replaceAll(list, 2, 1);
+        System.out.println("list = " + list);
+
+        Enumeration e = enumeration(list);
+        ArrayList list2 = list(e);
+
+        System.out.println("list2 = " + list2);
+
+    }
+/*
+Result:
+[]
+[1, 2, 3, 4, 5]
+[4, 5, 1, 2, 3]
+[1, 5, 4, 2, 3]
+[3, 2, 4, 5, 1]
+[5, 4, 3, 2, 1]
+[1, 2, 3, 4, 5]
+index of 3 = 2
+max = 5
+min = 1
+min= 1
+list = [9, 9, 9, 9, 9]
+newList = [2, 2, 2, 2, 2]
+true
+newList = [2, 2, 2, 2, 2]
+list = [2, 2, 2, 2, 2]
+list = [1, 1, 1, 1, 1]
+list2 = [1, 1, 1, 1, 1]
+
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 12.20) 컬렉션 클래스 정리 & 요약
+
+|컬렉션|특징|
+|:---:|:---:|
+|ArrayList|배열기반, 데이터의 추가와 더불어 삭제에 불리, 순차적인 추가삭제는 제일 빠름, 임의의 요소에 대한 접근성(accessibility)이 뛰어남|
+|LinkedList|연결기반, 데이터의 추가와 삭제에 유리, 임의의 요소에 대한 접근성이 좋지 않다|
+|HashMap|배열과 연결이 결합된 형태, 추가, 삭제, 검색, 접근성이 모두 뛰어남, 검색에는 최고 성능을 보인다|
+|TreeMap|연결기반, 정렬과 검색(특히 범위검색)에 적합, 검색 성능은 HashMap보다 떨어짐|
+|Stack|Vector를 상속받아 구현|
+|Queue|LinkedList가 Queue인터페이스를 구현|
+|Properties|Hashtable을 상속받아 구현|
+|HashSet|HashMap을 이용해서 구현|
+|TreeSet|TreeMap을 이용해서 구현|
+|LinkedHashMap <br> LinkedHashSet|HashMap과 HashSet에 저장순서 유지기능을 추가|
+

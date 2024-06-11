@@ -4953,3 +4953,140 @@ list2 = [1, 1, 1, 1, 1]
 |TreeSet|TreeMap을 이용해서 구현|
 |LinkedHashMap <br> LinkedHashSet|HashMap과 HashSet에 저장순서 유지기능을 추가|
 
+
+******************************************************************************************************************************************************************************************
+
+## 13) 제너릭스, 열거형, 애너테이션
+
+### 13.1) 지네릭스(Generics)
+
+* 지네릭스는 다양한 타입의 객체들을 다루는 메서드나 컬렉션 클래스에 컴파일 시의 타입 체크를 해주는 기능이다
+
+* 객체의 타입을 컴파일 시에 체크하기 때문에 객체의 타입 안정성을 높이고 형변환의 번거로움이 줄어든다
+
+
+```java
+
+ArrayList<Tv> tvList = new ArrayList<Tv>();	// Tv 객체만을 저장할 수 있는 ArrayList를 생성
+
+tvList.add(new Tv());	// OK
+tvList.add(new Audio());	// 컴파일 에러, Tv 외 다른 타입은 저장 불가
+
+```
+
+* ArrayList클래스의 선언에서 클래스 이름 옆의 '<>' 안에 있는 E를 '타입 변수(type variable)'이라 하며, 일반적으로는 'Type'의 첫 글자를 따서 T를 사용한다(<E>의 경우 Element의 첫글자)
+
+```java
+
+pulbic class ArrayList<E> extends AbstractList<E> {
+	private transient E[] elementData;
+	public boolean add(E o) {	}
+	public E get(int index)	{	}
+	...
+```
+
+* 타입 변수가 여러 개인 경우에는 Map<K,V>와 같이 콤마 ','를 구분자로 나열하면 된다
+
+* 다음과 같이 지네릭 클래스 Box가 선언되었을 때, T는 타입 변수, Box는 원시 타입이며 Box<T>는 지네릭 클래스로 T의 Box 혹은 T Box라고 읽는다
+
+* 매개변수에 타입을 지정하는 것을 '지네릭 타입 호출'이라고 하고 지정된 타입을 '매개변수화된 타입(parameterized type)'이라고 한다
+
+*******************************************************************************************************************************************************************************************
+
+### 13.2) 타입 변수에 대입하기
+
+* ArrayList와 같은 지네릭 클래스를 생성할 때는 다음과 같이 참조변수와 생성자에 타입 변수 E 대신 Tv와 같은 실제 타입을 지정해야한다
+
+* 이 때 타입 변수 E 대신 지정도니 타입 Tv를 '대입된 타입(parameterized type)'이라고 한다
+
+```java
+
+ArrayList<Tv> tvList = new ArrayList<Tv>();	// 타입 변수 E 대신 실제 타입 Tv를 대입
+
+```
+* 타입이 대입되고 나면, ArrayList의 선언에 포함된 타입 변수 E가 아래와 같이 지정된 타입으로 바뀐다고 생각하면 된다
+
+```java
+pulbic class ArrayList extends AbstractList<E> {
+	private transient Tv[] elementData;
+	public boolean add(Tv o) {	}
+	public Tv get(int index) {	}
+	...
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 13.3 지네릭 타입과 다형성
+
+* 지네릭 클래스의 객체를 생성할 때, 참조변수에 지정해준 지네락 티압과 생성자에 지정해준 지네릭 타입은 일치해야 한다
+
+```java
+
+ArrayList<Tv> list = new ArrayList<Tv>();	// OK, 일치
+ArrayList<Product> list = new ArrayList<Tv>();	// Error, 불일치
+...
+class Product {}
+class Tv extends Product {}
+Class Audio extends Product {}
+
+```
+* 그러나 지네락 티입이 아닌 클래스의 타입 간 다형성을 적용하는 것은 가능하다
+
+```java
+
+List<Tv> list = new ArrayList<Tv>();	// OK, 다형성, ArrayList가 List를 구현
+List<Tv> list = new LinkedList<Tv>();	// OK, 다형성, LinkedList가 List를 구현
+
+```
+
+* ArrayList에 Product의 자손 객체만 저장해야 할 경우, 지네락 타입이 Product인 ArrayList를 생성하고, 이 ArrayList에 Product의 자손인 Tv와 Audio의 객체를 저장하면 된다
+
+```java
+
+ArrayList<Product> list = new ArrayList<Product>();
+list.add(new Product());
+list.add(new Tv());	// OK
+list.add(new Audio());	// OK
+
+```
+
+#### 지네틱 타입과 다형성 예시
+
+```java
+public class Test10 {
+    public static void main(String[] args) {
+
+    ArrayList<Product3> productList = new ArrayList<Product3>();
+    ArrayList<Tv3> tvList = new ArrayList<Tv3>();
+//  ArrayList<Product> tvList = new ArrayList<Tv>();    // Error
+//  List<Tv> tvList = new ArrayList<Tv>();  // OK
+
+        productList.add(new Tv3());
+        productList.add(new Audio3());
+
+        tvList.add(new Tv3());
+        tvList.add(new Tv3());
+
+        printAll(productList);
+//      printAll(TvList);   // 컴파일 에러가 발생한다
+    }
+
+    public static void printAll(ArrayList<Product3> list) {
+        for (Product3 p : list) {
+            System.out.println(p);
+        }
+    }
+}
+
+class Product3 {}
+class Tv3 extends Product3 {}
+class Audio3 extends Product3 {}
+
+/*
+Result:
+Test.Tv3@1d81eb93
+Test.Audio3@7291c18f
+*/
+```
+

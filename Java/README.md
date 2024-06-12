@@ -5198,4 +5198,222 @@ Student s1 = map.get("1-1");
 
 ******************************************************************************************************************************************************************************************
 
-### 13.6)
+### 13.6) 제한된 지네릭 클래스
+
+* 타입 문자로 사용할 타입을 명시하면 한 종류의 타입만 저장할 수 있도록 제한할 수 있지만, 그래도 여전히 모든 종류의 타입을 지정할 수 있다는 것에는 변함이 없다
+
+* 타입 매개변수 T에 지정할 수 있는 타입의 종류를 제한하기 위해서는 지네릭 타입에 'extends'를 사용하면, 특정 타입의 자손들만 대입할 수 있게 제한할 수 있다
+
+```java
+
+FruitBox<Apple> appleBox = new FruitBox<Apple>();	// Ok
+FruitBox<Toy> toyBox = FruitBox<Toy<();	// Error, Toy는 Fruit의 자손이 아니다
+
+class Toy {}
+class Fruit {}
+class Apple extends Fruit {}
+
+```
+* 만약 클래스가 아니라 인터페이스를 구현해야 한다는 제약이 필요하다면, 이때도 'extends'를 사용한다(인터페이스임에도 불구하고 ;implements'를 사용하지 않는다)
+
+```java
+
+interface Eatable {}
+class FruitBox<T extends Eatable> {}
+
+```
+
+* 클래스가 Fruit의 자손이면서 Eatable 인터페이스도 구현해야 한다면 아래와 같이 '&' 기호로 연결한다
+
+```java
+
+class FruitBox<T extends Fruit & Eatable> {}
+
+```
+
+#### 제한된 지네릭 클래스 예시
+
+```java
+class Fruit implements Eatable{public String toString() {return "Fruit";}}
+class Apple extends Fruit {public String toString() {return "Apple";}}
+class Grape extends Fruit {public String toString() {return "Grape";}}
+class Toy {public String toString() {return "Toy";}}
+
+interface Eatable {}
+
+public class Test10 {
+    public static void main(String[] args) {
+        FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
+        FruitBox<Apple> appleBox = new FruitBox<Apple>();
+        FruitBox<Grape> grapeBox = new FruitBox<Grape>();
+//      FruitBox<Grape> grapeBox = new FruitBox<Apple>();   // Error, 타입 불일치
+//      FruitBox<toy> toyBox = new FruitBox<Toy>(); //  Error
+
+        fruitBox.add(new Fruit());
+        fruitBox.add(new Apple());
+        fruitBox.add(new Grape());
+        appleBox.add(new Apple());
+//      appleBox.add(new Grape());  // Error, Grape는 Apple의 자손이 아님
+        grapeBox.add(new Grape());
+
+        System.out.println("fruitBox = " + fruitBox);
+        System.out.println("appleBox = " + appleBox);
+        System.out.println("grapeBox = " + grapeBox);
+    }
+}
+
+class FruitBox<T extends Fruit & Eatable> extends Box<T> {}
+
+class Box<T> {
+    ArrayList<T> list = new ArrayList<T>();
+    void add(T item) { list.add(item);}
+    T get(int i) {return list.get(i);}
+    int size() {return list.size();}
+    public String toString() {return list.toString();}
+}
+
+/*
+Result:
+fruitBox = [Fruit, Apple, Grape]
+appleBox = [Apple]
+grapeBox = [Grape]
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 13.7) 지네릭스의 제약
+
+* 모든 객체에 동일하게 동작해야하는 static 멤버에 타입 변수 T를 사용할 수 없다
+
+* T는 인스턴스변수로 간주되며, static멤버는 인스턴스변수를 참조할 수 없다
+
+* static 멤버는 타입 변수에 지정된 타입, 즉 대입된 타입의 종류에 관계없이 동일한 것이여햐 하기 때문이다
+
+```java
+
+class Box<T> {
+	static T item;	// Error
+	static int compare(T t1, T t2) {}	// Error
+
+```
+
+* 지네릭 타입의 배열을 생성하는 것도 허용되지 않는다
+
+* 지네릭 배열 타입의 참조변수를 선언하는 것은 가능하지만, 'new T[10]'과 같이 배열을 생성하는 것은 불가능하다
+
+```java
+
+class Box<T> {
+	T[] itemArr;	// OK, T타입의 배열을 위한 참조변수
+	T[] toArray() {
+		T[] tmpArr = new T[itemArr.length];	// Error, 지네릭 배열 생성 불가
+		return tmpArr;
+	}
+}
+```
+
+* 지네릭 배열을 새성할 수 없는 것은 new 연산자는 컴파일 시점에 T가 뭔지 정확히 알아야 한다(그러나 상기 코드에 정의된 Box<T> 클래스를 컴파일하는 시점에서는 T가 어떤 타입이 될지 전혀 알 수 없다
+
+* instanceof 연산자도 new 연산자와 같은 이유로 T를 피연산자로 사용할 수 없다
+
+
+******************************************************************************************************************************************************************************************
+
+### 13.8) 와일드 카드
+
+* 지네릭 타입에 다형성을 적용하기 위해서는 '와일드 카드'가 필요하다
+
+* 와일드 카드는 기호 '?'를 사용하며 'extends' 와 'super'로 상한(upper bound)과 하한(lower bound)을 제한할 수 있다
+
+<? extndes T> 와일드 카드의 상한 제한, T와 그 자손들만 가능
+<? super T> 와일드 카드의 하한 제한, T와 그 조상들만 가능
+<?> 제한 없음, 모든 타입이 가능 <? extends Object>와 동일
+
+* 와일드 카드를 이용하면 하나의 참조변수로 다른 지네릭 타입이 지정된 객체를 다룰 수 있다(Tv와 Audio가 Product의 자손이라고 가정)
+
+```java
+
+// 지네릭 타입이 '? extends Product'이면, Product와 Product의 모든 자손이 OK
+ArrayList<? extends Product> list = new ArrayList<Tv>();	// OK
+ArrayList<? extends Product> list = new ArrayList<Audio>();	// OK
+
+```
+
+* 와일드 카드를 하기와 같이 메서드의 매개 변수에 적용하면, 지네릭 타입이 다른 여러 객체를 매개변수로 지정할 수 있다(Apple이 Fruit의 자손이라고 가정)
+
+```java
+
+static Juice makeJuice(FruitBox<? extends Fruit> box) {
+	String tmp = "";
+	for(Fruit f : box.getList()) tmp += f + " ";
+	return new Juice(tmp)
+	...
+
+	System.out.println(Juicer.makeJuice(new FruitBox<Fruit>()));	// OK
+	System.out.println(Juicer.makeJuice(new FruitBox<Apple()));	// Ok
+
+```
+
+#### 와일드 카드 예시
+
+```java
+class Fruit2 {public String toString() {return "Fruit";}}
+class Apple2 extends Fruit2 {public String toString() {return "Apple";}}
+class Grape2 extends Fruit2 {public String toString() {return "Grape";}}
+
+class Juice {
+    String name;
+
+    Juice(String name) {this.name = name + "Juice";}
+    public String toString() {return name;}
+}
+
+class Juicer {
+    static Juice makeJuice(FruitBox2<?extends Fruit2> box) {
+        String tmp = "";
+
+        for (Fruit2 f : box.getList()) {
+            tmp += f + " ";
+        }
+        return new Juice(tmp);
+    }
+}
+
+public class Test10 {
+    public static void main(String[] args) {
+        FruitBox2<Fruit2> fruitBox = new FruitBox2<Fruit2>();
+        FruitBox2<Apple2> appleBox = new FruitBox2<Apple2>();
+
+        fruitBox.add(new Apple2());
+        fruitBox.add(new Grape2());
+        appleBox.add(new Apple2());
+        appleBox.add(new Apple2());
+
+        System.out.println(Juicer.makeJuice(fruitBox));
+        System.out.println(Juicer.makeJuice(appleBox));
+
+    }
+}
+
+class FruitBox2<T extends Fruit2> extends Box2<T> {}
+
+class Box2<T> {
+    ArrayList<T> list = new ArrayList<T>();
+    void add(T item) {list.add(item);}
+    T get(int i) {return list.get(i);}
+    ArrayList<T> getList() {return list;}
+    int size() {return list.size();}
+    public String toString() {return list.toString();}
+}
+
+/*
+Rsult:
+Apple Grape Juice
+Apple Apple Juice
+*/
+```
+
+******************************************************************************************************************************************************************************************

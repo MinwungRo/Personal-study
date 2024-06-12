@@ -5090,3 +5090,110 @@ Test.Audio3@7291c18f
 */
 ```
 
+******************************************************************************************************************************************************************************************
+
+### 13.4) Iterator<E>
+
+* 컬렉션 클래스뿐만 아니라 Iterator에도 제네릭스가 적용된다
+
+* 지네릭스가 이해가 안 될 때는 타입변수를 Object로 바꿔서 생각해보는 것도 좋다
+
+```java
+
+public interface Iterator<E> {
+	boolean hasNext();
+	E next();
+	void remove();
+}
+
+```
+#### Iterator 제네릭스의 예시
+
+```java
+
+public class Test10 {
+    public static void main(String[] args) {
+        ArrayList<Student3> list = new ArrayList<Student3>();
+        list.add(new Student3("자바왕", 1, 1));
+        list.add(new Student3("자바짱", 1, 2));
+        list.add(new Student3("홍길동", 2, 1));
+
+        Iterator<Student3> it = list.iterator();
+        while (it.hasNext()) {
+//      Student s = (Student)it.next(); // 지네릭스를 사용하지 않으면 형변환 필요
+            Student3 s = it.next();
+            System.out.println(s.name);
+        }
+    }
+}
+
+class Student3 {
+    String name = "";
+    int ban;
+    int no;
+
+    Student3(String name, int ban, int no) {
+        this.name = name;
+        this.ban = ban;
+        this.no = no;
+    }
+}
+/*
+Result:
+자바왕
+자바짱
+홍길동
+
+*/
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 13.5) HashMap<K,V>
+
+* HashMap과 같이 데이터를 키(key)와 값(value)의 형태로 저장하는 컬렉션 클래스는 지정해줘야 할 타입이 두 개이다
+
+* 두 개의 입을 콤마 ','로 구분해서 입력하며, 'K' 와 'V'는 각 'Key'와 'Value'의 첫 글자일 뿐 임의의 참조형 타입(reference type)을 의미한다
+
+```java
+
+public class HashMap<K,V> extends AbstractMap<K,V> {
+	public V get(Object key) {}
+	public V put(K key, V value) {}
+	public V remove(Object key) {}
+
+```
+
+* 만일 키의 타입이 String이고 저장할 값의 타입이 Student인 HashMap을 생성하려면 다음과 같다
+
+```java
+
+HashMap<String, Student> map = new HashMap<String, Student>();	// 생성
+map.put("자바왕", new Student("자바왕",1,1,100,100,100));	// 데이터 저장
+
+```
+
+* 위와 같이 HashMap을 생성하였다면, HashMap의 실제 소스는 'K' 대신 String이 'V' 대신 Student가 사용되어 아래와 같이 바뀌는 셈이다
+
+```java
+
+public class HashMap extends AbstractMap {
+	public Student get(Object key) {}
+	public Student put(String key, Student value) {}
+	public Student remove(Object key) {}
+
+```
+
+* 그래서 HashMap에서 값을 꺼내오는 get(Object key)를 사용할 때, 그리고 저장된 키와 값을 꺼내오는 keySet()과 values()를 사용할 때 형변환을 하지 않아도 된다
+
+```java
+
+// Student s1 = (Student)map.get("1-1");
+Student s1 = map.get("1-1");
+
+```
+
+******************************************************************************************************************************************************************************************
+
+### 13.6)

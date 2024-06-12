@@ -26,6 +26,8 @@
 
 12. [컬렉션 프레임웍](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#12-%EC%BB%AC%EB%A0%89%EC%85%98-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8D)
 
+13. [지네릭스, 열거형, 에너테이션](https://github.com/MinwungRo/Personal-study/blob/main/Java/README.md#13-%EC%A0%9C%EB%84%88%EB%A6%AD%EC%8A%A4-%EC%97%B4%EA%B1%B0%ED%98%95-%EC%95%A0%EB%84%88%ED%85%8C%EC%9D%B4%EC%85%98)
+
 ******************************************************************************************************************************************************************************************
 
 ## 1. 변수(Variable)

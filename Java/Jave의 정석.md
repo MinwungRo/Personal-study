@@ -4,7 +4,7 @@
 
 1. [변수(Variable)](https://github.com/MinwungRo/Personal-study/blob/main/Java/Jave%EC%9D%98%20%EC%A0%95%EC%84%9D.md#1-%EB%B3%80%EC%88%98variable)
 
-2. [연산자(Operator)](https://github.com/MinwungRo/Personal-study/blob/main/Java/ave%EC%9D%98%20%EC%A0%95%EC%84%9D.md#2-%EC%97%B0%EC%82%B0%EC%9E%90operator)
+2. [연산자(Operator)](https://github.com/MinwungRo/Personal-study/blob/main/Java/ave%EC%9D%98%20%EC%A0%95%EC%84%9D.md#2-%EB%B3%80%EC%88%98operator)
 
 3. [조건문(Conditional statement)](https://github.com/MinwungRo/Personal-study/blob/main/Java/ave%EC%9D%98%20%EC%A0%95%EC%84%9D.md#3%EC%A1%B0%EA%B1%B4%EB%AC%B8conditional-statements)
 
